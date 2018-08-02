@@ -1,6 +1,6 @@
 # CITS3200
 
-##Team O
+## Team O
 
 First Name	Surname	Email
 
