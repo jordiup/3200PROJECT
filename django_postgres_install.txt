@@ -1,0 +1,28 @@
+HOW TO INSTALL DJANGO AND POSTGRES
+
+1. Install Python 3. Should be similar for Windows and Mac.
+2. If your installation didn't do this for you, install pip. Should be automatically installed, if not consult Google for your system.
+3. Go to a terminal and run "pip3 install django" or "pip install django" depending on if you either do have Python 2.x installed on your computer,
+   or you don't, respectively. This should install the django package for you.
+4. Now, exactly follow the instructions on https://docs.djangoproject.com/en/2.1/intro/tutorial01/.
+5. When you reach the end click on the next tutorial, alternatively visit https://docs.djangoproject.com/en/2.1/intro/tutorial02/.
+6. When you reach the "Database setup" header, stop and follow the next set of instructions:
+    a) Visit https://www.enterprisedb.com/downloads/postgres-postgresql-downloads to download PostgreSQL.
+    b) Use the wizard to install in an appropriate location.
+    c) Visit https://www.pgadmin.org/download/ to download pgAdmin4.
+    d) Follow the instructions to install pgAdmin4. It will prompt you to give a password for the default user "postgres". REMEMBER YOUR INPUT FOR THIS.
+    e) Then, open pgAdmin4. Expand the "Servers" icon, double click "PostgreSQL 10" and login using the password you gave.
+    f) You will see a Databases icon, expand that and right click on the database "postgres". Select the "Query Tool" option.
+    g) In the newly added Query Window, type "create database database_name", where database_name is the name of your new database.
+    h) In mysite/settings.py, replace the DATABASES line(s) with:
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql',
+                'NAME': 'database_name',
+                'USER': 'postgres',
+                'PASSWORD': 'mypassword',
+                'HOST': '127.0.0.1',
+                'PORT': '5432',
+            }
+        }
+7. Continue to follow the instructions given in tutorial02.
