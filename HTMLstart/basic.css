@@ -1,0 +1,38 @@
+.header {
+	margin: -10px 0px;
+	background: #000088;
+	color: #FF2020;
+	position: fixed;
+	height: 50px;
+	width: 90%;
+	top: 10px;
+}
+.content {
+	margin: 70px 0px;
+
+}
+h1 {
+	font-size: 32px;
+}
+h3 {
+	background: #000050;
+	color: #FF0000;
+	width: 30%;
+}
+body{
+	background: #CCFFBB;
+	height: 2000px;
+}
+#printer {
+	background: #FFFF00;
+	color: #000000;
+	text-align: center;
+	width: 40%;
+}
+#img0 {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	height: 50px;
+	width: 40px;
+}
