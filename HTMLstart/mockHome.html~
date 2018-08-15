@@ -15,6 +15,6 @@
 			<table><tr>
 		<th>Search for relevent documents</th><th>Import your archive catalog to the database</th>
 			</tr><tr>
-		<td><a href="search.html">Search</a></td><td><a href="import.html">Import</a></td>
+		<td><a href="Search_Page.html">Search</a></td><td><a href="Upload_Page.html">Import</a></td>
 			</tr></table>
 	</div>

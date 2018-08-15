@@ -22,7 +22,7 @@
 		<td>Password:</td>
 		<td><input type="password" id="pass"></td>
 		</tr><tr><td></td>
-		<td><button onclick="location.href='mockHome.html'" type="button">Login</button></td>
+		<td><button type="submit">Login</button></td>
 		</tr></table>
 		</form>
 		<p>For assistance, contact: ...xyz...</p>
