@@ -40,11 +40,11 @@ def docxscanner(filename):
                     print('Sender: ',sentence)
 
             #Finds Letter Sender
-            if (len(tagged) > 2):
-                if ( (tagged[2][1] == "CD") and ((tagged[1][1] == ",") or (tagged[1][1] == ":") or (tagged[3][1] == ","))):
+            if (len(tagged) > 3):
+                if ( (tagged[2][1] == "CD") and ((tagged[1][1] == ",") or (tagged[1][1] == ":") or (tagged[1][1] == ".") or (tagged[3][1] == ","))):
                     print('Written on: ', sentence)
 
-                if ( (tagged[2][1] == "NNP") and ((tagged[1][1] == ",") or (tagged[1][1] == ":") or (tagged[3][1] == ","))):
+                if ( (tagged[2][1] == "NNP") and ((tagged[1][1] == ",") or (tagged[1][1] == ":") or (tagged[1][1] == ".")  or (tagged[3][1] == ","))):
                     if (j == 0):
                         print('Receiver and Location: ', sentence)
                         j = j+1
