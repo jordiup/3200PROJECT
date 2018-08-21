@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <link rel="stylesheet" href="{% static 'db/styles.css' %}">
+    <title>Letter Search - Search</title>
+</head>
+<body>
+    <div class="header">
+        <a href="{% url 'db:index' %}" class="logo">Historical Archive Search</a>
+        <div class="header-right">
+            <a href="{% url 'db:index' %}">Home</a>
+            <a class="active" href="{% url 'db:search' %}">Search</a>
+            <a href="{% url 'db:upload' %}">Upload</a>
+        </div>
+    </div>
+    <div class="searchheader">
+        <h1>Search through our database! </h1>
+    </div>
+    <div class="searchbody">
+        <p>You can search our database directly by typing in some query words.
+        You can search for document names, authors, locations and dates. </br></br>
+        Note : When searching for dates, please enter them as YYYY or YYYY-MM-DD.
+        </p>
+        <p> Search by: </p>
+    </div>
+    <form method="GET"  action="{% url 'db:result' %}" id="form1">
+        <div class="select">
+            <input type="radio" name="searchtype" value="document" form="form1">Document
+            <input type="radio" name="searchtype" value="author" form="form1">Author
+            <input type="radio" name="searchtype" value="location" form="form1">Location
+            <input type="radio" name="searchtype" value="date" form="form1">Date
+        </div>
+        <br>
+        <div class="searchbar">
+            <input type="text" name="query" class="searchbar" form="form1">
+        </div>
+        </br></br>
+        <div class="submitform">
+            <input type="submit" value="Search" form="form1">    
+        </div>
+    </form>
+</body>
+</html>

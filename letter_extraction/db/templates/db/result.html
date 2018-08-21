@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <link rel="stylesheet" href="{% static 'db/styles.css' %}">
+    <title>Letter Search - Home</title>
+</head>
+<body>
+    <div class="header">
+        <a href="{% url 'db:index' %}" class="logo">Historical Archive Search</a>
+        <div class="header-right">
+            <a href="{% url 'db:index' %}">Home</a>
+            <a class="active" href="{% url 'db:search' %}">Search</a>
+            <a href="{% url 'db:upload' %}">Upload</a>
+        </div>
+    </div>
+    <div class="searchheader">
+        <h1>Under Construction!</h1>
+    </div>
+</body>
+</html>
