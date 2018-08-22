@@ -32,19 +32,23 @@ def docxscanner(filename):
                     k = k+1
                             
                 #Finds letter reference number
-                if (tagged[0][1] == "JJ"):
+                elif (tagged[0][1] == "JJ"):
                     print('Letter Reference Number: ',sentence)
 
                 #Finds Letter Sender
-                if (tagged[0][1] == "NN"):
+                elif (tagged[0][1] == "NN"):
                     print('Sender: ',sentence)
 
             #Finds Letter Sender
-            if (len(tagged) > 3):
-                if ( (tagged[2][1] == "CD") and ((tagged[1][1] == ",") or (tagged[1][1] == ":") or (tagged[1][1] == ".") or (tagged[3][1] == ","))):
+            if (len(tagged) > 2):
+                #Detail letter pages
+                if(((tagged[0][1] == "(") or (tagged[0][1] == ".")) and ((tagged[2][1] == "NNS") or (tagged[2][1] == "NN") or (tagged[1][1] == "$"))):
+                    print(sentence)
+                                            
+                elif ( (tagged[2][1] == "CD") and ((tagged[1][1] == ",") or (tagged[1][1] == "NNP") or (tagged[1][1] == ":") or (tagged[1][1] == ".") or (tagged[3][1] == ","))):
                     print('Written on: ', sentence)
 
-                if ( (tagged[2][1] == "NNP") and ((tagged[1][1] == ",") or (tagged[1][1] == ":") or (tagged[1][1] == ".")  or (tagged[3][1] == ","))):
+                elif ( (tagged[2][1] == "NNP") and ((tagged[1][1] == ",") or (tagged[1][1] == ":") or (tagged[1][1] == ".")  or (tagged[3][1] == ","))):
                     if (j == 0):
                         print('Receiver and Location: ', sentence)
                         j = j+1
@@ -53,11 +57,11 @@ def docxscanner(filename):
                         j = j-1
                         
                 #Finds Correspondence
-                if ((tagged[0][1] == "NN") and (tagged[1][1] == ",")):
-                    print('Correspondence: ',tagged[2][0])            
+                elif ((tagged[0][1] == "NN") and (tagged[1][1] == ",")):
+                    print('Letter types and Language',tagged[2][0])            
 
             #ASSUME it is the letter summary if it is longer than 10 
-            if(len(tagged) > 10):
+            if(len(tagged) > 20):
                 print(sentence)
 
             #For drawing named entity tree
