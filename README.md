@@ -37,8 +37,7 @@ Note that the views don’t actually handle any form data yet, so any account ca
 
 ## Database
 
-The database information is specified in letter_extraction/settings.py. Make sure you have PostgreSQL installed (refer to the django_postgres_install.txt file on GitHub if you need to install). You will most likely need to change your port to 5432 (I am running two PostgreSQL servers). You will also need to create a database called testdb in your PostgreSQL instance for this to work.
-Note: the db.sqlite3 file does nothing.
+The database information is specified in letter_extraction/settings.py. Make sure to change the DATABASE info to your Postgres server installation! 
 
 ## Models
 
@@ -70,7 +69,11 @@ To log into the admin page, run the server and type
 ```
 127.0.0.1:8000/admin/
 ```
-into a browser. The username is “admin” and the password is “cits3200groupo”. 
+into a browser. You will need to create an admin account, just type
+```
+python manage.py createsuperuser
+```
+and follow the prompt (thanks Adi)
 
 ## HTML/CSS/JavaScript
 
