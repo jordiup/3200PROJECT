@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <link rel="stylesheet" href="{% static 'db/styles.css' %}">
+    {% block head %}
+    <title></title>
+    {% endblock %}
+</head>
+<body>
+    <div class="header">
+        <a href="{% url 'db:index' %}" class="logo">Historical Archive Search</a>
+        {% block hr %}
+        <div class="header-right">
+            <!--<a class="active" href="{% url 'db:index' %}">Home</a>-->
+            <a href="{% url 'db:index' %}">Home</a>
+            <a href="{% url 'db:search' %}">Search</a>
+            <a href="{% url 'db:upload' %}">Upload</a>
+        </div>
+        {% endblock %}
+    </div>
+    <div class="main">
+    {% block body %}
+    <div class="searchheader">
+        <h1>Under Construction!</h1>
+    </div>
+    {% endblock %}
+    </div>
+</body>
+</html>
