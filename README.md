@@ -25,7 +25,7 @@ This contains the Django project I’ve been fiddling around with. It has the up
 ## Getting started
 
 This is a Django project. I use VS Code,  I’m not sure what everyone else uses but this would be my suggestion.
-Go to the terminal and enter the letter_extraction directory. Type 
+Go to the terminal and enter the letter_extraction directory. Type
 ```
 python3 manage.py runserver
 ```
@@ -37,15 +37,15 @@ Note that the views don’t actually handle any form data yet, so any account ca
 
 ## Database
 
-The database information is specified in letter_extraction/settings.py. Make sure to change the DATABASE info to your Postgres server installation! 
+The database information is specified in letter_extraction/settings.py. Make sure to change the DATABASE info to your Postgres server installation!
 
 ## Models
 
-The models can be found in db/models.py. There are User, Document, Person, Location and PersonLocation models. To add the models to the database, type 
+The models can be found in db/models.py. There are User, Document, Person, Location and PersonLocation models. To add the models to the database, type
 ```
 python3 manage.py makemigrations
 ```
-then type 
+then type
 ```
 python3 manage.py migrate
 ```
@@ -53,7 +53,7 @@ If this does not work consult the Django tutorials.
 
 ## Inserting data
 
-If you wish to insert test data, there is a script in the main directory called modelAddScripts.py. In the terminal, type 
+If you wish to insert test data, there is a script in the main directory called modelAddScripts.py. In the terminal, type
 ```
 python3 manage.py shell
 ```
@@ -65,7 +65,7 @@ Views can be found in db/views.py. The views are the Django constructs that take
 
 ## Admin
 
-To log into the admin page, run the server and type 
+To log into the admin page, run the server and type
 ```
 127.0.0.1:8000/admin/
 ```
@@ -84,11 +84,19 @@ I’ve made some really simple pages that are meant to be edited. To see the log
 ```
 Press login and then you will see the home page. The links in the header work, you can navigate between “Home”, “Search”, and “Upload”. The search page is the only one that has actually been worked on.
 
-The CSS file can be found in the db/static/db directory. Right now there isn’t too much in there. A good resource for adding more dynamic elements is this https://htmlcheatsheet.com/css/ generator. If you wish to add JavaScript files, you must also put them in this directory. There is currently no JS in this project. 
+The CSS file can be found in the db/static/db directory. Right now there isn’t too much in there. A good resource for adding more dynamic elements is this https://htmlcheatsheet.com/css/ generator. If you wish to add JavaScript files, you must also put them in this directory. There is currently no JS in this project.
 
 Any specific questions, refer to the Django tutorial series, they most likely have an answer. Else consult me, but no guarantees.
 
 ## GitHub
 
 Make sure to create a new branch when working on stuff, and then merge back into master. We want to avoid complicated merges at all costs.
- 
+
+
+## Resources
+
+The following is a list of resources found useful for respective aspects of the project:
+#### File Upload
+https://simpleisbetterthancomplex.com/tutorial/2016/08/01/how-to-upload-files-with-django.html
+https://simpleisbetterthancomplex.com/tutorial/2016/11/22/django-multiple-file-upload-using-ajax.html
+https://www.dropzonejs.com/
