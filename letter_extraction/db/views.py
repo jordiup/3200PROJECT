@@ -2,19 +2,19 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.shortcuts import render_to_response
-
-from .models import *
+#from .models import *
 
 # Create your views here.
 
 from django.template import RequestContext
 
 def index(request):
+    
     context = {}
     return render(request, 'db/index.html', context)
 
@@ -42,6 +42,16 @@ def upload(request):
 
 def login(request):
     template = loader.get_template('db/login.html')
-    context = {
-    }
+    if request.method=="POST":
+        print("they tried to log in!!!")
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            print('good boi')
+            #log in user
+            return HttpResponseRedirect('db:index')
+        else:
+            # TODO: should refresh login page, currently goes to index
+            print('evil')
+            return redirect('db:index')
+    context = {'form':AuthenticationForm()}
     return HttpResponse(template.render(context, request))

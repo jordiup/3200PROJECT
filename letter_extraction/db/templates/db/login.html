@@ -16,11 +16,11 @@
     <div class="searchheader">
         <h1>Login</h1>
     </div>
-    <form method="POST"  action="{% url 'db:index' %}" id="form1"> 
+    <form method="POST"  action="{% url 'db:login' %}" id="form1"> 
         {% csrf_token %}
+        
         <div class="select">
-            Username<input type="text" name="username" form="form1"><br><br>
-            Password<input type="password" name="password" form="form1">
+        {{ form }}
         </div>
         <br>
         <br>
