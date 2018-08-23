@@ -27,10 +27,8 @@ def search(request):
 
 
 def search_result(request):
-    template = loader.get_template('db/result.html')
-    context = {
-    }
-    return HttpResponse(template.render(context, request))
+    context = {}
+    return render(request, 'db/result.html', context)
 
 
 def upload(request):
