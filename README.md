@@ -37,7 +37,56 @@ Note that the views don’t actually handle any form data yet, so any account ca
 
 ## Database
 
-The database information is specified in letter_extraction/settings.py. Make sure to change the DATABASE info to your Postgres server installation!
+### Installing MySQL
+
+We have recently switched to MySQL! If you do not have a MySQL installation, please read here.
+- Download MySQL Community Edition : https://dev.mysql.com/downloads/mysql/ .
+- In the installer, select "Use strong password encryption".
+- **IMPORTANT:** For your root user, make the password "cits3200groupo". This is important because if you use your personal password and you commit your code, everyone will be editing the "password" field in settings.py at the same time and there will be merge conflicts. Even worse, everyone will be able to see your personal password! We have to make sure we all have the same password.
+- Download your favorite MySQL client. Options include MySQL Workbench and DataGrip among others.
+- Open a query window in the client. Type 
+```
+create database testdb;
+```
+This creates a database called "testdb".
+
+### Django Integration
+
+- Switch back to Django. Change the DATABASES setting in settings.py to:
+```
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql'
+        'NAME': 'testdb',
+        'USER': 'root',
+        'PASSWORD': 'cits3200groupo',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+    }
+}
+```
+- You'll need to: 
+```
+pip3 install mysqlclient
+```
+- If this doesn't work, seek specific help on your operating system. Remember to use sudo if you are on Unix. For Mac, try:
+```
+brew install mysql
+```
+I did not come across any issues on Windows.
+
+- Now type 
+```
+python3 manage.py runserver
+```
+- If that works, we can now migrate the models over to MySQL. Type
+```
+python3 manage.py migrate
+```
+This should migrate all of the models over to MySQL! Now we have set up a working instance of MySQL with Django.
+
+If you come across any issues, StackOverflow is your best friend.
+
 
 ## Models
 
