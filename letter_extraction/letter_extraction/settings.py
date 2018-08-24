@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'letter_extraction.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql'
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'testdb',
         'USER': 'root',
         'PASSWORD': 'cits3200groupo',
