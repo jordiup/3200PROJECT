@@ -32,10 +32,8 @@ def search(request):
     return render(request, 'db/metadata.html' , {"metadata_categories" : metadata_categories})
 
 def search_result(request):
-    template = loader.get_template('db/result.html')
-    context = {
-    }
-    return HttpResponse(template.render(context, request))
+    context = {}
+    return render(request, 'db/result.html', context)
 
 
 def upload(request):
