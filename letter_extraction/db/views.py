@@ -9,10 +9,14 @@ from django.shortcuts import get_object_or_404, render
 from django.shortcuts import render_to_response
 
 from .models import *
+from .models import metadata_extraction
+import logging
 
 # Create your views here.
 
 from django.template import RequestContext
+
+logger = logging.getLogger(__name__)
 
 def index(request):
     context = {}
@@ -20,11 +24,12 @@ def index(request):
 
 
 def search(request):
-    template = loader.get_template('db/search.html')
+    template = loader.get_template('db/metadata.html')
+    metadata_categories = metadata_extraction()
     context = {
     }
-    return HttpResponse(template.render(context, request))
-
+   # return HttpResponse(template.render(context, request), {'container' : ['adawdadawd']})
+    return render(request, 'db/metadata.html' , {"metadata_categories" : metadata_categories})
 
 def search_result(request):
     template = loader.get_template('db/result.html')

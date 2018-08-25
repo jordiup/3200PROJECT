@@ -1,0 +1,7 @@
+{% extends "db/search.html" %}
+
+{% block content %}
+	{% for items in metadata_categories %}
+	   <input type="radio" name="gender" value= {{items}} checked> {{items}} <br>
+	  {% endfor %} 
+{% endblock %}

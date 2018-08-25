@@ -77,11 +77,11 @@ WSGI_APPLICATION = 'letter_extraction.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'testdb',
+        'NAME': 'friends',
         'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'PASSWORD': 'namihana',
         'HOST': '127.0.0.1',
-        'PORT': '5433',
+        'PORT': '5432',
     }
 }
 
