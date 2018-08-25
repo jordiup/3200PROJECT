@@ -6,9 +6,14 @@ from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
+
+from letter_extraction.db.helpers import queryanalyzer
+
 from django.shortcuts import render_to_response
+from django.db.models import Q
 
 from .models import *
+import datetime
 
 # Create your views here.
 
@@ -27,7 +32,9 @@ def search(request):
 
 
 def search_result(request):
-    context = {}
+    search_type = str(request.GET['searchtype'])
+    query_value = str(request.GET['query'])
+    context = queryanalyzer.analyzeQueryRequest(search_type, query_value)
     return render(request, 'db/result.html', context)
 
 
