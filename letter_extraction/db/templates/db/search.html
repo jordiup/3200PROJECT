@@ -18,18 +18,87 @@
         <h1>Search through our database! </h1>
     </div>
         <p> Search by: </p>
-	  {% block content %}
-	  {% endblock %}
     <form method="GET"  action="{% url 'db:result' %}" id="form1">
         <div class="select">
         </div>
         <br>
         <div class="searchbar">
-            <input type="text" name="query" class="searchbar" form="form1">
+            <input type="text" name="query" class="searchbar" form="form1" id = "bar">
         </div>
         <div class="submitform">
-            <input type="submit" value="Search" form="form1">    
+            <input type="submit" value="Search" form="form1">
         </div>
     </form>
+
+		<button value = "Input" onclick = "Input_Search()">Input Search Criteria</button>
+		<button value = "Input" onclick = "clear_search()">Clear Search Criteria</button>
+		<p class = "Search_Text"> Current Search Criteria: </p>
+		<textarea id = "Search_Criteria_Text" class = "Search_Criteria_Text"  rows = "10"> </textarea>
+
+		<div class = "dropdown">
+			<button onclick = "dropFunction()" class = "dropbtn" id = "dropbutton"> Advanced Search </button>
+	  	<div id = "main_dropdown" class = "dropdown-content">
+				{% block content %}
+				{% endblock %}
+			</div>
+		</div>
+
+<script>
+function clear_search()
+{
+		var text = 	document.getElementById("Search_Criteria_Text").value;
+		text = "";
+		document.getElementById("Search_Criteria_Text").value = text;
+
+}
+
+
+
+function dropFunction()
+{
+		document.getElementById('main_dropdown').classList.toggle('show');
+
+}
+
+
+window.onclick = function(event) {
+if(!event.target.matches('.dropbtn'))
+	{
+			var dropdowns = document.getElementsByClassName("dropdown-content");
+			var i;
+			for (i = 0; i < dropdowns.length; i++)
+			{
+				var openDropdown = dropdowns[i];
+				if (openDropdown.classList.contains('show'))
+				{
+					openDropdown.classList.remove('show');
+				}
+		}
+	}
+}
+function clickFunction(clicked_id)
+	{
+			document.getElementById("dropbutton").innerHTML = clicked_id
+	}
+
+
+function Input_Search()
+{
+	var original_text = 	document.getElementById("Search_Criteria_Text").value;
+	var category = document.getElementById("dropbutton").innerHTML;
+	var modifier = document.getElementById("bar").value;
+	if(original_text != null || original_text != "")
+	{
+		original_text =  original_text + "Search Category:" + category + " " + "Modifier:" + modifier + '\n';
+	}
+	else
+	{
+			original_text =  "Search Category:" + category + " " + "Modifier:" + modifier + '\n';
+	}
+	document.getElementById("Search_Criteria_Text").value= original_text;
+	linebreak = document.createElement("br");
+	document.getElementById("Search_Criteria_Text").appendChild(linebreak);
+}
+</script>
 </body>
 </html>

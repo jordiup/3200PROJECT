@@ -2,6 +2,6 @@
 
 {% block content %}
 	{% for items in metadata_categories %}
-	   <input type="radio" name="gender" value= {{items}} checked> {{items}} <br>
-	  {% endfor %} 
+	  <p id = {{items}} onclick = "clickFunction(this.id)"> {{items}} </p> 
+	  {% endfor %}
 {% endblock %}
