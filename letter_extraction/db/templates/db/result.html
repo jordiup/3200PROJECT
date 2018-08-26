@@ -14,8 +14,14 @@
             <a href="{% url 'db:upload' %}">Upload</a>
         </div>
     </div>
-    <div class="searchheader">
-        <h1>Under Construction!</h1>
-    </div>
+    {% if document_list %}
+        <ul>
+        {% for document in document_list %}
+            <li>{{ document }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No polls are available.</p>
+    {% endif %}
 </body>
 </html>

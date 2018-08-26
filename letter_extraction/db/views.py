@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 
-from letter_extraction.db.helpers import queryanalyzer
+from db.services import query_service
 
 from django.shortcuts import render_to_response
 from django.db.models import Q
@@ -18,6 +18,7 @@ import datetime
 # Create your views here.
 
 from django.template import RequestContext
+
 
 def index(request):
     context = {}
@@ -34,7 +35,8 @@ def search(request):
 def search_result(request):
     search_type = str(request.GET['searchtype'])
     query_value = str(request.GET['query'])
-    context = queryanalyzer.analyzeQueryRequest(search_type, query_value)
+    document_list = query_service.analyze_query_request(search_type, query_value)
+    context = {'document_list': document_list}
     return render(request, 'db/result.html', context)
 
 
