@@ -44,7 +44,7 @@ We have recently switched to MySQL! If you do not have a MySQL installation, ple
 - In the installer, select "Use strong password encryption".
 - **IMPORTANT:** For your root user, make the password "cits3200groupo". This is important because if you use your personal password and you commit your code, everyone will be editing the "password" field in settings.py at the same time and there will be merge conflicts. Even worse, everyone will be able to see your personal password! We have to make sure we all have the same password.
 - Download your favorite MySQL client. Options include MySQL Workbench and DataGrip among others.
-- Open a query window in the client. Type 
+- Open a query window in the client. Type
 ```
 create database testdb;
 ```
@@ -65,7 +65,7 @@ DATABASES = {
     }
 }
 ```
-- You'll need to: 
+- You'll need to:
 ```
 pip3 install mysqlclient
 ```
@@ -73,9 +73,18 @@ pip3 install mysqlclient
 ```
 brew install mysql
 ```
+
+- If you're on windows try (or ask @jordiup)
+```
+sudo apt-get install python-dev python3-dev
+sudo apt-get install libmysqlclient-dev
+pip install pymysql
+pip install mysqlclient
+```
+
 I did not come across any issues on Windows.
 
-- Now type 
+- Now type
 ```
 python3 manage.py runserver
 ```
