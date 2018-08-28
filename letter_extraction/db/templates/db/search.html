@@ -1,19 +1,18 @@
-<!DOCTYPE html>
-{% load static %}
-<html>
-<head>
-    <link rel="stylesheet" href="{% static 'db/styles.css' %}">
+{% extends 'base.html' %}
+    
+    {% block head %}
     <title>Letter Search - Search</title>
-</head>
-<body>
-    <div class="header">
-        <a href="{% url 'db:index' %}" class="logo">Historical Archive Search</a>
-        <div class="header-right">
-            <a href="{% url 'db:index' %}">Home</a>
-            <a class="active" href="{% url 'db:search' %}">Search</a>
-            <a href="{% url 'db:upload' %}">Upload</a>
-        </div>
+    {% endblock %}
+
+    {% block hr %}
+    <div class="header-right">
+        <a href="{% url 'db:index' %}">Home</a>
+        <a class="active" href="{% url 'db:search' %}">Search</a>
+        <a href="{% url 'db:upload' %}">Upload</a>
     </div>
+    {% endblock %}
+
+    {% block body %}
     <div class="searchheader">
         <h1>Search through our database! </h1>
     </div>
@@ -35,10 +34,10 @@
         <div class="searchbar">
             <input type="text" name="query" class="searchbar" form="form1">
         </div>
-        </br></br>
+        <br>
+        <br>
         <div class="submitform">
             <input type="submit" value="Search" form="form1">    
         </div>
     </form>
-</body>
-</html>
+    {% endblock %}

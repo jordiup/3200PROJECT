@@ -1,25 +1,26 @@
-<!DOCTYPE html>
-{% load static %}
-<html>
-<head>
-    <link rel="stylesheet" href="{% static 'db/styles.css' %}">
+{% extends 'base.html' %}
+    
+    {% block head %}
     <title>Letter Search - Upload</title>
-</head>
-<body>
+    {% endblock %}
+
+    
+    {% block hr %}
     <script>
     function mydelete() {
         var x = document.getElementById("myfile");
         x.value="";
     }
     </script>
-    <div class="header">
-        <a href="{% url 'db:index' %}" class="logo">Historical Archive Search</a>
-        <div class="header-right">
-            <a href="{% url 'db:index' %}">Home</a>
-            <a href="{% url 'db:search' %}">Search</a>
-            <a class="active" href="{% url 'db:upload' %}">Upload</a>
-        </div>
+    
+    <div class="header-right">
+        <a href="{% url 'db:index' %}">Home</a>
+        <a href="{% url 'db:search' %}">Search</a>
+        <a class="active" href="{% url 'db:upload' %}">Upload</a>
     </div>
+    {% endblock %}
+
+    {% block body %}
     <div class="searchheader">
         <h1>Upload your file!</h1>
         <p>Note that we only accept .docx or .xlsx files at the moment!</p>
@@ -31,5 +32,4 @@
             <button type="submit"> Scan file</button>
         </form>
     </div>
-</body>
-</html>
+    {% endblock %}

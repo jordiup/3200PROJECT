@@ -1,8 +1,20 @@
+body {
+    background-image: url("bookshelf.jpg");
+    background-repeat: repeat;
+    background-color: #FFB0B0;
+}
+
+.main {
+    background-color: #FFFF00;
+    padding-bottom: 15px;
+    margin: 0px 20%;
+}
+
 .searchbar{
-    width:600px;
+    width: 98%;
     height:50px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    font-size: 22px;
+    font-size: 15px;
     text-align: center;
     margin: 0 auto
 }
@@ -15,8 +27,8 @@
 .searchbody{
     text-align: center;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    margin-left: 250px;
-    margin-right: 250px;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
 .submitform{
@@ -37,14 +49,14 @@
 .loginform { 
     text-align: center;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    margin-left: 250px;
-    margin-right: 250px;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
 .select {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    margin-left: 250px;
-    margin-right: 250px;
+    margin-left: 10%;
+    margin-right: 10%;
     text-align: center;
 }
 
