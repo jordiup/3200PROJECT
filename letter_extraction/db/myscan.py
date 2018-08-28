@@ -123,10 +123,10 @@ def docxscanner(filename):
     else: #If file is not found
         print('The file called', filename + ' cant be found')
         
-def main():
-    filename = input("Enter the file name wished to be scanned:")
+def main(filename):
     #currently only for .docx and .xlsx files
     if filename.endswith('.docx'):
+        print('reach here')
         return docxscanner(filename)
     elif filename.endswith('.xlsx'):
         return xlscanner(filename)

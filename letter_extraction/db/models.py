@@ -1,5 +1,5 @@
 from django.db import models
-
+from django import forms
 # Create your models here.
 from django.db.models import CharField
 
@@ -42,7 +42,9 @@ class Document(models.Model):
     def __str__(self):
         return str(self.archive_number)
 
-
+class UploadFileForm(forms.Form):
+    file = forms.FileField()
+    
 class User(models.Model):
     username = models.CharField(max_length=32)
     password = models.CharField(max_length=64) # want to hash as 64 character string. CURRENTLY STORED AS PLAINTEXT !!!!!

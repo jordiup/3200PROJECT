@@ -6,6 +6,12 @@
     <title>Letter Search - Upload</title>
 </head>
 <body>
+    <script>
+    function mydelete() {
+        var x = document.getElementById("myfile");
+        x.value="";
+    }
+    </script>
     <div class="header">
         <a href="{% url 'db:index' %}" class="logo">Historical Archive Search</a>
         <div class="header-right">
@@ -15,7 +21,15 @@
         </div>
     </div>
     <div class="searchheader">
-        <h1>Under Construction!</h1>
+        <h1>Upload your file!</h1>
+        <p>Note that we only accept .docx or .xlsx files at the moment!</p>
+
+        <button onclick="mydelete()">Discard file</button>
+        <form action="{% url 'db:upload' %}" method="POST" id="uploadfield">
+            {% csrf_token %}
+            <input type="file" id="myfile"></input>
+            <button type="submit"> Scan file</button>
+        </form>
     </div>
 </body>
 </html>

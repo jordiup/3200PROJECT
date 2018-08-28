@@ -15,6 +15,9 @@ from django.db.models import Q
 from .models import *
 import datetime
 
+#Testing import python function
+import db.myscan as processletter
+
 # Create your views here.
 
 from django.template import RequestContext
@@ -41,10 +44,16 @@ def search_result(request):
 
 
 def upload(request):
-    template = loader.get_template('db/upload.html')
-    context = {
-    }
-    return HttpResponse(template.render(context, request))
+    if request.method == 'POST':
+        context={}
+        #form = UploadFileForm(request.POST.get('myfile',False))
+        #if form.is_valid():
+        print(request.FILES['myfile'])
+        context = {processletter.main(request.FILES['myfile'])}
+    else:
+        template = loader.get_template('db/upload.html')
+        context = {}
+    return render(request,'db/upload.html',context)
 
 
 def login(request):
