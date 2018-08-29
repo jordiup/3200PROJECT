@@ -49,12 +49,9 @@ def search_result(request):
 
 
 def upload(request):
-    if request.method == 'POST':
-        context={}
-        #form = UploadFileForm(request.POST.get('myfile',False))
-        #if form.is_valid():
-        print(request.FILES['myfile'])
-        context = {processletter.main(request.FILES['myfile'])}
+    if request.method == 'POST' and request.FILES.get('myfile',False):
+        result = processletter.main(request.FILES['myfile'])
+        return render(request,'db/upload.html',{"list":result })
     else:
         template = loader.get_template('db/upload.html')
         context = {}
