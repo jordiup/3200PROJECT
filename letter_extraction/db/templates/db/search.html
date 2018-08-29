@@ -1,6 +1,9 @@
-{% extends 'base.html' %}
-    
-    {% block head %}
+<!DOCTYPE html>
+<html>
+<head>
+	{% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'db/styles.css' %}">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Letter Search - Search</title>
     {% endblock %}
 
@@ -16,28 +19,90 @@
     <div class="searchheader">
         <h1>Search through our database! </h1>
     </div>
-    <div class="searchbody">
-        <p>You can search our database directly by typing in some query words.
-        You can search for document names, authors, locations and dates. </br></br>
-        Note : When searching for dates, please enter them as YYYY or YYYY-MM-DD.
-        </p>
         <p> Search by: </p>
-    </div>
     <form method="GET"  action="{% url 'db:result' %}" id="form1">
         <div class="select">
-            <input type="radio" name="searchtype" value="document" form="form1">Document
-            <input type="radio" name="searchtype" value="author" form="form1">Author
-            <input type="radio" name="searchtype" value="location" form="form1">Location
-            <input type="radio" name="searchtype" value="date" form="form1">Date
         </div>
         <br>
         <div class="searchbar">
-            <input type="text" name="query" class="searchbar" form="form1">
+            <input type="text" class="searchbar" id = "bar">
         </div>
-        <br>
-        <br>
         <div class="submitform">
-            <input type="submit" value="Search" form="form1">    
+            <button type="submit" class="search_button">
+						<i class="fa fa-search"></i>
+					</button>
         </div>
     </form>
-    {% endblock %}
+
+		<button value = "Input" onclick = "Input_Search()">Input Search Criteria</button>
+		<button value = "Input" onclick = "clear_search()">Clear Search Criteria</button>
+		<p class = "Search_Text"> Current Search Criteria: </p>
+		<textarea id = "Search_Criteria_Text" class = "Search_Criteria_Text"  rows = "10"> </textarea>
+
+		<div class = "dropdown">
+			<button onclick = "dropFunction()" class = "dropbtn" id = "dropbutton"> Advanced Search </button>
+	  	<div id = "main_dropdown" class = "dropdown-content">
+				{% block content %}
+				{% endblock %}
+			</div>
+		</div>
+
+<script>
+function clear_search()
+{
+		var text = 	document.getElementById("Search_Criteria_Text").value;
+		text = "";
+		document.getElementById("Search_Criteria_Text").value = text;
+
+}
+
+
+
+function dropFunction()
+{
+		document.getElementById('main_dropdown').classList.toggle('show');
+
+}
+
+
+window.onclick = function(event) {
+if(!event.target.matches('.dropbtn'))
+	{
+			var dropdowns = document.getElementsByClassName("dropdown-content");
+			var i;
+			for (i = 0; i < dropdowns.length; i++)
+			{
+				var openDropdown = dropdowns[i];
+				if (openDropdown.classList.contains('show'))
+				{
+					openDropdown.classList.remove('show');
+				}
+		}
+	}
+}
+function clickFunction(clicked_id)
+	{
+			document.getElementById("dropbutton").innerHTML = clicked_id
+	}
+
+
+function Input_Search()
+{
+	var original_text = 	document.getElementById("Search_Criteria_Text").value;
+	var category = document.getElementById("dropbutton").innerHTML;
+	var modifier = document.getElementById("bar").value;
+	if(original_text != null || original_text != "")
+	{
+		original_text =  original_text + "Search Category:" + category + " " + "Modifier:" + modifier + '\n';
+	}
+	else
+	{
+			original_text =  "Search Category:" + category + " " + "Modifier:" + modifier + '\n';
+	}
+	document.getElementById("Search_Criteria_Text").value= original_text;
+	linebreak = document.createElement("br");
+	document.getElementById("Search_Criteria_Text").appendChild(linebreak);
+}
+</script>
+</body>
+</html>
