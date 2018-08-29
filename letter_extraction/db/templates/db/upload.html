@@ -26,10 +26,23 @@
         <p>Note that we only accept .docx or .xlsx files at the moment!</p>
 
         <button onclick="mydelete()">Discard file</button>
-        <form action="{% url 'db:upload' %}" method="POST" id="uploadfield">
+        <form action="{% url 'db:upload' %}" method="POST" id="uploadfield" enctype="multipart/form-data">
             {% csrf_token %}
-            <input type="file" id="myfile"></input>
+            <input type="file" name="myfile"></input>
             <button type="submit"> Scan file</button>
         </form>
     </div>
+
+    <div>
+        <table>
+        {% for letter in list %}
+            <tr>
+            {% for i in letter %}
+                <th>{{i}}</th>
+            {% endfor %}
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+    
     {% endblock %}

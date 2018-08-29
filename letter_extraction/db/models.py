@@ -42,9 +42,6 @@ class Document(models.Model):
 
     def __str__(self):
         return str(self.archive_number)
-
-class UploadFileForm(forms.Form):
-    file = forms.FileField()
     
 class User(models.Model):
     username = models.CharField(max_length=32)
@@ -53,7 +50,6 @@ class User(models.Model):
     active = models.BooleanField('active', default=False) # is the user active
     permission_level = models.IntegerField('permission', default=1) # we want to make a list of permissions, 1 lowest level, 2 next highest, etc. Devs are 0
     date_joined = models.DateTimeField('date joined')
-    hello = models.CharField(max_length = 32)
 
     def __str__(self):
         return self.username
