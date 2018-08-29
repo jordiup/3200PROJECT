@@ -5,7 +5,6 @@
     <link rel="stylesheet" href="{% static 'db/styles.css' %}">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Letter Search - Search</title>
-    {% endblock %}
 
     {% block hr %}
     <div class="header-right">
@@ -43,9 +42,11 @@
 			<button onclick = "dropFunction()" class = "dropbtn" id = "dropbutton"> Advanced Search </button>
 	  	<div id = "main_dropdown" class = "dropdown-content">
 				{% block content %}
-				{% endblock %}
+            {% endblock %}
 			</div>
 		</div>
+
+    {% endblock %}
 
 <script>
 function clear_search()
