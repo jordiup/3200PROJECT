@@ -51,6 +51,7 @@ class User(models.Model):
     active = models.BooleanField('active', default=False) # is the user active
     permission_level = models.IntegerField('permission', default=1) # we want to make a list of permissions, 1 lowest level, 2 next highest, etc. Devs are 0
     date_joined = models.DateTimeField('date joined')
+    hello = models.CharField(max_length = 32)
 
     def __str__(self):
         return self.username
@@ -72,6 +73,6 @@ def metadata_extraction():
     return dictionary_holder
 
 
-    
-    
+
+
 # feel free to add more fields. To add these to the database, use python(3) manage.py makemigrations; and then python(3) manage.py migrate
