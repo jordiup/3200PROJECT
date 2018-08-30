@@ -15,6 +15,7 @@ class Person(models.Model):
         return self.full_name
 
 
+
 class Location(models.Model):
     place_name = models.CharField(max_length=64)
     date_added = models.DateTimeField('date added')
@@ -41,9 +42,6 @@ class Document(models.Model):
 
     def __str__(self):
         return str(self.archive_number)
-
-class UploadFileForm(forms.Form):
-    file = forms.FileField()
     
 class User(models.Model):
     username = models.CharField(max_length=32)
@@ -55,5 +53,24 @@ class User(models.Model):
 
     def __str__(self):
         return self.username
-    
+
+def metadata_extraction():
+    members = [attr for attr in dir(User) if not callable(getattr(User, attr)) and not attr.startswith("__") and not attr.startswith("_")]
+    previous = ""
+    comparison_string = ""
+    for items in members[:]:
+        if items == 'id' or items == 'objects' or items == 'pk' or items == 'receiver' or items == 'sender' :
+            members.remove(items)
+    for before in members:
+        previous = members.index(before)
+        if(previous != 0):
+            comparison_string = members[previous-1] + "_id"
+        if comparison_string == before:
+            members.remove(before)
+    dictionary_holder = {k: 0 for k in members}
+    return dictionary_holder
+
+
+
+
 # feel free to add more fields. To add these to the database, use python(3) manage.py makemigrations; and then python(3) manage.py migrate

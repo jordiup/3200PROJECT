@@ -17,11 +17,14 @@ import datetime
 
 #Testing import python function
 import db.myscan as processletter
+from .models import metadata_extraction
+import logging
 
 # Create your views here.
 
 from django.template import RequestContext
 
+logger = logging.getLogger(__name__)
 
 def index(request):
     
@@ -30,11 +33,12 @@ def index(request):
 
 
 def search(request):
-    template = loader.get_template('db/search.html')
+    template = loader.get_template('db/metadata.html')
+    metadata_categories = metadata_extraction()
     context = {
     }
-    return HttpResponse(template.render(context, request))
-
+   # return HttpResponse(template.render(context, request), {'container' : ['adawdadawd']})
+    return render(request, 'db/metadata.html' , {"metadata_categories" : metadata_categories})
 
 def search_result(request):
     search_type = str(request.GET['searchtype'])
@@ -45,12 +49,9 @@ def search_result(request):
 
 
 def upload(request):
-    if request.method == 'POST':
-        context={}
-        #form = UploadFileForm(request.POST.get('myfile',False))
-        #if form.is_valid():
-        print(request.FILES['myfile'])
-        context = {processletter.main(request.FILES['myfile'])}
+    if request.method == 'POST' and request.FILES.get('myfile',False):
+        result = processletter.main(request.FILES['myfile'])
+        return render(request,'db/upload.html',{"list":result })
     else:
         template = loader.get_template('db/upload.html')
         context = {}

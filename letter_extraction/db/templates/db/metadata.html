@@ -1,0 +1,7 @@
+{% extends "db/search.html" %}
+
+{% block content %}
+	{% for items in metadata_categories %}
+	  <p id = {{items}} onclick = "clickFunction(this.id)"> {{items}} </p> 
+	  {% endfor %}
+{% endblock %}
