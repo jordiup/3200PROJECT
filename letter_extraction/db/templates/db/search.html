@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
+{% extends 'base.html' %}
+
 	{% load staticfiles %}
     <link rel="stylesheet" href="{% static 'db/styles.css' %}">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
     <title>Letter Search - Search</title>
 
     {% block hr %}
@@ -18,18 +17,18 @@
     <div class="searchheader">
         <h1>Search through our database! </h1>
     </div>
-        <p> Search by: </p>
+        <p> Simple search: </p>
     <form method="GET"  action="{% url 'db:result' %}" id="form1">
         <div class="select">
         </div>
         <br>
         <div class="searchbar">
-            <input type="text" class="searchbar" id = "bar">
+            <input type="text" class="searchbar" id = "bar" name="query">
         </div>
         <div class="submitform">
-            <button type="submit" class="search_button">
-						<i class="fa fa-search"></i>
-					</button>
+            <button type="submit" class="search_button" value="GetAdvancedSearchText()">
+				<i class="fa fa-search"></i>
+			</button>
         </div>
     </form>
 
@@ -45,8 +44,6 @@
             {% endblock %}
 			</div>
 		</div>
-
-    {% endblock %}
 
 <script>
 function clear_search()
@@ -105,5 +102,6 @@ function Input_Search()
 	document.getElementById("Search_Criteria_Text").appendChild(linebreak);
 }
 </script>
-</body>
-</html>
+
+
+{% endblock %}
