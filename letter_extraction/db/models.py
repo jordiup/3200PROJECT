@@ -1,5 +1,5 @@
 from django.db import models
-
+from django import forms
 # Create your models here.
 from django.db.models import CharField
 
@@ -42,8 +42,7 @@ class Document(models.Model):
 
     def __str__(self):
         return str(self.archive_number)
-
-
+    
 class User(models.Model):
     username = models.CharField(max_length=32)
     password = models.CharField(max_length=64) # want to hash as 64 character string. CURRENTLY STORED AS PLAINTEXT !!!!!
@@ -51,7 +50,6 @@ class User(models.Model):
     active = models.BooleanField('active', default=False) # is the user active
     permission_level = models.IntegerField('permission', default=1) # we want to make a list of permissions, 1 lowest level, 2 next highest, etc. Devs are 0
     date_joined = models.DateTimeField('date joined')
-    hello = models.CharField(max_length = 32)
 
     def __str__(self):
         return self.username

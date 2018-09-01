@@ -1,21 +1,48 @@
-<!DOCTYPE html>
-{% load static %}
-<html>
-<head>
-    <link rel="stylesheet" href="{% static 'db/styles.css' %}">
+{% extends 'base.html' %}
+    
+    {% block head %}
     <title>Letter Search - Upload</title>
-</head>
-<body>
-    <div class="header">
-        <a href="{% url 'db:index' %}" class="logo">Historical Archive Search</a>
-        <div class="header-right">
-            <a href="{% url 'db:index' %}">Home</a>
-            <a href="{% url 'db:search' %}">Search</a>
-            <a class="active" href="{% url 'db:upload' %}">Upload</a>
-        </div>
+    {% endblock %}
+
+    
+    {% block hr %}
+    <script>
+    function mydelete() {
+        var x = document.getElementById("myfile");
+        x.value="";
+    }
+    </script>
+    
+    <div class="header-right">
+        <a href="{% url 'db:index' %}">Home</a>
+        <a href="{% url 'db:search' %}">Search</a>
+        <a class="active" href="{% url 'db:upload' %}">Upload</a>
     </div>
+    {% endblock %}
+
+    {% block body %}
     <div class="searchheader">
-        <h1>Under Construction!</h1>
+        <h1>Upload your file!</h1>
+        <p>Note that we only accept .docx or .xlsx files at the moment!</p>
+
+        <button onclick="mydelete()">Discard file</button>
+        <form action="{% url 'db:upload' %}" method="POST" id="uploadfield" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="myfile"></input>
+            <button type="submit"> Scan file</button>
+        </form>
     </div>
-</body>
-</html>
+
+    <div>
+        <table>
+        {% for letter in list %}
+            <tr>
+            {% for i in letter %}
+                <th>{{i}}</th>
+            {% endfor %}
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+    
+    {% endblock %}

@@ -8,5 +8,6 @@ urlpatterns = [
     path('upload/', views.upload, name='upload'),
     path('result/', views.search_result, name='result'),
     path('login/', views.login, name='login'),
+    path('upload/scanfile/', views.upload, name='scanfile'),
 ]
 
