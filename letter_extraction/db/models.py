@@ -41,9 +41,6 @@ class Document(models.Model):
 
     def __str__(self):
         return str(self.archive_number)
-
-class UploadFileForm(forms.Form):
-    file = forms.FileField()
     
 class User(models.Model):
     username = models.CharField(max_length=32)
