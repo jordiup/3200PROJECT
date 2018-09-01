@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
-    
+
     {% block head %}
     <title>Letter Search - Upload</title>
     {% endblock %}
 
-    
+
     {% block hr %}
     <script>
     function mydelete() {
@@ -12,7 +12,7 @@
         x.value="";
     }
     </script>
-    
+
     <div class="header-right">
         <a href="{% url 'db:index' %}">Home</a>
         <a href="{% url 'db:search' %}">Search</a>
@@ -25,12 +25,12 @@
         <h1>Upload your file!</h1>
         <p>Note that we only accept .docx or .xlsx files at the moment!</p>
 
-        <button onclick="mydelete()">Discard file</button>
         <form action="{% url 'db:upload' %}" method="POST" id="uploadfield" enctype="multipart/form-data">
             {% csrf_token %}
             <input type="file" name="myfile"></input>
-            <button type="submit"> Scan file</button>
+            <button class="bt-submit" type="submit"> Scan file</button>
         </form>
+        <button class="bt-discard" onclick="mydelete()">Discard file</button>
     </div>
 
     <div>
@@ -44,5 +44,5 @@
         {% endfor %}
         </table>
     </div>
-    
+
     {% endblock %}
