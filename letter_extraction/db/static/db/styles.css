@@ -7,8 +7,9 @@ body {
 
 .main {
     background-color: #FFFF00;
-    padding-bottom: 15px;
-    margin: 0px 20%;
+    padding: 2rem 2rem 2rem 2rem;
+    margin: 2rem 20%;
+
 }
 
 .searchbar{
@@ -217,6 +218,32 @@ body {
 	}
 
 .show {display: block;}
+
+button {
+  background-color: #41474B;
+  display: inline-block;
+  margin: 1.75rem 0 1.75rem 0;
+  padding: 0.75rem 1rem;
+  border: 0;
+  border-radius: 0.317rem;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.0;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.bt-submit {
+  background-color: #27B372;
+}
+
+.bt-discard {
+  background-color:#D46C75;
+  width:61%;
+}
 
 
 .footer {
