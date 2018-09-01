@@ -53,6 +53,7 @@ def docxscanner(filename):
     wholedoc = []
     #lists of every letter data
     letters = [] 
+    summary = ''
 
     #regex for splitting \n and \t
     regex = re.compile(r'[\n\r\t]')
@@ -60,7 +61,6 @@ def docxscanner(filename):
     #Stores each paragraph in a list
     for para in doc.paragraphs:
         wholedoc.append(para.text)
-
     k = 1 #initialise index letter
     j = 0 #initialise receiver and sender indicator
     count = 0
@@ -70,13 +70,15 @@ def docxscanner(filename):
         sentence = regex.sub("",sentence)
         tokens = nltk.word_tokenize(sentence)
         tagged = nltk.pos_tag(tokens)
-        
         #Finds the Word Index header
         #For each new header, it will initialise a list to store all its data
+        #print(sentence, wholedoc[count-1])
         if (len(tagged) == 1):
             if(tagged[0][0] == str(k)):
                 if(k!=1):
+                    letterdata.append(summary)
                     letters.append(letterdata)
+                summary=''
                 k = k+1
                 letterdata = []
                         
@@ -110,11 +112,13 @@ def docxscanner(filename):
                 letterdata.append(sentence)
 
         #ASSUME it is the letter summary if it is longer than 10 
-        if(len(tagged) > 20):
-            letterdata.append(sentence)
+        if(len(tagged) > 10):
+            summary = summary+sentence
+
         if(len(wholedoc) == count):
+            #print(wholedoc[count-1], k-1, summary)
+            letterdata.append(summary)
             letters.append(letterdata)
-    print(len(wholedoc),count)
     return letters
         
 def main(filename):
