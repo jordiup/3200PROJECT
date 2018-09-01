@@ -2,6 +2,7 @@ body {
     background-image: url("bookshelf.jpg");
     background-repeat: repeat;
     background-color: #FFB0B0;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .main {
@@ -13,7 +14,6 @@ body {
 .searchbar{
     width: 98%;
     height:50px;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-size: 15px;
     text-align: center;
     margin: 0 auto
@@ -21,12 +21,12 @@ body {
 
 .searchheader{
     text-align: center;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
 }
 
 .searchbody{
     text-align: center;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
     margin-left: 10%;
     margin-right: 10%;
 }
@@ -97,13 +97,13 @@ body {
 
 .loginform {
     text-align: center;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
     margin-left: 10%;
     margin-right: 10%;
 }
 
 .select {
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
     margin-left: 10%;
     margin-right: 10%;
     text-align: center;
@@ -122,7 +122,7 @@ body {
     overflow: hidden;
     background-color: #f1f1f1;
     padding: 20px 10px;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
   }
 
   /* Style the header links */
@@ -217,3 +217,22 @@ body {
 	}
 
 .show {display: block;}
+
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 0.8rem 0 0.8rem 0;
+  background-color: white;
+  color: darkgrey;
+  text-align: center;
+}
+
+.footer p {
+  display: inline;
+  margin-right: 10px;
+  margin-left:10px;
+
+}
