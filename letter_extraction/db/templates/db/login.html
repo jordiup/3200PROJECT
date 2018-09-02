@@ -28,4 +28,11 @@
             <input type="submit" value="Login" form="form1">    
         </div>
     </form>
+    <br>
+    <div class="searchbody">  
+        {% if message %}
+            {{message}}
+        {% endif%}
+    </div>
+
     {% endblock %}

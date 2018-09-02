@@ -9,6 +9,7 @@
         <a href="{% url 'db:index' %}">Home</a>
         <a class="active" href="{% url 'db:search' %}">Search</a>
         <a href="{% url 'db:upload' %}">Upload</a>
+        <a href="{% url 'db:logout' %}">Logout</a>
     </div>
     {% endblock %}
 
@@ -21,7 +22,7 @@
         {% endfor %}
         </ul>
     {% else %}
-        <p>No polls are available.</p>
+        <p>No results.</p>
     {% endif %}
     
     {% endblock %}

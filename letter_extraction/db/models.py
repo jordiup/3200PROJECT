@@ -42,15 +42,4 @@ class Document(models.Model):
     def __str__(self):
         return str(self.archive_number)
     
-class User(models.Model):
-    username = models.CharField(max_length=32)
-    password = models.CharField(max_length=64) # want to hash as 64 character string. CURRENTLY STORED AS PLAINTEXT !!!!!
-    email = models.EmailField(max_length=100) # in case they want to add registration
-    active = models.BooleanField('active', default=False) # is the user active
-    permission_level = models.IntegerField('permission', default=1) # we want to make a list of permissions, 1 lowest level, 2 next highest, etc. Devs are 0
-    date_joined = models.DateTimeField('date joined')
-
-    def __str__(self):
-        return self.username
-    
 # feel free to add more fields. To add these to the database, use python(3) manage.py makemigrations; and then python(3) manage.py migrate

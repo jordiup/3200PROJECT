@@ -9,6 +9,7 @@
         <a href="{% url 'db:index' %}">Home</a>
         <a class="active" href="{% url 'db:search' %}">Search</a>
         <a href="{% url 'db:upload' %}">Upload</a>
+        <a href="{% url 'db:logout' %}">Logout</a>
     </div>
     {% endblock %}
 
@@ -25,14 +26,14 @@
     </div>
     <form method="GET"  action="{% url 'db:result' %}" id="form1">
         <div class="select">
-            <input type="radio" name="searchtype" value="document" form="form1">Document
+            <input type="radio" name="searchtype" value="document" form="form1" required>Document
             <input type="radio" name="searchtype" value="author" form="form1">Author
             <input type="radio" name="searchtype" value="location" form="form1">Location
             <input type="radio" name="searchtype" value="date" form="form1">Date
         </div>
         <br>
         <div class="searchbar">
-            <input type="text" name="query" class="searchbar" form="form1">
+            <input type="text" name="query" class="searchbar" form="form1" required>
         </div>
         <br>
         <br>
