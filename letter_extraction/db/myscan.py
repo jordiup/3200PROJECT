@@ -7,43 +7,45 @@ import docx
 import nltk
 import xlrd
 import re
+import pandas as pd
 
 #Excel scanner function
 def xlscanner(filename):
-    wb=filename
-    wholedoc = []
+    wb = pd.ExcelFile(filename)
     headers = ['archive code','addressee','language']
-    totalsheet = len(wb.sheet_names())
+    totalsheet = len(wb.sheet_names)
     archcol = 0
+    wholedoc=[]
+    headstart = -1
 
     #Goes thru each worksheet
     for ws in range(totalsheet):
         letters = []
-        sheet = wb.sheet_by_index(ws)
-        headstart = -1
+        sheet = pd.read_excel(wb,wb.sheet_names[ws],header=None,index_col=None)
         #Finds the data header // Goes thru each row
-        for i in range (sheet.nrows):
+        for i in range (sheet.shape[0]):
             each = []
-            for j in range (sheet.ncols):
-                content = sheet.cell_value(i,j)
+            for j in range (sheet.shape[1]):
+                content = sheet.iloc[i,j]
                 each.append(content)
                 j=j+1
-                if (headstart == -1): 
-                    for k in range(len(headers)):
-                        if (content.lower()=='archive code'):
-                            archcol = j-1
-                        if (content.lower() == headers[k]):
-                            print('Headers on row ', i, 'in the list and on row',i+1,'in the Excel file')
+
+            if (headstart == -1): #Finding header
+                m = 0
+                for k in each:
+                    if(type(k) == str):
+                        if (k.lower()=='archive code'):
+                            archcol = m-1
                             headstart = i
                             break
+                        m = m+1
             #Only adds non-empty list to letters
             #Does not add data with no archive number
-            if(not all(s=='' for s in each)):
-                if ( not each[archcol] == ''):
-                    letters.append(each)
+
+            if(not all(pd.isnull(s) for s in each)):
+                letters.append(each)
             i = i+1
         wholedoc.append(letters)
-    
     return wholedoc
     
 

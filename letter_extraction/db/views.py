@@ -47,7 +47,10 @@ def search_result(request):
 def upload(request):
     if request.method == 'POST' and request.FILES.get('myfile',False):
         result = processletter.main(request.FILES['myfile'])
-        return render(request,'db/upload.html',{"list":result })
+        indicator = 0 #docx files
+        if (request.FILES['myfile'].name.endswith('.xlsx')):
+            indicator = 1 #xlsx files
+        return render(request,'db/upload.html',{"list":result, "indic": indicator})
     else:
         template = loader.get_template('db/upload.html')
         context = {}

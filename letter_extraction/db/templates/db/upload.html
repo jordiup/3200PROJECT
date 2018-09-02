@@ -7,14 +7,15 @@
         table {
             font-family: arial, sans-serif;
             border-collapse: collapse;
-            width: 10%;
+            width: 50%;
+            margin: 10px;
         }
 
         td, th {
             border: 1px solid #dddddd;
             text-align: left;
             padding: 8px;
-            font-size:5px;
+            font-size:10px;
         }
 
         tr:nth-child(even) {
@@ -53,15 +54,35 @@
     </div>
 
     <div>
-        <table>
+        {# For xlsx files #}
+
+        {% if indic == 1 %}
+            {% for letter in list %}
+            <table>
+                {% for i in letter %}
+                <tr>
+                {% for j in i %}
+                    <th>{{j}}</th>
+                {% endfor %}
+                </tr>
+                {% endfor %}
+            </table>
+            {% endfor %}
+        {% endif %}
+
+        {# For docx files #}
+
+        {% if indic == 0 %}
         {% for letter in list %}
+        <table>
             <tr>
             {% for i in letter %}
                 <th>{{i}}</th>
             {% endfor %}
             </tr>
-        {% endfor %}
         </table>
+        {% endfor %}
+    {% endif %}
     </div>
 
     {% endblock %}
