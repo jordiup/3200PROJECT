@@ -2,7 +2,6 @@ import datetime
 from django.template import loader
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import authenticate, login
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect, render_to_response
 from django.contrib.auth.decorators import login_required
@@ -65,6 +64,7 @@ def login(request):
             context = {'form':AuthenticationForm(), 'message':'Username or password incorrect!'}
     else:
         context =  {'form':AuthenticationForm(), 'message':message}
+        
     return render(request, 'db/login.html', context)
 
 

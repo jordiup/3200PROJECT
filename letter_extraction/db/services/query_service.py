@@ -40,8 +40,13 @@ def process_location(results, query_value):
         documents.extend(Document.objects.filter(Q(sender=pl) | Q(receiver=pl)))
     results.extend([x for x in documents])
 
+
 def process_date(results, query_value):
     objects = Document.objects.all()
-    request_date = query_value.split('-')
-    documents = objects.filter(date_written__year=request_date[0])
+    documents = []
+    try:
+        int(query_value)
+    except:
+        return
+    documents.extend(objects.filter(date_written__year=query_value))
     results.extend([x for x in documents])
