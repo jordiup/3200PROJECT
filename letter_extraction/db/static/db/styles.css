@@ -10,18 +10,42 @@ body {
     margin: 0px 20%;
 }
 
+.searchbar_container
+{
+  position : relative;
+  z-index: 2;
+  left: 350px;
+  width:750px;
+}
+
 .searchbar{
-    width: 98%;
-    height:50px;
+    width: 100%;
+    height:45px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-size: 15px;
     text-align: center;
-    margin: 0 auto
+    margin: 0 auto;
+}
+
+.searchbar:hover
+{
+  border-style: solid;
+  border-width: 2px;
+  border-color:  black;
 }
 
 .searchheader{
+    position : relative;
+    top : 50px;
     text-align: center;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.searchheader h1
+{
+  color: #228B22;
+  font-weight: lighter;
+  font-size: 30px;
 }
 
 .searchbody{
@@ -34,38 +58,21 @@ body {
 .submitform{
     text-align: center;
     position: relative;
-    left: 330px;
-    bottom: 35px;
+    left: 369.3px;
+    bottom: 49.5px;
     display: block;
 }
 
 .search_button{
-    background-color: DodgerBlue; /* Blue background */
+   background-color: DodgerBlue; /* Blue background */
    border: none; /* Remove borders */
    color: white; /* White text */
-   padding: 12px 16px; /* Some padding */
-   font-size: 16px; /* Set a font size */
+   padding: 12px  15px; /* Some padding */
+   font-size: 20px; /* Set a font size */
    cursor: pointer; /* Mouse pointer on hover */
+   text-decoration: none;
 
 }
-
-
-.submitform input[type=submit] {
-    background-color: #4079FF;
-    border: none;
-    color: black;
-    padding: 16px 32px;
-    text-decoration: none;
-    cursor: pointer;
-    box-shadow: 1px 3px 15px 5px rgba(0,0,0,0.48);
-    position : relative;
-    display: inline-block;
-    height: 50px;
-    top: 30px;
-    font-size: 18px;
-    right: 50px;
-}
-
 
 .Advanced_Search  {
   position: relative;

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
+{% extends 'header.html' %}
 <html>
 <head>
-	{% load staticfiles %}
+{% load staticfiles %}
     <link rel="stylesheet" href="{% static 'db/styles.css' %}">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Letter Search - Search</title>
@@ -16,14 +17,14 @@
 
     {% block body %}
     <div class="searchheader">
-        <h1>Search through our database! </h1>
+        <h1> Search through our Database! </h1>
     </div>
         <p> Search by: </p>
     <form method="GET"  action="{% url 'db:result' %}" id="form1">
         <div class="select">
         </div>
         <br>
-        <div class="searchbar">
+        <div class="searchbar_container">
             <input type="text" class="searchbar" value = "form1" id = "bar">
         </div>
         <div class="submitform">
@@ -36,7 +37,7 @@
 		<button value = "Input" onclick = "Input_Search()">Input Search Criteria</button>
 		<button value = "Input" onclick = "clear_search()">Clear Search Criteria</button>
 		<p class = "Search_Text"> Current Search Criteria: </p>
-		<textarea id = "Search_Criteria_Text" class = "Search_Criteria_Text"  rows = "10"> </textarea>
+		<textarea id = "Search_Criteria_Text" class = "Search_Criteria_Text"  rows = "20"> </textarea>
 
 		<div class = "dropdown">
 			<button onclick = "dropFunction()" class = "dropbtn" id = "dropbutton"> Advanced Search </button>
@@ -45,6 +46,13 @@
             {% endblock %}
 			</div>
 		</div>
+
+		<div class = "categories" style = "width:200px;">
+		<select>
+				<option value = "0"> happy </option>
+				<option value = "1"> sad </option> 
+		</select>
+
 
     {% endblock %}
 
