@@ -1,15 +1,17 @@
 {% extends 'base.html' %}
     
+    {% load static %}
     {% block head %}
     <title>Letter Search - Home</title>
     {% endblock %}
 
     {% block hr %}
+    <script src="{% static "db/logoutScript.js" %}"></script>
     <div class="header-right">
         <a class="active" href="{% url 'db:index' %}">Home</a>
         <a href="{% url 'db:search' %}">Search</a>
         <a href="{% url 'db:upload' %}">Upload</a>
-        <a href="{% url 'db:logout' %}">Logout</a>
+        <a href="{% url 'db:logout' %}" onclick="logout()">Logout</a>
     </div>
     {% endblock %}
 
