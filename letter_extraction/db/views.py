@@ -36,6 +36,10 @@ def search_result(request):
     context = {'document_list': document_list}
     return render(request, 'db/result.html', context)
 
+def storing(myletters):
+    for each in myletters:
+        for data in each:
+            print(data)
 
 @login_required
 def upload(request):
@@ -44,12 +48,12 @@ def upload(request):
         indicator = 0 #docx files
         if (request.FILES['myfile'].name.endswith('.xlsx')):
             indicator = 1 #xlsx files
+        #storing(result)
         return render(request,'db/upload.html',{"list":result, "indic": indicator})
     else:
         template = loader.get_template('db/upload.html')
         context = {}
     return render(request,'db/upload.html',context)
-
 
 def login(request):
     message = None
