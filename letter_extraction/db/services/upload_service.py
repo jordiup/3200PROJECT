@@ -47,19 +47,19 @@ def xlscanner(filename):
             i = i+1
         wholedoc.append(letters)
     return wholedoc
-    
+
 
 #Docx scanner function
 def docxscanner(filename):
     doc = docx.Document(filename)
     wholedoc = []
     #lists of every letter data
-    letters = [] 
+    letters = []
     summary = ''
-
+    letterdata = []
     #regex for splitting \n and \t
     regex = re.compile(r'[\n\r\t]')
-    
+
     #Stores each paragraph in a list
     for para in doc.paragraphs:
         wholedoc.append(para.text)
@@ -83,7 +83,7 @@ def docxscanner(filename):
                 summary=''
                 k = k+1
                 letterdata = []
-                        
+
             #Finds letter reference number
             elif (tagged[0][1] == "JJ"):
                 letterdata.append(sentence)
@@ -97,7 +97,7 @@ def docxscanner(filename):
             #Detail letter pages
             if(((tagged[0][1] == "(") or (tagged[0][1] == ".")) and ((tagged[2][1] == "NNS") or (tagged[2][1] == "NN") or (tagged[1][1] == "$"))):
                 letterdata.append(sentence)
-                                        
+
             elif ( (tagged[2][1] == "CD") and ((tagged[1][1] == ",") or (tagged[1][1] == "NNP") or (tagged[1][1] == ":") or (tagged[1][1] == ".") or (tagged[3][1] == ","))):
                 letterdata.append(sentence)
 
@@ -108,12 +108,12 @@ def docxscanner(filename):
                 else:
                     letterdata.append(sentence)
                     j = j-1
-                    
+
             #Finds Types of letters
             elif ((tagged[0][1] == "NN") and (tagged[1][1] == ",")):
                 letterdata.append(sentence)
 
-        #ASSUME it is the letter summary if it is longer than 10 
+        #ASSUME it is the letter summary if it is longer than 10
         if(len(tagged) > 10):
             summary = summary+sentence
 
@@ -122,7 +122,7 @@ def docxscanner(filename):
             letterdata.append(summary)
             letters.append(letterdata)
     return letters
-        
+
 def main(filename):
     #currently only for .docx and .xlsx files
     if filename.name.endswith('.docx'):
