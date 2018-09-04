@@ -1,5 +1,5 @@
 import datetime
-from django.template import loader
+from django.template import loader, RequestContext
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.http import HttpResponse, HttpResponseRedirect
@@ -12,8 +12,6 @@ from .models import *
 #Testing import python function
 
 # Create your views here.
-
-from django.template import RequestContext
 
 
 @login_required
