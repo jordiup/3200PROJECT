@@ -1,4 +1,4 @@
-from db.models import *
+from db.models import Person, PersonLocation, Document, Location
 from django.db.models import Q
 
 
@@ -46,7 +46,7 @@ def process_date(results, query_value):
     documents = []
     try:
         int(query_value)
-    except:
+    except ValueError:
         return
     documents.extend(objects.filter(date_written__year=query_value))
     results.extend([x for x in documents])

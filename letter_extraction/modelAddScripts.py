@@ -10,5 +10,3 @@ pl.save()
 d = Document(archive_number='test', date_written=timezone.now(), receiver=pl, sender=pl, document_type='diary', 
     language='java', date_added=timezone.now(), date_modified=timezone.now())
 d.save()
-u = User(username='devtest', password='cits3200groupo', email='dev@test.com', active=True, permission_level=0, date_joined = timezone.now())
-u.save()
