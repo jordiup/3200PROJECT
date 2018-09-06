@@ -7,7 +7,7 @@ body {
 }
 
 .main {
-  background-color: #FFFF00;
+  background-color: #d1c5eb;
   padding: 2rem 2rem 2rem 2rem;
   margin: 2rem 20%;
   border-radius: 0.517rem;
@@ -108,7 +108,7 @@ body {
 
 .header {
   overflow: hidden;
-  background-color: #f1f1f1;
+  background-color: #bdc5db;
   padding: 20px 10px;
 }
 
@@ -138,7 +138,7 @@ body {
 
 /* Style the active/current link*/
 .header a.active {
-  background-color: dodgerblue;
+  background-color: #d1c5eb;
   color: white;
 }
 
