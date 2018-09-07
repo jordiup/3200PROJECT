@@ -43,50 +43,47 @@
     {% endblock %}
 
     {% block body %}
-    <div class="searchheader">
-        <h1>Upload your file!</h1>
-        <p>Note that we only accept .docx or .xlsx files at the moment!</p>
+    <h1>Upload your file!</h1>
+    <p>Note that we only accept .docx or .xlsx files at the moment!</p>
 
-        <button class="bt-discard" onclick="mydelete()">Discard file</button>
-        <form action="{% url 'db:upload' %}" method="POST" id="uploadfield" enctype="multipart/form-data">
-            {% csrf_token %}
-            <input type="file" name="myfile"></input>
-            <button class="bt-submit" type="submit"> Scan file</button>
-        </form>
-    </div>
+    <button class="bt-discard" onclick="mydelete()">Discard file</button>
+    <form action="{% url 'db:upload' %}" method="POST" id="uploadfield" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="myfile"></input>
+        <button class="bt-submit" type="submit"> Scan file</button>
+    </form>
 
-    <div>
-        {# For xlsx files #}
 
-        {% if indic == 1 %}
-            {% for letter in list %}
-            <table>
-                {% for i in letter %}
-                <tr>
-                {% for j in i %}
-                    <th>{{j}}</th>
-                {% endfor %}
-                </tr>
-                {% endfor %}
-            </table>
-            {% endfor %}
-        {% endif %}
+    {# For xlsx files #}
 
-        {# For docx files #}
-
-        {% if indic == 0 %}
+    {% if indic == 1 %}
         {% for letter in list %}
         <table>
-            <tr>
             {% for i in letter %}
-                {% if i.1 != "" %}
-                    <th>{{i.1}}</th>
-                {% endif %}
+            <tr>
+            {% for j in i %}
+                <th>{{j}}</th>
             {% endfor %}
             </tr>
+            {% endfor %}
         </table>
         {% endfor %}
     {% endif %}
-    </div>
+
+    {# For docx files #}
+
+    {% if indic == 0 %}
+    {% for letter in list %}
+    <table>
+        <tr>
+        {% for i in letter %}
+            {% if i.1 != "" %}
+                <th>{{i.1}}</th>
+            {% endif %}
+        {% endfor %}
+        </tr>
+    </table>
+    {% endfor %}
+    {% endif %}
 
     {% endblock %}

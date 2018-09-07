@@ -16,15 +16,13 @@
     {% endblock %}
 
     {% block body %}
-    <div class="searchheader">
-        <h1>Search through our database! </h1>
-    </div>
-    <div class="searchbody">
-        <p>You can search our database directly by typing in some query words.
-        You can search for document names, authors, locations and years. </br>
-        </p>
-        <p> Search by: </p>
-    </div>
+    <h1>Search through our database! </h1>
+
+    <p>You can search our database directly by typing in some query words.
+    You can search for document names, authors, locations and years.
+    </p>
+    <p> Search by: </p>
+    
     <form method="GET"  action="{% url 'db:result' %}" id="form1">
         <div class="select">
             <input type="radio" name="searchtype" value="document" form="form1" required>Archive Name/Number

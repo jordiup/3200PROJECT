@@ -1,41 +1,35 @@
+/* effects whole document, mainly for background image */
 body {
-  /* background-image: url("bookshelf.jpg"); */
-  background-image: url("pattern-light.png");
+  background-image: url("pattern.png");
   background-repeat: repeat;
   background-color: #FFB0B0;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
+/* effects contents of that page (ie: stuff in the box) */
 .main {
   background-color: #d1c5eb;
   padding: 2rem 2rem 2rem 2rem;
   margin: 2rem 20%;
   border-radius: 0.517rem;
+  text-align: center;
 }
 
+/* effects text box on search page */
 .searchbar{
-  width: 98%;
+  width: 60%;
   height:50px;
   font-size: 15px;
   text-align: center;
-  margin: 0 auto
 }
 
-.searchheader{
-  text-align: center;
-}
-
-.indexbody{
-  text-align: center;
-}
-
-
-.searchbody{
-  text-align: center;
+/* effects all regular text */
+p {
   margin-left: 10%;
   margin-right: 10%;
 }
 
+/* effects search/login (maybe upload in future) buttons */
 .submitform{
   text-align: center;
   display: block;
@@ -54,15 +48,7 @@ body {
   font-size: 18px;
 }
 
-.search_button{
-  background-color: DodgerBlue; /* Blue background */
-  border: none; /* Remove borders */
-  color: white; /* White text */
-  padding: 12px 16px; /* Some padding */
-  font-size: 16px; /* Set a font size */
-  cursor: pointer; /* Mouse pointer on hover */
-}
-
+/* waiting for updated search */
 .Advanced_Search  {
   position: relative;
   bottom: 20px;
@@ -71,6 +57,7 @@ body {
   display:block;
 }
 
+/* waiting for updated search */
 .Advanced_Search button {
   background-color: #4079FF;
   border: none;
@@ -81,39 +68,37 @@ body {
   font-size: 18px;
 }
 
+/* waiting for updated search */
 .Search_Criteria_Text {
   height: 150px;
   width: 500px;
 }
 
-.loginform {
-  text-align: center;
-  margin-left: 10%;
-  margin-right: 10%;
-}
-
+/* used for login and search input */
 .select {
   margin-left: 10%;
   margin-right: 10%;
-  text-align: center;
 }
 
+/* see select */
 .select input[type=radio] {
   margin: 0 10px 0 10px;
   padding: 10px;
 }
 
+/* see select */
 .select input[type=text] input[type=password] {
   margin: 0 10px 0 10px;
 }
 
+/* effects header panel */
 .header {
   overflow: hidden;
   background-color: #bdc5db;
   padding: 20px 10px;
 }
 
-/* Style the header links */
+/* effects each link in header panel */
 .header a {
   float: left;
   color: black;
@@ -125,30 +110,31 @@ body {
   border-radius: 4px;
 }
 
-/* Style the logo link (notice that we set the same value of line-height and font-size to prevent the header to increase when the font gets bigger */
+/* effects title/logo in the top left corner */
 .header a.logo {
   font-size: 25px;
   font-weight: bold;
 }
 
-/* Change the background color on mouse-over */
+/* highlights header links for mouse hover */
 .header a:hover {
   background-color: #ddd;
   color: black;
 }
 
-/* Style the active/current link*/
+/* highlights page currently being viewed */
 .header a.active {
   background-color: #d1c5eb;
   color: white;
 }
 
-/* Float the link section to the right */
+/* headed panel floats left unless this is specified */
 .header-right {
   float: right;
 }
 
-/* Add media queries for responsiveness - when the screen is 500px wide or less, stack the links on top of each other */
+/* effects headed when viewed on a mobile device */
+/* POTENTIALY REDUNDANT */
 @media screen and (max-width: 500px) {
   .header a {
     float: none;
@@ -160,7 +146,7 @@ body {
   }
 }
 
-/* dropdown menu code */
+/* waiting for updated search */
 .dropdown {
 	position:relative;
 	display: block;
@@ -168,6 +154,7 @@ body {
 	left:840px;
 }
 
+/* waiting for updated search */
 .dropbtn {
   background-color: #3498DB;
   color: white;
@@ -177,6 +164,7 @@ body {
   height: 55px;
 }
 
+/* waiting for updated search */
 .dropdown-content {
 	display : none;
 	position : absolute;
@@ -186,6 +174,7 @@ body {
   border : 1px solid blue;
 }
 
+/* waiting for updated search */
 .dropdown-content p {
 	color: black;
 	text-decoration: none;
@@ -195,10 +184,7 @@ body {
   padding-bottom:10px;
 }
 
-.show {
-  display: block;
-}
-
+/* effects buttons on upload page */
 button {
   background-color: #41474B;
   display: inline-block;
@@ -216,16 +202,18 @@ button {
   -webkit-font-smoothing: antialiased;
 }
 
+/* makes scan button green */
 .bt-submit {
   background-color: #27B372;
 }
 
+/* makes discard button red and wider */
 .bt-discard {
   background-color:#D46C75;
-  width:61%;
+  width: 60%;
 }
 
-
+/* effects footer of the pages */
 .footer {
   position: fixed;
   left: 0;
@@ -237,6 +225,7 @@ button {
   text-align: center;
 }
 
+/* effects text in footer */
 .footer p {
   display: inline;
   margin-right: 10px;
