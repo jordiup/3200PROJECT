@@ -7,7 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect, render_to_response
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from db.services import query_service, account_service, upload_service
+from db.services import query_service, account_service, upload_service, storeFunction
 from .models import *
 
 #Testing import python function
@@ -16,9 +16,14 @@ from .models import *
 
 from django.template import RequestContext
 
+result = {}
 
 @login_required
 def index(request):
+    if request.method == "POST":
+        global result
+        storeFunction.addToModel(result)
+        result = ""
     context = {}
     return render(request, 'db/index.html', context)
 
@@ -42,8 +47,11 @@ def search_result(request):
 
 @login_required
 def upload(request):
-    if request.method == 'POST' and request.FILES.get('myfile',False):
+    if request.method == "POST" and  request.FILES.get('myfile',False):
+        print("sad")
+        global result
         result = upload_service.main(request.FILES['myfile'])
+        print(result[0])
         indicator = 0 #docx files
         if (request.FILES['myfile'].name.endswith('.xlsx')):
             indicator = 1 #xlsx files

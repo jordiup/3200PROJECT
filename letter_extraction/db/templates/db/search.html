@@ -1,15 +1,17 @@
 {% extends 'base.html' %}
 
+    {% load static %}
     {% block head %}
     <title>Letter Search - Search</title>
     {% endblock %}
 
     {% block hr %}
+    <script src="{% static "db/logoutScript.js" %}"></script>
     <div class="header-right">
         <a href="{% url 'db:index' %}">Home</a>
         <a class="active" href="{% url 'db:search' %}">Search</a>
         <a href="{% url 'db:upload' %}">Upload</a>
-        <a href="{% url 'db:logout' %}">Logout</a>
+        <a href="{% url 'db:logout' %}" onclick="logout()">Logout</a>
     </div>
     {% endblock %}
 
@@ -19,8 +21,7 @@
     </div>
     <div class="searchbody">
         <p>You can search our database directly by typing in some query words.
-        You can search for document names, authors, locations and dates. </br></br>
-        Note : When searching for dates, please enter them as YYYY or YYYY-MM-DD.
+        You can search for document names, authors, locations and years. </br>
         </p>
         <p> Search by: </p>
     </div>
@@ -29,16 +30,12 @@
             <input type="radio" name="searchtype" value="document" form="form1" required>Archive Name/Number
             <input type="radio" name="searchtype" value="author" form="form1">Author
             <input type="radio" name="searchtype" value="location" form="form1">Location
-            <input type="radio" name="searchtype" value="date" form="form1">Date
+            <input type="radio" name="searchtype" value="date" form="form1">Year
         </div>
         <br>
-        <div class="searchbar">
-            <input type="text" name="query" class="searchbar" form="form1" required>
-        </div>
+        <input type="text" name="query" class="searchbar" form="form1" required>
         <br>
         <br>
-        <div class="submitform">
-            <input type="submit" value="Search" form="form1">
-        </div>
+        <input class="submitform" type="submit" value="Search" form="form1">
     </form>
     {% endblock %}

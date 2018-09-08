@@ -35,19 +35,37 @@ def xlscanner(filename):
                 for k in each:
                     if(type(k) == str):
                         if (k.lower()=='archive code'):
-                            archcol = m-1
+                            archcol = m
                             headstart = i
                             break
-                        m = m+1
+                    m=m+1
             #Only adds non-empty list to letters
             #Does not add data with no archive number
-
+            if (pd.isnull(each[archcol])):
+                continue
             if(not all(pd.isnull(s) for s in each)):
                 letters.append(each)
             i = i+1
         wholedoc.append(letters)
+        #Sets NaN header into others
+        #myhead = 0
+        #for head in wholedoc[ws][headstart]:
+        #    if (pd.isnull(head)):
+        #        wholedoc[ws][headstart][myhead] = "Other"
+        #    myhead = myhead + 1
     return wholedoc
 
+#Fills in non-given metadata as empty string
+def filler(myletter):
+    indicator = [0,1,2,3,4,5,6,7]
+    for i in myletter:
+        for j in indicator:
+            if (i[0] == j):
+                indicator.remove(j)
+
+    #Adds empty string for non-given metadata
+    for m in indicator:
+        myletter.append( (m, "") )
 
 #Docx scanner function
 def docxscanner(filename):
@@ -78,48 +96,52 @@ def docxscanner(filename):
         if (len(tagged) == 1):
             if(tagged[0][0] == str(k)):
                 if(k!=1):
-                    letterdata.append(summary)
+                    filler(letterdata)
+                    letterdata.append((6,summary))
                     letters.append(letterdata)
                 summary=''
                 k = k+1
                 letterdata = []
 
-            #Finds letter reference number
+            #Finds letter reference number (0)
             elif (tagged[0][1] == "JJ"):
-                letterdata.append(sentence)
+                letterdata.append((0,sentence))
 
-            #Finds Letter Sender
+            #Finds Letter Addressee (1)
             elif (tagged[0][1] == "NN"):
-                letterdata.append(sentence)
+                letterdata.append((1,sentence))
 
         #Finds Letter Sender
         if (len(tagged) > 2):
-            #Detail letter pages
+            #amount pages (7)
             if(((tagged[0][1] == "(") or (tagged[0][1] == ".")) and ((tagged[2][1] == "NNS") or (tagged[2][1] == "NN") or (tagged[1][1] == "$"))):
-                letterdata.append(sentence)
+                letterdata.append((7,sentence))
 
+            #Dates (2)
             elif ( (tagged[2][1] == "CD") and ((tagged[1][1] == ",") or (tagged[1][1] == "NNP") or (tagged[1][1] == ":") or (tagged[1][1] == ".") or (tagged[3][1] == ","))):
-                letterdata.append(sentence)
+                letterdata.append((2,sentence))
 
+            #Sender (3) & Addresse (4)
             elif ( (tagged[2][1] == "NNP") and ((tagged[1][1] == ",") or (tagged[1][1] == ":") or (tagged[1][1] == ".")  or (tagged[3][1] == ","))):
                 if (j == 0):
-                    letterdata.append(sentence)
+                    letterdata.append((3,sentence))
                     j = j+1
                 else:
-                    letterdata.append(sentence)
+                    letterdata.append((4,sentence))
                     j = j-1
 
-            #Finds Types of letters
+            #Finds Types of letters (5)
             elif ((tagged[0][1] == "NN") and (tagged[1][1] == ",")):
-                letterdata.append(sentence)
+                letterdata.append((5,sentence))
 
         #ASSUME it is the letter summary if it is longer than 10
+        #Summary of letters in (6)
         if(len(tagged) > 10):
             summary = summary+sentence
 
         if(len(wholedoc) == count):
-            #print(wholedoc[count-1], k-1, summary)
-            letterdata.append(summary)
+            letterdata.append((6,summary))
+            filler(letterdata)
             letters.append(letterdata)
     return letters
 

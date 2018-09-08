@@ -51,8 +51,14 @@
             {% csrf_token %}
             <input type="file" name="myfile"></input>
             <button class="bt-submit" type="submit"> Scan file</button>
+        </form>
+
+        <form action = "{% url 'db:index' %}" method = "POST" id = "input_field" class = "input_form">
+            {% csrf_token %}
+
             <input type = "submit" name = "input_file" value = "Add File to DB"/>
         </form>
+
     </div>
 
     <div>

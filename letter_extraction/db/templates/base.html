@@ -16,7 +16,7 @@
             <a href="{% url 'db:index' %}">Home</a>
             <a href="{% url 'db:search' %}">Search</a>
             <a href="{% url 'db:upload' %}">Upload</a>
-            <a href="{% url 'db:logout' %}">Logout</a>
+            <a href="{% url 'db:logout' %}" id="logout">Logout</a>
         </div>
         
         {% endblock %}
@@ -29,13 +29,11 @@
     {% endblock %}
     </div>
 
-    {% block footer %}
     <div class="footer">
       <p><a href="{% url 'db:index' %}">Home</a></p>
       <p><a href="{% url 'db:search' %}">Search</a></p>
       <p><a href="{% url 'db:upload' %}">Upload</a></p>
     </div>
-    {% endblock %}
 
 </body>
 
