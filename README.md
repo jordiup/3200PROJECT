@@ -88,7 +88,7 @@ pip install mysqlclient
 ```
 mysqlclient‑1.3.13‑cp37‑cp37m‑win_amd64.whl
 ```
-And then in cmd/powershell, type: 
+And then in cmd/powershell, type:
 ```
 pip install {$PATH_TO_WHEEL}/mysqlclient‑1.3.13‑cp37‑cp37m‑win_amd64.whl
 pip install xlrd
@@ -128,6 +128,12 @@ If you wish to insert test data, there is a script in the main directory called 
 python3 manage.py shell
 ```
 and then run this script, after changing the default values that are in there. You can also play around with the data in there to test some things, view the Django tutorial if you want to see how to do that.
+
+If you are receiving errors do with nltk you may need to run the following in your terminal
+```
+nltk.download('averaged_perceptron_tagger')
+nltk.download("punkt")
+```
 
 ## Views
 
