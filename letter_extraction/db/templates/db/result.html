@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-    
+
     {% load static %}
     {% block head %}
     <title>Letter Search - Results</title>
@@ -18,14 +18,21 @@
     {% block body %}
 
     {% if document_list %}
-        <ul>
-        {% for document in document_list %}
-            <li>{{ document.id }}</li>
-            <li>{{ document.archive_number }}</li>
-        {% endfor %}
-        </ul>
+       <table class = "results_table">
+       <tr>
+       {% for document in document_list %}
+        <th> {{document}}   </th>
+                {% endfor %}
+        </tr>
+        <tr>
+              {% for document1 in data %}
+
+                    <th>  {{document1}}   </th>
+                        {% endfor %}
+                    </tr>
+
     {% else %}
         <p>No results.</p>
     {% endif %}
-    
+
     {% endblock %}

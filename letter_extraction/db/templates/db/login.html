@@ -13,9 +13,7 @@
     {% endblock %}
 
     {% block body %}
-    <div class="searchheader">
-        <h1>Login</h1>
-    </div>
+    <h1>Login</h1>
     <form method="POST"  action="{% url 'db:login' %}" id="form1"> 
         {% csrf_token %}
         
@@ -26,11 +24,9 @@
         <br>
         <input class="submitform" type="submit" value="Login" form="form1">
     </form>
-    <br>
-    <div class="searchbody">  
-        {% if message %}
-            {{message}}
-        {% endif%}
-    </div>
+    <br> 
+    {% if message %}
+        {{message}}
+    {% endif%}
 
     {% endblock %}
