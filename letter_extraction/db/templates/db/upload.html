@@ -29,10 +29,10 @@
     {% block hr %}
     <script src="{% static "db/logoutScript.js" %}"></script>
     <script>
-    function mydelete() {
-        var x = document.getElementById("myfile");
-        x.value="";
-    }
+        function mydelete() {
+            var x = document.getElementById("updfile");
+            x.value="";
+        }
     </script>
     <div class="header-right">
         <a href="{% url 'db:index' %}">Home</a>
@@ -50,7 +50,7 @@
         <button class="bt-discard" onclick="mydelete()">Discard file</button>
         <form action="{% url 'db:upload' %}" method="POST" id="uploadfield" enctype="multipart/form-data">
             {% csrf_token %}
-            <input type="file" name="myfile"></input>
+            <input type="file" name="myfile" id="updfile"></input>
             <button class="bt-submit" type="submit"> Scan file</button>
         </form>
     </div>
@@ -64,7 +64,7 @@
                 {% for i in letter %}
                 <tr>
                 {% for j in i %}
-                    <th>{{j}}</th>
+                    <th>{{j.1}}</th>
                 {% endfor %}
                 </tr>
                 {% endfor %}

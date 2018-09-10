@@ -9,17 +9,18 @@ import xlrd
 import re
 import pandas as pd
 
-#Excel scanner function
+#Xlsx and xls scanner function
 def xlscanner(filename):
     wb = pd.ExcelFile(filename)
-    headers = ['archive code','addressee','language']
+    #headers = ['archive code','addressee','language']
+    headlist = []
     totalsheet = len(wb.sheet_names)
     archcol = 0
     wholedoc=[]
-    headstart = -1
 
     #Goes thru each worksheet
     for ws in range(totalsheet):
+        headstart = -1
         letters = []
         sheet = pd.read_excel(wb,wb.sheet_names[ws],header=None,index_col=None)
         #Finds the data header // Goes thru each row
@@ -27,32 +28,30 @@ def xlscanner(filename):
             each = []
             for j in range (sheet.shape[1]):
                 content = sheet.iloc[i,j]
-                each.append(content)
+                if(headstart == -1):
+                    each.append((j,content))
+                else:
+                    each.append((headlist[ws][j][1],content))
                 j=j+1
 
             if (headstart == -1): #Finding header
                 m = 0
                 for k in each:
-                    if(type(k) == str):
-                        if (k.lower()=='archive code'):
+                    if(type(k[1]) == str):
+                        if (k[1].lower()=='archive code'):
                             archcol = m
                             headstart = i
+                            headlist.append(each)
                             break
                     m=m+1
             #Only adds non-empty list to letters
             #Does not add data with no archive number
-            if (pd.isnull(each[archcol])):
+            if (pd.isnull(each[archcol][1])):
                 continue
-            if(not all(pd.isnull(s) for s in each)):
+            if(not all(pd.isnull(s[1]) for s in each)):
                 letters.append(each)
             i = i+1
         wholedoc.append(letters)
-        #Sets NaN header into others
-        #myhead = 0
-        #for head in wholedoc[ws][headstart]:
-        #    if (pd.isnull(head)):
-        #        wholedoc[ws][headstart][myhead] = "Other"
-        #    myhead = myhead + 1
     return wholedoc
     
 #Fills in non-given metadata as empty string
@@ -146,10 +145,10 @@ def docxscanner(filename):
     return letters
         
 def main(filename):
-    #currently only for .docx and .xlsx files
-    if filename.name.endswith('.docx'):
+    #currently only for .docx and .xlsx and .xls files
+    if (filename.name.endswith('.docx')):
         return docxscanner(filename)
-    elif filename.name.endswith('.xlsx'):
+    elif ((filename.name.endswith('.xlsx')) or (filename.name.endswith('.xls'))):
         return xlscanner(filename)
     else:
         print('Only accept .docx and .xls files')

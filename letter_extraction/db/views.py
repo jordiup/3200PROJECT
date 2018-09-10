@@ -46,8 +46,8 @@ def upload(request):
     if request.method == 'POST' and request.FILES.get('myfile',False):
         result = upload_service.main(request.FILES['myfile'])
         indicator = 0 #docx files
-        if (request.FILES['myfile'].name.endswith('.xlsx')):
-            indicator = 1 #xlsx files
+        if (request.FILES['myfile'].name.endswith('.xlsx') or request.FILES['myfile'].name.endswith('.xls')):
+            indicator = 1 #xlsx and xls files
         #storing(result)
         return render(request,'db/upload.html',{"list":result, "indic": indicator})
     else:
