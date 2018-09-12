@@ -21,15 +21,16 @@
        <table class = "results_table">
        <tr>
        {% for document in document_list %}
-        <th> {{document}}   </th>
+        <th>Archive Number</th>
+        <th>Date Written</th>
                 {% endfor %}
         </tr>
-        <tr>
-              {% for document1 in data %}
+        </tr>
+              <!--{% for document1 in data %}
 
                     <th>  {{document1}}   </th>
                         {% endfor %}
-                    </tr>
+                    </tr>-->
 
     {% else %}
         <p>No results.</p>
