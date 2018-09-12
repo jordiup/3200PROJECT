@@ -57,8 +57,9 @@ def upload(request):
         global result
         result = upload_service.main(request.FILES['myfile'])
         indicator = 0 #docx files
-        if (request.FILES['myfile'].name.endswith('.xlsx')):
-            indicator = 1 #xlsx files
+        if (request.FILES['myfile'].name.endswith('.xlsx') or request.FILES['myfile'].name.endswith('.xls')):
+            indicator = 1 #xlsx and xls files
+        #storing(result)
         return render(request,'db/upload.html',{"list":result, "indic": indicator})
     else:
         template = loader.get_template('db/upload.html')
@@ -66,7 +67,7 @@ def upload(request):
     return render(request,'db/upload.html',context)
 
 
-def login(request):
+def login_user(request):
     message = None
     if request.method=="POST":
         form = AuthenticationForm(data=request.POST)
