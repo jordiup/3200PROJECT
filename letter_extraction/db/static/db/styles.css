@@ -34,6 +34,12 @@ h2 {
   color:#41474B;
 }
 
+h3 {
+  color:#797979;
+  padding-bottom:0;
+  margin-bottom:0.5rem;
+}
+
 /* effects search/login (maybe upload in future) buttons */
 .submitform{
   text-align: center;
@@ -133,6 +139,7 @@ h2 {
 .header a.active {
   background-color: #d1c5eb;
   color: white;
+  font-weight: bold;
 }
 
 /* headed panel floats left unless this is specified */
