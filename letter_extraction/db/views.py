@@ -7,7 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect, render_to_response
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from db.services import query_service, account_service, upload_service, storeFunction
+from db.services import query_service, account_service, upload_service, store_service
 from .models import *
 
 #Testing import python function
@@ -22,8 +22,8 @@ result = {}
 def index(request):
     if request.method == "POST":
         global result
-        storeFunction.addToModel(result)
-        result = ""
+        store_service.addToModel(result)
+        result = {}
     context = {}
     return render(request, 'db/index.html', context)
 
@@ -41,12 +41,12 @@ def search_result(request):
     search_type = str(request.GET['searchtype'])
     query_value = str(request.GET['query'])
     document_list = query_service.analyze_query_request(search_type, query_value)
-    categories = {}
-    metadata = {}
-    storeFunction.string_split(document_list, categories, metadata)
-    print(categories)
-    print(metadata)
-    context = {'document_list': categories, "data": metadata}
+    # categories = {}
+    # metadata = {}
+    # storeFunction.string_split(document_list, categories, metadata)
+    # print(categories)
+    # print(metadata)
+    context = {'document_list': document_list}
     return render(request, 'db/result.html', context)
 
 

@@ -16,14 +16,12 @@ class Person(models.Model):
 
 
 class Location(models.Model):
-    place_name_receiver = models.CharField(max_length=64, default = "Unknown")
-    place_name_sender = models.CharField(max_length=64, default = "Unknown")
-    place_name_both = models.CharField(max_length=128, default = "Unknown")
+    place_name = models.CharField(max_length=64, default = "Unknown")
     date_added = models.DateTimeField('date added')
     date_modified = models.DateTimeField('date modified')
 
     def __str__(self):
-        return str(self.place_name_both)
+        return str(self.place_name)
 
 
 class PersonLocation(models.Model): # this is just a table to denote a many-to-many relationship between Persons and Locations
@@ -42,11 +40,6 @@ class Document(models.Model):
     date_modified = models.DateTimeField('date modified')
 
     def __str__(self):
-
-
-
-
-
         return str(self.archive_number)
 
 # feel free to add more fields. To add these to the database, use python(3) manage.py makemigrations; and then python(3) manage.py migrate

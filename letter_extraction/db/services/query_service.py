@@ -20,33 +20,8 @@ def analyze_query_request(search_type, query_value):
     return results
 
 def process_archive_number(results, query_value):
-    documents = Document.objects.filter(archive_number__iexact=query_value).values()
-    documents_holder = documents[0]
-
-    personlocation_value = documents_holder["sender_id"]
-    personlocation_model = PersonLocation.objects.filter(pk=personlocation_value).values()
-    personlocation_holder = personlocation_model[0]
-
-    person_value = personlocation_holder["person_id"]
-    location_value = personlocation_holder["location_id"]
-
-    person_dictionary = Person.objects.filter(pk=person_value).values()
-    location_dictionary = Location.objects.filter(pk=location_value).values()
-    results.extend(x for x in person_dictionary)
-    results.extend(x for x in location_dictionary)
+    documents = Document.objects.filter(archive_number__iexact=query_value)
     results.extend([x for x in documents])
-    del(results[0][id])
-    del(results[1][id])
-    del(results[2][id])
-    del(results[0][date_added])
-    del(results[0][date_modified])
-    del(results[1][date_added])
-    del(results[1][date_modified])
-    del(results[2][date_added])
-    del(results[2][date_modified])
-    del(results[2][receiver_id])
-    del(results[2][sender_id])
-    print(results)
 
 def process_author(results, query_value):
     authors = Person.objects.filter(Q(first_name__iexact=query_value) | Q(last_name__iexact=query_value)
@@ -78,5 +53,8 @@ def process_date(results, query_value):
         int(query_value)
     except ValueError:
         return
-    documents.extend(objects.filter(date_written__year=query_value))
+    for oj in objects:
+        date_written = oj.date_written.split()
+        if query_value in date_written:
+            documents.append(oj)
     results.extend([x for x in documents])
