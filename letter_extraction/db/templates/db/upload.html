@@ -26,13 +26,6 @@
 
 
     {% block hr %}
-    <script>
-        function mydelete() {
-            var x = document.getElementById("updfile");
-            x.value="";
-        }
-    </script>
-
     <div class="header-right">
         <a href="{% url 'db:index' %}">Home</a>
         <a href="{% url 'db:search' %}">Search</a>
@@ -44,57 +37,76 @@
     {% block body %}
     <div class="searchheader">
         <h1>Upload your file!</h1>
-        <p>Note that we only accept .docx or .xlsx files at the moment!</p>
+        <p>Only accept .docx or .xlsx or .xls files!</p>
         <form action="{% url 'db:upload' %}" method="POST" id="uploadfield" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="custom-file-upload">
                 <button class="bt-upload">Upload a file</button>
                 <input type="file" name="myfile" id="updfile"></input>
             </div>
-            <p>Hover to see the file name!</p>
+            <div id="file-upload-name"></div>
             <button class="bt-submit" type="submit"> Scan file</button>
             <button class="bt-discard" onclick="mydelete()">Discard file</button>
         </form>
     </div>
-    <form action = "{% url 'db:index' %}" method = "POST" id = "input_field" class = "input_form">
-        {% csrf_token %}
-        <button class="bt-add" type="submit" name = "input_file">Add File to DB</button>
-    </form>
-    <br>
-    <div class="preview-results">
+    {% if list %}
+        <form action = "{% url 'db:index' %}" method = "POST" id = "input_field" class = "input_form">
+            {% csrf_token %}
+            <button class="bt-add" type="submit" name = "input_file">Add File to DB</button>
+        </form>
+        <br>
+        <div class="preview-results">
 
-    {# For xlsx files #}
-        {% if indic == 1 %} 
-        <h2 class="code">Data Preview</h2>
-            {% for letter in list %}
-            <table>
-                {% for i in letter %}
-                <tr>
-                {% for j in i %}
-                    <th>{{j.1}}</th>
+        {# For xlsx files #}
+            {% if indic == 1 %} 
+            <h2 class="code">Data Preview</h2>
+                {% for letter in list %}
+                <table>
+                    {% for i in letter %}
+                    <tr>
+                    {% for j in i %}
+                        <th>{{j.1}}</th>
+                    {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </table>
                 {% endfor %}
-                </tr>
-                {% endfor %}
-            </table>
-            {% endfor %}
-        {% endif %}
-
-    {# For docx files #}
-
-    {% if indic == 0 %}
-    <h2 class="code">Data Preview</h2>
-    {% for letter in list %}
-    <table>
-        <tr>
-        {% for i in letter %}
-            {% if i.1 != "" %}
-                <th>{{i.1}}</th>
             {% endif %}
-        {% endfor %}
-        </tr>
-    </table>
-    {% endfor %}
-    {% endif %}
-  </div>
 
+        {# For docx files #}
+
+        {% if indic == 0 %}
+        <h2 class="code">Data Preview</h2>
+        {% for letter in list %}
+        <table>
+            <tr>
+            {% for i in letter %}
+                {% if i.1 != "" %}
+                    <th>{{i.1}}</th>
+                {% endif %}
+            {% endfor %}
+            </tr>
+        </table>
+        {% endfor %}
+        {% endif %}
+        </div>
+    {% endif %}
+
+    <script>
+        var input = document.getElementById("updfile");
+        var infoArea = document.getElementById("file-upload-name");
+        
+        function mydelete() {
+            input.value="";
+            infoArea.textContent = "";
+        }
+
+        input.addEventListener("change", showFileName);
+
+        function showFileName( event ) {
+            var input = event.srcElement;
+            var fileName = input.files[0].name;
+            infoArea.textContent = "File selected: " + fileName;
+        }
+    </script>
     {% endblock %}
