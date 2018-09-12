@@ -136,7 +136,7 @@ h3 {
 
 /* highlights header links for mouse hover */
 .header a:hover {
-  background-color: #ddd;
+  background-color: #dfd8ed;
   color: black;
 }
 
