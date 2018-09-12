@@ -249,10 +249,16 @@ button {
   background-color: #27B372;
 }
 
+.bt-upload {
+  background-color: rgb(125, 100, 236);
+}
 /* makes discard button red and wider */
 .bt-discard {
   background-color:#D46C75;
-  width: 60%;
+}
+
+.bt-add {
+  background-color: rgb(58, 177, 185);
 }
 
 /* effects footer of the pages */
@@ -280,7 +286,23 @@ button {
 }
 
 
+.custom-file-upload {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
 
+.custom-file-upload .bt-upload {
+  cursor: pointer;
+}
+
+.custom-file-upload input[type="file"] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
 /* width */
 ::-webkit-scrollbar {
     width: 1em;

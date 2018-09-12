@@ -45,24 +45,27 @@
     <div class="searchheader">
         <h1>Upload your file!</h1>
         <p>Note that we only accept .docx or .xlsx files at the moment!</p>
-
-        <button class="bt-discard" onclick="mydelete()">Discard file</button>
         <form action="{% url 'db:upload' %}" method="POST" id="uploadfield" enctype="multipart/form-data">
             {% csrf_token %}
-            <input type="file" name="myfile" id="updfile"></input>
+            <div class="custom-file-upload">
+                <button class="bt-upload">Upload a file</button>
+                <input type="file" name="myfile" id="updfile"></input>
+            </div>
+            <p>Hover to see the file name!</p>
             <button class="bt-submit" type="submit"> Scan file</button>
+            <button class="bt-discard" onclick="mydelete()">Discard file</button>
         </form>
     </div>
     <form action = "{% url 'db:index' %}" method = "POST" id = "input_field" class = "input_form">
         {% csrf_token %}
-        <input type = "submit" name = "input_file" value = "Add File to DB"/>
+        <button class="bt-add" type="submit" name = "input_file">Add File to DB</button>
     </form>
     <br>
-    <h2 class="code">Data Preview</h2>
     <div class="preview-results">
 
     {# For xlsx files #}
         {% if indic == 1 %} 
+        <h2 class="code">Data Preview</h2>
             {% for letter in list %}
             <table>
                 {% for i in letter %}
@@ -79,6 +82,7 @@
     {# For docx files #}
 
     {% if indic == 0 %}
+    <h2 class="code">Data Preview</h2>
     {% for letter in list %}
     <table>
         <tr>
