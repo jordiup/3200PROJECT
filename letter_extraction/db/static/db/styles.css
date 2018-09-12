@@ -155,10 +155,10 @@ h3 {
 
 /* styling for the tables inside the results pages */
 .results_table{
-  width :100%
+  width :100%;
   border: 1px solid black;
   border-collapse: collapse;
-  background-color: #32CD32
+  background-color: rgb(118, 221, 244);
 }
 
 .results_table th

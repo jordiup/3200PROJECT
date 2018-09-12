@@ -20,16 +20,26 @@
     {% if document_list %}
        <table class = "results_table">
        <tr>
-       {% for document in document_list %}
-        <th> {{document}}   </th>
-                {% endfor %}
+            <th>Archive Name/Number</th>
+            <th>Document Type</th>
+            <th>Language</th>
+            <th>Date Written</th>
         </tr>
+        {% for document in document_list %}
+            <td>{{document.archive_number}}</td>
+            <td>{{document.document_type}}</td>
+            <td>{{document.language}}</td>
+            <td>{{document.date_written}}<td>
+        {% endfor %}
         <tr>
+
+        </tr>
+        {% comment %} <tr>
               {% for document1 in data %}
 
                     <th>  {{document1}}   </th>
                         {% endfor %}
-                    </tr>
+                    </tr> {% endcomment %}
 
     {% else %}
         <p>No results.</p>
