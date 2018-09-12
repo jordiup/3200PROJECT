@@ -3,7 +3,7 @@ from . import views
 
 app_name = 'db'
 urlpatterns = [
-    path('', views.index, name='index'),
+    #path('', views.index, name='index'),
     path('index/', views.index, name='index'),
     path('search/', views.search, name='search'),
     path('upload/', views.upload, name='upload'),
