@@ -16,14 +16,14 @@ class Person(models.Model):
 
 
 class Location(models.Model):
-    place_name = models.CharField(max_length=64, default = "Unknown")
-    # place_name_sender = models.CharField(max_length=64, default = "Unknown")
-    # place_name_both = models.CharField(max_length=128, default = "Unknown")
+    place_name_receiver = models.CharField(max_length=64, default = "Unknown")
+    place_name_sender = models.CharField(max_length=64, default = "Unknown")
+    place_name_both = models.CharField(max_length=128, default = "Unknown")
     date_added = models.DateTimeField('date added')
     date_modified = models.DateTimeField('date modified')
 
     def __str__(self):
-        return str(self.place_name)
+        return str(self.place_name_both)
 
 
 class PersonLocation(models.Model): # this is just a table to denote a many-to-many relationship between Persons and Locations
@@ -33,7 +33,7 @@ class PersonLocation(models.Model): # this is just a table to denote a many-to-m
 
 class Document(models.Model):
     archive_number = models.CharField(max_length=100)
-    date_written = models.DateTimeField('date written')
+    date_written = models.CharField(max_length=150)
     receiver = models.ForeignKey(PersonLocation, related_name='receiver', on_delete=models.CASCADE)
     sender = models.ForeignKey(PersonLocation, related_name='sender', on_delete=models.CASCADE)
     document_type = models.CharField(max_length=16)

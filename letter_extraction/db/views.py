@@ -41,7 +41,12 @@ def search_result(request):
     search_type = str(request.GET['searchtype'])
     query_value = str(request.GET['query'])
     document_list = query_service.analyze_query_request(search_type, query_value)
-    context = {'document_list': document_list}
+    categories = {}
+    metadata = {}
+    storeFunction.string_split(document_list, categories, metadata)
+    print(categories)
+    print(metadata)
+    context = {'document_list': categories, "data": metadata}
     return render(request, 'db/result.html', context)
 
 
