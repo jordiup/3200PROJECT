@@ -43,6 +43,7 @@ We have recently switched to MySQL! If you do not have a MySQL installation, ple
 - Download MySQL Community Edition : https://dev.mysql.com/downloads/mysql/ .
 - In the installer, select "Use strong password encryption".
 - **IMPORTANT:** For your root user, make the password "cits3200groupo". This is important because if you use your personal password and you commit your code, everyone will be editing the "password" field in settings.py at the same time and there will be merge conflicts. Even worse, everyone will be able to see your personal password! We have to make sure we all have the same password.
+- If your installation didn't work (Windows), you'll have to manually install. Go to https://www.youtube.com/watch?v=P99dA0yGY8g and watch it all the way through.
 - Download your favorite MySQL client. Options include MySQL Workbench and DataGrip among others.
 - Open a query window in the client. Type
 ```
@@ -75,6 +76,7 @@ brew install mysql
 ```
 
 - If you're on windows try (or ask @jordiup)
+- (NOTE) this is for Bash on Windows, if you require PowerShell/cmd help see below.
 ```
 sudo apt-get install python-dev python3-dev
 sudo apt-get install libmysqlclient-dev
@@ -82,7 +84,17 @@ pip install pymysql
 pip install mysqlclient
 ```
 
-I did not come across any issues on Windows.
+- On Windows, this has proven to be somewhat more difficult. You will need to install the appropriate wheel for your installation when installing the mysqlclient. Go to https://www.lfd.uci.edu/~gohlke/pythonlibs/#mysqlclient and download the wheel file corresponding to your Python version. For me, using Python 3.7, download the file called:
+```
+mysqlclient‑1.3.13‑cp37‑cp37m‑win_amd64.whl
+```
+And then in cmd/powershell, type:
+```
+pip install {$PATH_TO_WHEEL}/mysqlclient‑1.3.13‑cp37‑cp37m‑win_amd64.whl
+pip install xlrd
+pip install python-docx
+```
+This will install the correct mysqlclient module.
 
 - Now type
 ```
@@ -116,6 +128,12 @@ If you wish to insert test data, there is a script in the main directory called 
 python3 manage.py shell
 ```
 and then run this script, after changing the default values that are in there. You can also play around with the data in there to test some things, view the Django tutorial if you want to see how to do that.
+
+If you are receiving errors do with nltk you may need to run the following in your terminal
+```
+nltk.download('averaged_perceptron_tagger')
+nltk.download("punkt")
+```
 
 ## Views
 

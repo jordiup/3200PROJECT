@@ -3,6 +3,8 @@
 <html>
 <head>
     <link rel="stylesheet" href="{% static 'db/styles.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open Sans|Tangerine|Inconsolata">
+    <link rel="icon" type="image/png" href="{% static 'db/favicon-b.png' %}">
     {% block head %}
     <title></title>
     {% endblock %}
@@ -16,15 +18,21 @@
             <a href="{% url 'db:index' %}">Home</a>
             <a href="{% url 'db:search' %}">Search</a>
             <a href="{% url 'db:upload' %}">Upload</a>
+            <a href="{% url 'db:logout' %}" id="logout">Logout</a>
         </div>
+
         {% endblock %}
     </div>
     <div class="main">
     {% block body %}
-    <div class="searchheader">
         <h1>Under Construction!</h1>
-    </div>
     {% endblock %}
     </div>
+
+    <div class="footer">
+      © A/Prof John Kinder; Mr Francesco De Toni; UWA 2018
+    </div>
+
 </body>
+
 </html>

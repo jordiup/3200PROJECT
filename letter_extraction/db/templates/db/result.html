@@ -1,27 +1,48 @@
 {% extends 'base.html' %}
-    
+
+    {% load static %}
     {% block head %}
-    <title>Letter Search - Home</title>
+    <title>Letter Search - Results</title>
     {% endblock %}
 
     {% block hr %}
+    <script src="{% static "db/logoutScript.js" %}"></script>
     <div class="header-right">
         <a href="{% url 'db:index' %}">Home</a>
         <a class="active" href="{% url 'db:search' %}">Search</a>
         <a href="{% url 'db:upload' %}">Upload</a>
+        <a href="{% url 'db:logout' %}" onclick="logout()">Logout</a>
     </div>
     {% endblock %}
 
     {% block body %}
 
     {% if document_list %}
-        <ul>
+       <table class = "results_table">
+       <tr>
+            <th>Archive Name/Number</th>
+            <th>Document Type</th>
+            <th>Language</th>
+            <th>Date Written</th>
+        </tr>
         {% for document in document_list %}
-            <li>{{ document }}</li>
+            <td>{{document.archive_number}}</td>
+            <td>{{document.document_type}}</td>
+            <td>{{document.language}}</td>
+            <td>{{document.date_written}}<td>
         {% endfor %}
-        </ul>
+        <tr>
+
+        </tr>
+        {% comment %} <tr>
+              {% for document1 in data %}
+
+                    <th>  {{document1}}   </th>
+                        {% endfor %}
+                    </tr> {% endcomment %}
+
     {% else %}
-        <p>No polls are available.</p>
+        <p>No results.</p>
     {% endif %}
-    
+
     {% endblock %}

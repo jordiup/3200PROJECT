@@ -1,48 +1,112 @@
 {% extends 'base.html' %}
-    
+
     {% block head %}
     <title>Letter Search - Upload</title>
+
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 50%;
+            margin: 10px;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+            font-size:10px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
     {% endblock %}
 
-    
+
     {% block hr %}
-    <script>
-    function mydelete() {
-        var x = document.getElementById("myfile");
-        x.value="";
-    }
-    </script>
-    
     <div class="header-right">
         <a href="{% url 'db:index' %}">Home</a>
         <a href="{% url 'db:search' %}">Search</a>
         <a class="active" href="{% url 'db:upload' %}">Upload</a>
+        <a href="{% url 'db:logout' %}">Logout</a>
     </div>
     {% endblock %}
 
     {% block body %}
     <div class="searchheader">
         <h1>Upload your file!</h1>
-        <p>Note that we only accept .docx or .xlsx files at the moment!</p>
-
-        <button onclick="mydelete()">Discard file</button>
+        <p>Only accept .docx or .xlsx or .xls files!</p>
         <form action="{% url 'db:upload' %}" method="POST" id="uploadfield" enctype="multipart/form-data">
             {% csrf_token %}
-            <input type="file" name="myfile"></input>
-            <button type="submit"> Scan file</button>
+            <div class="custom-file-upload">
+                <button class="bt-upload">Upload a file</button>
+                <input type="file" name="myfile" id="updfile"></input>
+            </div>
+            <div id="file-upload-name"></div>
+            <button class="bt-submit" type="submit"> Scan file</button>
+            <button class="bt-discard" onclick="mydelete()">Discard file</button>
         </form>
     </div>
+    {% if list %}
+        <form action = "{% url 'db:index' %}" method = "POST" id = "input_field" class = "input_form">
+            {% csrf_token %}
+            <button class="bt-add" type="submit" name = "input_file">Add File to DB</button>
+        </form>
+        <br>
+        <div class="preview-results">
 
-    <div>
-        <table>
+        {# For xlsx files #}
+            {% if indic == 1 %} 
+            <h2 class="code">Data Preview</h2>
+                {% for letter in list %}
+                <table>
+                    {% for i in letter %}
+                    <tr>
+                    {% for j in i %}
+                        <th>{{j.1}}</th>
+                    {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </table>
+                {% endfor %}
+            {% endif %}
+
+        {# For docx files #}
+
+        {% if indic == 0 %}
+        <h2 class="code">Data Preview</h2>
         {% for letter in list %}
+        <table>
             <tr>
             {% for i in letter %}
-                <th>{{i}}</th>
+                {% if i.1 != "" %}
+                    <th>{{i.1}}</th>
+                {% endif %}
             {% endfor %}
             </tr>
-        {% endfor %}
         </table>
-    </div>
-    
+        {% endfor %}
+        {% endif %}
+        </div>
+    {% endif %}
+
+    <script>
+        var input = document.getElementById("updfile");
+        var infoArea = document.getElementById("file-upload-name");
+        
+        function mydelete() {
+            input.value="";
+            infoArea.textContent = "";
+        }
+
+        input.addEventListener("change", showFileName);
+
+        function showFileName( event ) {
+            var input = event.srcElement;
+            var fileName = input.files[0].name;
+            infoArea.textContent = "File selected: " + fileName;
+        }
+    </script>
     {% endblock %}

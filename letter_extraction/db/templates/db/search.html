@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 {% extends 'header.html' %}
 <html>
@@ -5,25 +6,49 @@
 {% load staticfiles %}
     <link rel="stylesheet" href="{% static 'db/styles.css' %}">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+=======
+{% extends 'base.html' %}
+
+    {% load static %}
+    {% block head %}
+>>>>>>> develop/mvp
     <title>Letter Search - Search</title>
+    {% endblock %}
 
     {% block hr %}
+    <script src="{% static "db/logoutScript.js" %}"></script>
     <div class="header-right">
         <a href="{% url 'db:index' %}">Home</a>
         <a class="active" href="{% url 'db:search' %}">Search</a>
         <a href="{% url 'db:upload' %}">Upload</a>
+        <a href="{% url 'db:logout' %}" onclick="logout()">Logout</a>
     </div>
     {% endblock %}
 
     {% block body %}
+<<<<<<< HEAD
     <div class="searchheader">
         <h1> Search through our Database! </h1>
     </div>
         <p> Search by: </p>
+=======
+    <h1>Search through our database! </h1>
+
+    <p>You can search our database directly by typing in some query words.
+    You can search for document names, authors, locations and years.
+    </p>
+    <p> Search by: </p>
+    
+>>>>>>> develop/mvp
     <form method="GET"  action="{% url 'db:result' %}" id="form1">
         <div class="select">
+            <input type="radio" name="searchtype" value="document" form="form1" required>Archive Name/Number
+            <input type="radio" name="searchtype" value="author" form="form1">Author
+            <input type="radio" name="searchtype" value="location" form="form1">Location
+            <input type="radio" name="searchtype" value="date" form="form1">Year
         </div>
         <br>
+<<<<<<< HEAD
         <div class="searchbar_container">
             <input type="text" class="searchbar" value = "form1" id = "bar">
         </div>
@@ -54,64 +79,11 @@
 		</select>
 
 
+=======
+        <input type="text" name="query" class="searchbar" form="form1" required>
+        <br>
+        <br>
+        <input class="submitform" type="submit" value="Search" form="form1">
+    </form>
+>>>>>>> develop/mvp
     {% endblock %}
-
-<script>
-function clear_search()
-{
-		var text = 	document.getElementById("Search_Criteria_Text").value;
-		text = "";
-		document.getElementById("Search_Criteria_Text").value = text;
-
-}
-
-
-
-function dropFunction()
-{
-		document.getElementById('main_dropdown').classList.toggle('show');
-
-}
-
-
-window.onclick = function(event) {
-if(!event.target.matches('.dropbtn'))
-	{
-			var dropdowns = document.getElementsByClassName("dropdown-content");
-			var i;
-			for (i = 0; i < dropdowns.length; i++)
-			{
-				var openDropdown = dropdowns[i];
-				if (openDropdown.classList.contains('show'))
-				{
-					openDropdown.classList.remove('show');
-				}
-		}
-	}
-}
-function clickFunction(clicked_id)
-	{
-			document.getElementById("dropbutton").innerHTML = clicked_id
-	}
-
-
-function Input_Search()
-{
-	var original_text = 	document.getElementById("Search_Criteria_Text").value;
-	var category = document.getElementById("dropbutton").innerHTML;
-	var modifier = document.getElementById("bar").value;
-	if(original_text != null || original_text != "")
-	{
-		original_text =  original_text + "Search Category:" + category + " " + "Modifier:" + modifier + '\n';
-	}
-	else
-	{
-			original_text =  "Search Category:" + category + " " + "Modifier:" + modifier + '\n';
-	}
-	document.getElementById("Search_Criteria_Text").value= original_text;
-	linebreak = document.createElement("br");
-	document.getElementById("Search_Criteria_Text").appendChild(linebreak);
-}
-</script>
-</body>
-</html>

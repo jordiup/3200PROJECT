@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
     
     {% block head %}
-    <title>Letter Search - Home</title>
+    <title>Letter Search - Login</title>
     {% endblock %}
 
     {% block hr %}
@@ -13,9 +13,7 @@
     {% endblock %}
 
     {% block body %}
-    <div class="searchheader">
-        <h1>Login</h1>
-    </div>
+    <h1>Login</h1>
     <form method="POST"  action="{% url 'db:login' %}" id="form1"> 
         {% csrf_token %}
         
@@ -24,8 +22,15 @@
         </div>
         <br>
         <br>
-        <div class="submitform">
-            <input type="submit" value="Login" form="form1">    
+        <input class="submitform" type="submit" value="Login" form="form1">
+        <br>
+        <div style="font-size:10px">
+            <i>Don't have an account? Request for an account to this e-mail: Francesco.detoni@research.uwa.edu.au</i>
         </div>
     </form>
+    <br> 
+    {% if message %}
+        {{message}}
+    {% endif%}
+
     {% endblock %}
