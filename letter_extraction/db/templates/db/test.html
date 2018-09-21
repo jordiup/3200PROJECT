@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+<title>Letter Search - Upload</title>
+
+
+    {% block hr %}
+    <div class="header-right">
+        <a href="{% url 'db:index' %}">Home</a>
+        <a href="{% url 'db:search' %}">Search</a>
+        <a class="active" href="{% url 'db:upload' %}">Upload</a>
+        <a href="{% url 'db:logout' %}">Logout</a>
+    </div>
+    {% endblock %}
+
+
+
+      {% block body %}
+        {% if document_test_form %}
+          <form method = "POST" action = "">
+              {% csrf_token %}
+            {{document_test_form}}
+            {{person_test_form}}
+            {{location_test_form}}
+              {% csrf_token %}
+              <input type = "submit" value = "Save">
+          </form>
+          {% else %}
+              <p>No results.</p>
+          {% endif %}
+
+        {% endblock %}
