@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect, render_to_response
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import Q
 from db.services import query_service, account_service, upload_service, store_service
 from .models import *
@@ -30,6 +30,8 @@ def index(request):
 
 @login_required
 def search(request):
+    if not request.user.has_perm('db.can_search'):
+        return render(request, 'db/index.html', {"message":"You do not have the permissions to perform this task!"})
     template = loader.get_template('db/search.html')
     context = {
     }
@@ -38,6 +40,8 @@ def search(request):
 
 @login_required
 def search_result(request):
+    if not request.user.has_perm('db.can_search'):
+        return render(request, 'db/index.html', {"message":"You do not have the permissions to perform this task!"})
     search_type = str(request.GET['searchtype'])
     query_value = str(request.GET['query'])
     document_list = query_service.analyze_query_request(search_type, query_value)
@@ -52,6 +56,8 @@ def search_result(request):
 
 @login_required
 def upload(request):
+    if not request.user.has_perm('db.can_upload'):
+        return render(request, 'db/index.html', {"message":"You do not have the permissions to perform this task!"})
     if request.method == "POST" and  request.FILES.get('myfile',False):
         print("sad")
         global result

@@ -1,5 +1,6 @@
 from django.db import models
 from django import forms
+from django.contrib.auth.models import User
 # Create your models here.
 from django.db.models import CharField
 
@@ -38,8 +39,21 @@ class Document(models.Model):
     language = models.CharField(max_length=16)
     date_added = models.DateTimeField('date added', null=True, default=None)
     date_modified = models.DateTimeField('date modified')
+    uploaded_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.archive_number)
+
+class Privileges(models.Model):
+    
+    class Meta:
+
+        managed = False
+
+        permissions = (
+            ('can_upload', 'User has the ability to upload a document.'),
+            ('can_search', 'Permissions of can_upload, plus the ability to search the archive database'),
+            ('can_edit', 'Permissions of can_search, plus the ability to edit data'),
+        )
 
 # feel free to add more fields. To add these to the database, use python(3) manage.py makemigrations; and then python(3) manage.py migrate
