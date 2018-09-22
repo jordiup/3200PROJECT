@@ -16,6 +16,11 @@
     {% endblock %}
 
     {% block body %}
+        {% if message %}
+          <h2 style="color: red">{{message}}</h2>
+        {% endif %}
+
+
         <h1>Welcome To The Historical Archive Search!</h1>
 
       <h2> The Search Button!</h2>
