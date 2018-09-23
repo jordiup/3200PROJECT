@@ -267,6 +267,11 @@ button {
   background-color: rgb(58, 177, 185);
 }
 
+.bt-download {
+  background-color: rgb(58, 77, 185);
+  position: relative;
+}
+
 /* effects footer of the pages */
 .footer {
   position: fixed;
