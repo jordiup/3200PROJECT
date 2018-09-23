@@ -30,7 +30,7 @@ class PersonLocation(models.Model): # this is just a table to denote a many-to-m
 
 
 class Document(models.Model):
-    archive_number = models.CharField(max_length=100)
+    archive_number = models.CharField(max_length=300)
     date_written = models.CharField(max_length=150)
     receiver = models.ForeignKey(PersonLocation, related_name='receiver', on_delete=models.CASCADE)
     sender = models.ForeignKey(PersonLocation, related_name='sender', on_delete=models.CASCADE)
