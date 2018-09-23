@@ -16,7 +16,7 @@ class Person(models.Model):
 
 
 class Location(models.Model):
-    place_name = models.CharField(max_length=64, default = "Unknown")
+    place_name = models.CharField(max_length=128, default = "Unknown")
     date_added = models.DateTimeField('date added')
     date_modified = models.DateTimeField('date modified')
 

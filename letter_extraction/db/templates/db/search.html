@@ -1,17 +1,7 @@
-<<<<<<< HEAD
-<!DOCTYPE html>
-{% extends 'header.html' %}
-<html>
-<head>
-{% load staticfiles %}
-    <link rel="stylesheet" href="{% static 'db/styles.css' %}">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-=======
 {% extends 'base.html' %}
 
     {% load static %}
     {% block head %}
->>>>>>> develop/mvp
     <title>Letter Search - Search</title>
     {% endblock %}
 
@@ -26,20 +16,13 @@
     {% endblock %}
 
     {% block body %}
-<<<<<<< HEAD
-    <div class="searchheader">
-        <h1> Search through our Database! </h1>
-    </div>
-        <p> Search by: </p>
-=======
     <h1>Search through our database! </h1>
 
     <p>You can search our database directly by typing in some query words.
     You can search for document names, authors, locations and years.
     </p>
     <p> Search by: </p>
-    
->>>>>>> develop/mvp
+
     <form method="GET"  action="{% url 'db:result' %}" id="form1">
         <div class="select">
             <input type="radio" name="searchtype" value="document" form="form1" required>Archive Name/Number
@@ -48,42 +31,9 @@
             <input type="radio" name="searchtype" value="date" form="form1">Year
         </div>
         <br>
-<<<<<<< HEAD
-        <div class="searchbar_container">
-            <input type="text" class="searchbar" value = "form1" id = "bar">
-        </div>
-        <div class="submitform">
-            <button type="submit" class="search_button">
-						<i class="fa fa-search"></i>
-					</button>
-        </div>
-    </form>
-
-		<button value = "Input" onclick = "Input_Search()">Input Search Criteria</button>
-		<button value = "Input" onclick = "clear_search()">Clear Search Criteria</button>
-		<p class = "Search_Text"> Current Search Criteria: </p>
-		<textarea id = "Search_Criteria_Text" class = "Search_Criteria_Text"  rows = "20"> </textarea>
-
-		<div class = "dropdown">
-			<button onclick = "dropFunction()" class = "dropbtn" id = "dropbutton"> Advanced Search </button>
-	  	<div id = "main_dropdown" class = "dropdown-content">
-				{% block content %}
-            {% endblock %}
-			</div>
-		</div>
-
-		<div class = "categories" style = "width:200px;">
-		<select>
-				<option value = "0"> happy </option>
-				<option value = "1"> sad </option> 
-		</select>
-
-
-=======
         <input type="text" name="query" class="searchbar" form="form1" required>
         <br>
         <br>
         <input class="submitform" type="submit" value="Search" form="form1">
     </form>
->>>>>>> develop/mvp
     {% endblock %}

@@ -4,7 +4,8 @@ from django.contrib import admin
 
 from django.contrib import admin
 
-from .models import Person, Location
+from .models import Person, Location, Document
 
 admin.site.register(Person)
 admin.site.register(Location)
+admin.site.register(Document)

@@ -18,13 +18,19 @@ from .models import *
 from django.template import RequestContext
 
 result = {}
+indicator = 0
 
 @login_required
 def index(request):
     if request.method == "POST":
         global result
-        store_service.addToModel(result)
-        result = {}
+        global indicator
+        if indicator == 0:
+            store_service.addToModel(result)
+        elif indicator == 1:
+            store_service.addToModel_xlsx(result)
+            indicator = 0
+    result = {}
     context = {}
     return render(request, 'db/index.html', context)
 
@@ -52,6 +58,7 @@ def search_result(request):
 @login_required
 def upload(request):
     if request.method == "POST" and  request.FILES.get('myfile',False):
+        global indicator
         global result
         result = upload_service.main(request.FILES['myfile'])
         indicator = 0 #docx files
