@@ -21,31 +21,43 @@
     <button class="bt-download" onclick="to_csv()">Download as CSV</button>
 
     {% if document_list %}
-       <table class = "results_table">
-       <tr>
-            <th>Archive Name/Number</th>
-            <th>Document Type</th>
-            <th>Language</th>
-            <th>Date Written</th>
-        </tr>
+       <table id = "results_table" class = "results_table2">
+         <tr>
         {% for document in document_list %}
-            <td>{{document.archive_number}}</td>
-            <td>{{document.document_type}}</td>
-            <td>{{document.language}}</td>
-            <td>{{document.date_written}}<td>
+            <th>{{document}}</th>
         {% endfor %}
+
+      </tr>
         <tr>
-
-        </tr>
-        {% comment %} <tr>
-              {% for document1 in data %}
-
-                    <th>  {{document1}}   </th>
-                        {% endfor %}
-                    </tr> {% endcomment %}
+        <div class = "modify_button_holder", id = "holder">
+        {% for document1 in data %}
+          <td>  {{document1}}   </td>
+          {% endfor %}
+          </tr>
+        </table>
+          <form action = "{% url 'db:test' %}" method = "POST" id = "modify_field">
+              {% csrf_token %}
+              <input type="radio" name="searchtype" value="author" form="modify_field" id = "tester">
+              <input id="modify_button" type="submit" onclick = modify_function(), name = "modifier" value = "" form ="modify_field">
+          </form>
+          </div>
 
     {% else %}
         <p>No results.</p>
     {% endif %}
 
     {% endblock %}
+
+
+
+  <script>
+  modify_function()
+  {
+      var enumeration = document.getElementById("holder").getElementsByTagName("TD")
+      var archive_number = enumeration[4]
+      document.getElementById("tester").value = archive_number
+  }
+
+
+
+  </script>

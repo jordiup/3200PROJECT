@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <link rel="stylesheet" href="{% static 'db/styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    {% block head %}
+    <title></title>
+    {% endblock %}
+</head>
+
+<body>
+    <div class="header">
+        <a href="{% url 'db:index' %}" class="logo">Historical Archive Search</a>
+        {% block hr %}
+        <div class="header-right">
+            <!--<a class="active" href="{% url 'db:index' %}">Home</a>-->
+            <a href="{% url 'db:index' %}">Home</a>
+            <a href="{% url 'db:search' %}">Search</a>
+            <a href="{% url 'db:upload' %}">Upload</a>
+        </div>
+        {% endblock %}
+
+      </div>
+        {% block body %}
+      {% endblock %}
+      </div>
+  </body>
+  </html>
