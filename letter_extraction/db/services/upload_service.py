@@ -56,15 +56,14 @@ def xlscanner(filename):
 
 #Fills in non-given metadata as empty string
 def filler(myletter):
-    indicator = [0,1,2,3,4,5,6,7]
+    indicator = [0,1,2,3,4,5,6,7,8,9]
     for i in myletter:
         for j in indicator:
             if (i[0] == j):
                 indicator.remove(j)
-
     #Adds empty string for non-given metadata
     for m in indicator:
-        myletter.append( (m, "") )
+        myletter.append( (m, "None") )
 
 #Docx scanner function
 def docxscanner(filename):
@@ -73,7 +72,11 @@ def docxscanner(filename):
     #lists of every letter data
     letters = []
     summary = ''
+    npages = ''
     letterdata = []
+    headername = [(0,'Reference Number'),(1,'Archive Collection'),(2,'Date written'),(3,'Author'),(4,'Author Location'),
+    (5,'Recipient'),(6,'Recipient Location'),(7,'Types and Language'),(8,'Summary'),(9,'Physical Description')]
+    letters.append(headername)
     #regex for splitting \n and \t
     regex = re.compile(r'[\n\r\t]')
 
@@ -83,6 +86,7 @@ def docxscanner(filename):
     k = 1 #initialise index letter
     j = 0 #initialise receiver and sender indicator
     count = 0
+    nlines = 0
     #Give each words a named entity
     for sentence in wholedoc:
         count = count+1
@@ -95,10 +99,17 @@ def docxscanner(filename):
         if (len(tagged) == 1):
             if(tagged[0][0] == str(k)):
                 if(k!=1):
+                    #Check if summary and npages is not empty
+                    if( not not summary ):
+                        letterdata.append((8,summary))
+                    if (not not npages):
+                        letterdata.append((9,npages))
                     filler(letterdata)
-                    letterdata.append((6,summary))
-                    letters.append(letterdata)
+                    letters.append(sorted(letterdata))
                 summary=''
+                npages=''
+                nlines = 0
+                j=0
                 k = k+1
                 letterdata = []
 
@@ -106,42 +117,63 @@ def docxscanner(filename):
             elif (tagged[0][1] == "JJ"):
                 letterdata.append((0,sentence))
 
-            #Finds Letter Addressee (1)
+            #Finds Archive Collection (1)
             elif (tagged[0][1] == "NN"):
                 letterdata.append((1,sentence))
 
         #Finds Letter Sender
-        if (len(tagged) > 2):
-            #amount pages (7)
-            if(((tagged[0][1] == "(") or (tagged[0][1] == ".")) and ((tagged[2][1] == "NNS") or (tagged[2][1] == "NN") or (tagged[1][1] == "$"))):
-                letterdata.append((7,sentence))
-
+        if (len(tagged) > 2 and len(tagged) < 10 and nlines < 8):
             #Dates (2)
-            elif ( (tagged[2][1] == "CD") and ((tagged[1][1] == ",") or (tagged[1][1] == "NNP") or (tagged[1][1] == ":") or (tagged[1][1] == ".") or (tagged[3][1] == ","))):
+            if ( (tagged[2][1] == "CD") and ((tagged[1][1] == ",") or (tagged[1][1] == "NNP") or (tagged[1][1] == ":") or (tagged[1][1] == ".") or (tagged[3][1] == ","))):
                 letterdata.append((2,sentence))
 
-            #Sender (3) & Addresse (4)
-            elif ( (tagged[2][1] == "NNP") and ((tagged[1][1] == ",") or (tagged[1][1] == ":") or (tagged[1][1] == ".")  or (tagged[3][1] == ","))):
-                if (j == 0):
-                    letterdata.append((3,sentence))
-                    j = j+1
-                else:
-                    letterdata.append((4,sentence))
-                    j = j-1
-
-            #Finds Types of letters (5)
-            elif ((tagged[0][1] == "NN") and (tagged[1][1] == ",")):
-                letterdata.append((5,sentence))
-
-        #ASSUME it is the letter summary if it is longer than 10
-        #Summary of letters in (6)
-        if(len(tagged) > 10):
+            #Sender (3) and its' location (4)
+            #Addresse (5) and its' location (6)
+            elif( len(letterdata) < 7):        
+                if ( (tagged[len(tagged)-1][0] == "]" or tagged[len(tagged)-1][0] == ")" or tagged[len(tagged)-1][1] == "." or tagged[len(tagged)-1][1] == "NNP")and ((tagged[0][1] == "NNP") or tagged[0][1] == "JJ") ):
+                    if (j == 0):
+                        sentence = sentence.split(',',1)
+                        if ( len(sentence) == 1):
+                            sentence = sentence[0].split(';',1)
+                            if ( len(sentence) == 1): 
+                                continue
+                        letterdata.append((3,sentence[0].strip(' [ ] ( ) ?')))
+                        letterdata.append((4,sentence[1].strip(' [ ] ( ) ?')))
+                        j = j+1
+                        continue
+                    else:
+                        sentence = sentence.split(',',1)
+                        if ( len(sentence) == 1):
+                            sentence = sentence[0].split(';',1)
+                            if ( len(sentence) == 1): 
+                                continue
+                        letterdata.append((5,sentence[0].strip(' [ ] ( ) ?')))
+                        letterdata.append((6,sentence[1].strip(' [ ] ( ) ?')))
+                        j = j-1
+                        continue
+            #Finds Types of letters (7)
+            if ((tagged[0][1] == "NN" or tagged[0][1] == "NNP") and (tagged[len(tagged)-1][1] == "JJ" or tagged[len(tagged)-1][0] == "English") and ((tagged[1][1] == ",") or (tagged[1][1] == ".") or (tagged[2][1] == ",") or (tagged[2][1] == "."))):
+                letterdata.append((7,sentence))
+        #ASSUME it is the letter summary if it is longer than 15 words
+        #Summary of letters in (8)
+        if(len(tagged) > 15):
             summary = summary+sentence
 
+        #amount pages (9)
+        if (len(tagged) > 2 and nlines > 4):
+            if(((tagged[0][1] == "(") or (tagged[0][1] == ".")) and ((tagged[2][1] == "NNS") or (tagged[2][1] == "NN") or (tagged[1][1] == "$"))):
+                npages = sentence
+
+        #Last letter of the document
         if(len(wholedoc) == count):
-            letterdata.append((6,summary))
+            #letterdata.append((8,summary))
+            if( not not summary ):
+                letterdata.append((8,summary))
+            if (not not npages):
+                letterdata.append((9,npages))
             filler(letterdata)
-            letters.append(letterdata)
+            letters.append(sorted(letterdata))
+        nlines = nlines+1
     return letters
 
 def main(filename):

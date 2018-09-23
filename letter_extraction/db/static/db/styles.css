@@ -14,7 +14,8 @@ body {
 
 /* effects contents of that page (ie: stuff in the box) */
 .main {
-  background-color: #d1c5eb;
+  background-color: linen;
+  background-size: cover;
   padding: 2rem 2rem 2rem 2rem;
   margin: 2rem 20%;
   text-align: center;
@@ -57,7 +58,7 @@ h3 {
   display: block;
   margin:auto;
 
-  background-color: #1E90FF;
+  background-color: gold;
   border: none;
   color: black;
   padding: 16px 32px;
@@ -116,7 +117,7 @@ h3 {
 /* effects header panel */
 .header {
   overflow: hidden;
-  background-color: #bdc5db;
+  background-color: orange;
   padding: 20px 10px;
   border-radius: 5px;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.15);
@@ -148,7 +149,7 @@ h3 {
 
 /* highlights page currently being viewed */
 .header a.active {
-  background-color: #d1c5eb;
+  background-color: midnightblue;
   color: white;
   font-weight: bold;
 }
@@ -279,8 +280,8 @@ button {
   bottom: 0;
   width: 100%;
   padding: 0.8rem 0 0.8rem 0;
-  background-color: white;
-  color: darkgrey;
+  background-color: black;
+  color: white;
   text-align: center;
 }
 

@@ -77,17 +77,17 @@
 
         {% if indic == 0 %}
         <h2 class="code">Data Preview</h2>
-        {% for letter in list %}
         <table>
+            {% for letter in list %}
             <tr>
-            {% for i in letter %}
-                {% if i.1 != "" %}
+                {% for i in letter %}
+                {% if i.1 != ""%}
                     <th>{{i.1}}</th>
                 {% endif %}
-            {% endfor %}
+                {% endfor %}
             </tr>
+            {% endfor %}
         </table>
-        {% endfor %}
         {% endif %}
         </div>
     {% endif %}
