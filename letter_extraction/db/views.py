@@ -26,9 +26,9 @@ def index(request):
         global result
         global indicator
         if indicator == 0:
-            store_service.addToModel(result)
+            store_service.addToModel(result, request.user)
         elif indicator == 1:
-            store_service.addToModel_xlsx(result)
+            store_service.addToModel_xlsx(result, request.user)
             indicator = 0
     result = {}
     context = {}

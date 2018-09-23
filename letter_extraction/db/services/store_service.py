@@ -7,7 +7,7 @@ from django.utils import timezone
 from db.models import *
 
 #Gathers which data is from which part of the results array
-def addToModel(input):
+def addToModel(input, user):
     if input == {}:
         return
     holder_of_categories = input[0]
@@ -41,10 +41,10 @@ def addToModel(input):
 
 
     documentInstance = Document(archive_number=archival_number, date_written= letter_writtenDate, receiver=person_location_receiver, sender=person_location_sender, document_type='diary',
-        language= spliced_language , date_added=timezone.now(), date_modified=timezone.now())
+        language= spliced_language , date_added=timezone.now(), date_modified=timezone.now(), uploaded_by=user)
     documentInstance.save()
 
-def addToModel_xlsx(input):
+def addToModel_xlsx(input, user):
     if input == {}:
         return
     holder_of_categories = input[0][0]
@@ -114,7 +114,7 @@ def addToModel_xlsx(input):
             person_location_sender.save()
 
             documentInstance = Document(archive_number=archival_number, date_written= date_written, receiver=person_location_receiver, sender=person_location_sender, document_type='diary',
-                language= spliced_language , date_added=timezone.now(), date_modified=timezone.now())
+                language= spliced_language , date_added=timezone.now(), date_modified=timezone.now(), uploaded_by=user)
             documentInstance.save()
 def string_split(input_dictionary, a, b):
     count = 0

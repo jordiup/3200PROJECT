@@ -36,7 +36,7 @@ class Document(models.Model):
     receiver = models.ForeignKey(PersonLocation, related_name='receiver', on_delete=models.CASCADE)
     sender = models.ForeignKey(PersonLocation, related_name='sender', on_delete=models.CASCADE)
     document_type = models.CharField(max_length=16)
-    language = models.CharField(max_length=16)
+    language = models.CharField(max_length=64)
     date_added = models.DateTimeField('date added', null=True, default=None)
     date_modified = models.DateTimeField('date modified')
     uploaded_by = models.ForeignKey(User, on_delete=models.CASCADE)
