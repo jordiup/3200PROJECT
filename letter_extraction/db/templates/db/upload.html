@@ -45,8 +45,8 @@
                 <input type="file" name="myfile" id="updfile"></input>
             </div>
             <div id="file-upload-name"></div>
-            <button class="bt-submit" type="submit"> Scan file</button>
-            <button class="bt-discard" onclick="mydelete()">Discard file</button>
+            <button class="bt-submit" type="submit" id="scanfile"> Scan file</button>
+            <button class="bt-discard" onclick="mydiscard()">Discard file</button>
         </form>
     </div>
     {% if list %}
@@ -54,6 +54,12 @@
             {% csrf_token %}
             <button class="bt-add" type="submit" name = "input_file">Add File to DB</button>
         </form>
+        <br>
+        
+        {% if fname %}
+            <div> <b>Scanned file:</b> <i>{{fname}}</i> </div>
+        {% endif %}
+
         <br>
         <div class="preview-results">
 
@@ -93,25 +99,27 @@
     {% endif %}
 
     <script>
-        var input = document.getElementById("updfile");
+        var inputfile = document.getElementById("updfile");
+        var scanfile = document.getElementById("scanfile");
         var infoArea = document.getElementById("file-upload-name");
 
-        function mydelete() {
-            input.value="";
+        function mydiscard() {
+            inputfile.value="";
             infoArea.textContent = "";
         }
 
-        input.addEventListener("change", showFileName);
+        inputfile.addEventListener("change", showFileName);
+        scanfile.addEventListener("click", checkFile);
 
         function showFileName( event ) {
             var input = event.srcElement;
             var fileName = input.files[0].name;
             infoArea.textContent = "File selected: " + fileName;
         }
+        function checkFile( event ) {
+            if (inputfile.files.length == 0){
+                alert("No file is selected for scanning!");
+            }
+        }
     </script>
     {% endblock %}
-    <h2>Second card</h2>
-
-    <div class="main">
-
-    </div>

@@ -59,14 +59,13 @@ def upload(request):
     if not request.user.has_perm('db.can_upload'):
         return render(request, 'db/index.html', {"message":"You do not have the permissions to perform this task!"})
     if request.method == "POST" and  request.FILES.get('myfile',False):
-        print("sad")
         global result
         result = upload_service.main(request.FILES['myfile'])
         indicator = 0 #docx files
         if (request.FILES['myfile'].name.endswith('.xlsx') or request.FILES['myfile'].name.endswith('.xls')):
             indicator = 1 #xlsx and xls files
         #storing(result)
-        return render(request,'db/upload.html',{"list":result, "indic": indicator})
+        return render(request,'db/upload.html',{"list":result, "indic": indicator, "fname": request.FILES['myfile'].name})
     else:
         template = loader.get_template('db/upload.html')
         context = {}
