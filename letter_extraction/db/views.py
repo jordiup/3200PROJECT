@@ -71,7 +71,7 @@ def upload(request):
         if (request.FILES['myfile'].name.endswith('.xlsx') or request.FILES['myfile'].name.endswith('.xls')):
             indicator = 1 #xlsx and xls files
         #storing(result)
-        return render(request,'db/upload.html',{"list":result, "indic": indicator})
+        return render(request,'db/upload.html',{"list":result, "indic": indicator, "fname": request.FILES['myfile'].name})
     else:
         template = loader.get_template('db/upload.html')
         context = {}

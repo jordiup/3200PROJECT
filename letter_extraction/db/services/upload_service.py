@@ -1,11 +1,10 @@
 # reading metadata from docx and storing in array
-# need to download docx module first
+# need to download docx, pandas, re, nltk module first
 # i.e. $pip install --pre python-docx
 
 import os
 import docx
 import nltk
-import xlrd
 import re
 import pandas as pd
 
@@ -20,20 +19,27 @@ def xlscanner(filename):
 
     #Goes thru each worksheet
     for ws in range(totalsheet):
+        p = 0
         headstart = -1
         letters = []
         sheet = pd.read_excel(wb,wb.sheet_names[ws],header=None,index_col=None)
-        #Finds the data header // Goes thru each row
+        #Stores header names
         for i in range (sheet.shape[0]):
             each = []
             for j in range (sheet.shape[1]):
                 content = sheet.iloc[i,j]
                 if(headstart == -1):
-                    each.append((j,content))
-                else:
-                    each.append((headlist[ws][j][1],content))
+                    if(not pd.isnull(content)):
+                        each.append((j,content))
                 j=j+1
-
+            #content storage
+            if(headstart != -1):
+                for xx in range(headlist[ws][0][0],len(headlist[ws])+headlist[ws][0][0]):
+                    content = sheet.iloc[i,xx]
+                    if (pd.isnull(content)):
+                        content = 'None'
+                    each.append((headlist[ws][xx-headlist[ws][0][0]][1],content))
+            
             if (headstart == -1): #Finding header
                 m = 0
                 for k in each:
@@ -44,11 +50,14 @@ def xlscanner(filename):
                             headlist.append(each)
                             break
                     m=m+1
+
             #Only adds non-empty list to letters
             #Does not add data with no archive number
+            if(not each):
+                continue
             if (pd.isnull(each[archcol][1])):
                 continue
-            if(not all(pd.isnull(s[1]) for s in each)):
+            if(not all(s[1] == 'None' for s in each)):
                 letters.append(each)
             i = i+1
         wholedoc.append(letters)
@@ -123,8 +132,8 @@ def docxscanner(filename):
 
         #Finds Letter Sender
         if (len(tagged) > 2 and len(tagged) < 10 and nlines < 8):
-            #Dates (2)
-            if ( (tagged[2][1] == "CD") and ((tagged[1][1] == ",") or (tagged[1][1] == "NNP") or (tagged[1][1] == ":") or (tagged[1][1] == ".") or (tagged[3][1] == ","))):
+            #Dates (2) in (Day, Date Month Year) or (Day, Month Date Year)
+            if ( (tagged[2][1] == "CD" or tagged[len(tagged)-1][1] == "CD") and ( tagged[1][1] == 'NNP' or tagged[2][1] == 'NNP' or tagged[3][1] == "NNP") and ((tagged[1][1] == ",") or (tagged[1][1] == "NNP") or (tagged[1][1] == ":") or (tagged[1][1] == ".") or (tagged[3][1] == ","))):
                 letterdata.append((2,sentence))
 
             #Sender (3) and its' location (4)
