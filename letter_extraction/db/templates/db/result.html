@@ -16,11 +16,11 @@
     </div>
     {% endblock %}
 
-    <div class="main">
     {% block body %}
 
     <button class="bt-download" onclick="to_csv()">Download as CSV</button>
 
+    <div class="main">
     <table id = "results_table" class = "results_table">
         {% if header %}
         <tr>
