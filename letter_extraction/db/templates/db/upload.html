@@ -30,13 +30,13 @@
         <a href="{% url 'db:index' %}">Home</a>
         <a href="{% url 'db:search' %}">Search</a>
         <a class="active" href="{% url 'db:upload' %}">Upload</a>
-        <a href="{% url 'db:logout' %}">Logout</a>
+        <a onclick="return logout()" id="logout">Logout</a>
     </div>
     {% endblock %}
 
     {% block body %}
     <div class="main">
-    <div class="searchheader">
+    <div class="searchheader" id="upddisp">
         <h1>Upload your file!</h1>
         <p>Only accept .docx or .xlsx or .xls files!</p>
         <form action="{% url 'db:upload' %}" method="POST" id="uploadfield" enctype="multipart/form-data">
@@ -47,7 +47,7 @@
             </div>
             <div id="file-upload-name"></div>
             <button class="bt-submit" type="submit" id="scanfile"> Scan file</button>
-            <button class="bt-discard" onclick="mydiscard()">Discard file</button>
+            <button class="bt-discard" type="button" onclick="mydiscard()">Discard file</button>
         </form>
     </div>
   </div>
@@ -90,16 +90,27 @@
         {% if list %}
         <div class="main" style="margin-bottom:5rem;">
 
-        {% if fname %}
-            <div> <b>Scanned file:</b> <i>{{fname}}</i> </div>
-        {% endif %}
 
+    {% if not list and request.method == 'POST' %}
+        <div id="errmsg">Selected file <b><i>{{fname}}</i></b> is either empty or is in the wrong format.</div>
+    {% endif %}
+
+    {% if list %}
+        <form action = "{% url 'db:index' %}" method = "POST" id = "input_field" class = "input_form">
+            {% csrf_token %}
+            <button class="bt-add" type="submit" name = "input_file">Add File to DB</button>
+        </form>
         <br>
-        <div class="preview-results">
-
-        {# For xlsx files #}
+        
+        {% if fname %}
+            <div id="scanfname"> <b>Scanned file:</b> <i>{{fname}}</i> </div>
+        {% endif %}
+        
+        <br>
+        <div class="preview-results" id="prevresults">
+            {# For xlsx files #}
             {% if indic == 1 %}
-            <h2 class="code">Data Preview</h2>
+                <h2 class="code">Data Preview</h2>
                 {% for letter in list %}
                 <table>
                     {% for i in letter %}
@@ -113,23 +124,23 @@
                 {% endfor %}
             {% endif %}
 
-        {# For docx files #}
-
-        {% if indic == 0 %}
-        <h2 class="code">Data Preview</h2>
-        <table>
-            {% for letter in list %}
-            <tr>
-                {% for i in letter %}
-                {% if i.1 != ""%}
-                    <th>{{i.1}}</th>
-                {% endif %}
+            {# For docx files #}
+            {% if indic == 0 %}
+                <h2 class="code">Data Preview</h2>
+                <table>
+                {% for letter in list %}
+                    <tr>
+                        {% for i in letter %}
+                        {% if i.1 != ""%}
+                            <th>{{i.1}}</th>
+                        {% endif %}
+                        {% endfor %}
+                    </tr>
                 {% endfor %}
-            </tr>
-            {% endfor %}
-        </table>
-        {% endif %}
-        </div>
+                </table>
+            {% endif %}
+            </div>
+    {% endif %}
 
         <form action = "{% url 'db:index' %}" method = "POST" id = "input_field" class = "input_form">
           {% csrf_token %}
@@ -138,12 +149,25 @@
     {% endif %}
     <script>
         var inputfile = document.getElementById("updfile");
+        var removescan = document.getElementById('scanfname');
         var scanfile = document.getElementById("scanfile");
         var infoArea = document.getElementById("file-upload-name");
+        var errArea = document.getElementById("errmsg");
 
         function mydiscard() {
+            var updview = document.getElementById('upddisp');
+            var resultpg = document.getElementById('prevresults');
+            if (infoArea != null){
+                infoArea.textContent = "";
+            }
+            if(errArea != null){
+                errArea.textContent = "";
+            }
+            if(removescan != null){
+                removescan.remove();
+            }
             inputfile.value="";
-            infoArea.textContent = "";
+            resultpg.remove();
         }
 
         inputfile.addEventListener("change", showFileName);
