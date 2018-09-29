@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+    {% load static %}
     {% block head %}
     <title>Letter Search - Upload</title>
 
@@ -26,11 +27,12 @@
 
 
     {% block hr %}
+    <script src="{% static "db/logoutScript.js" %}"></script>
     <div class="header-right">
         <a href="{% url 'db:index' %}">Home</a>
         <a href="{% url 'db:search' %}">Search</a>
         <a class="active" href="{% url 'db:upload' %}">Upload</a>
-        <a onclick="return logout()" id="logout">Logout</a>
+        <a onclick="return logout();" id="logout">Logout</a>
     </div>
     {% endblock %}
 
@@ -96,11 +98,11 @@
     {% endif %}
 
     {% if list %}
-        <form action = "{% url 'db:index' %}" method = "POST" id = "input_field" class = "input_form">
+        <!--<form action = "{% url 'db:index' %}" method = "POST" id = "input_field" class = "input_form">
             {% csrf_token %}
             <button class="bt-add" type="submit" name = "input_file">Add File to DB</button>
         </form>
-        <br>
+        <br>-->
         
         {% if fname %}
             <div id="scanfname"> <b>Scanned file:</b> <i>{{fname}}</i> </div>
