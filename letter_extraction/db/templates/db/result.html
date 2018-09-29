@@ -18,9 +18,11 @@
 
     {% block body %}
 
-    <button class="bt-download" onclick="to_csv()">Download as CSV</button>
 
     <div class="main">
+      {% if values %}
+      <button class="bt-download" onclick="to_csv()">Download as CSV</button>
+      {% endif %}
     <table id = "results_table" class = "results_table">
         {% if header %}
         <tr>
