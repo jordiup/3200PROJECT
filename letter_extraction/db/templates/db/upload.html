@@ -50,12 +50,10 @@
             <button class="bt-discard" onclick="mydiscard()">Discard file</button>
         </form>
     </div>
-    {% if list %}
-        <form action = "{% url 'db:index' %}" method = "POST" id = "input_field" class = "input_form">
-            {% csrf_token %}
-            <button class="bt-add" type="submit" name = "input_file">Add File to DB</button>
-        </form>
-        <br>
+  </div>
+
+        {% if list %}
+        <div class="main" style="margin-bottom:5rem;">
 
         {% if fname %}
             <div> <b>Scanned file:</b> <i>{{fname}}</i> </div>
@@ -97,8 +95,12 @@
         </table>
         {% endif %}
         </div>
-    {% endif %}
 
+        <form action = "{% url 'db:index' %}" method = "POST" id = "input_field" class = "input_form">
+          {% csrf_token %}
+          <button class="bt-add" type="submit" name = "input_file" style="margin-bottom:0px;">Add File to DB</button>
+        </form>
+    {% endif %}
     <script>
         var inputfile = document.getElementById("updfile");
         var scanfile = document.getElementById("scanfile");
@@ -124,4 +126,4 @@
         }
     </script>
     {% endblock %}
-  </div>
+</div>

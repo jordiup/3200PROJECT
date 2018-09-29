@@ -337,7 +337,7 @@ button {
 }
 
 ::-webkit-scrollbar-corner {
-  background:#d1c5eb;
+  background:rgba(0,0,0,0);
 }
 
 ::-webkit-scrollbar-thumb:hover {
