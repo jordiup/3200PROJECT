@@ -17,8 +17,11 @@ function export_table_to_csv(html, filename) {
     for (var i = 0; i < rows.length; i++) {
         var row = [], cols = rows[i].querySelectorAll("td, th");
 
-        for (var j = 0; j < cols.length; j++)
-            row.push(cols[j].innerText);
+        for (var j = 0; j < cols.length; j++) {
+            var text = cols[j].innerText;
+            var edited = text.replace(/,/g, ";");
+            row.push(edited);
+        }
 
         csv.push(row);
     }
