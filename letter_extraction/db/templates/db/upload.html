@@ -62,11 +62,11 @@
         <br>
         
         {% if fname %}
-            <div> <b>Scanned file:</b> <i>{{fname}}</i> </div>
+            <div id="scanfname"> <b>Scanned file:</b> <i>{{fname}}</i> </div>
         {% endif %}
         
         <br>
-        <div class="preview-results">
+        <div class="preview-results" id="prevresults">
             {# For xlsx files #}
             {% if indic == 1 %}
                 <h2 class="code">Data Preview</h2>
@@ -103,15 +103,25 @@
 
     <script>
         var inputfile = document.getElementById("updfile");
+        var removescan = document.getElementById('scanfname');
         var scanfile = document.getElementById("scanfile");
         var infoArea = document.getElementById("file-upload-name");
         var errArea = document.getElementById("errmsg");
 
         function mydiscard() {
-            var updview = document.getElementById('upddisp')
+            var updview = document.getElementById('upddisp');
+            var resultpg = document.getElementById('prevresults');
+            if (infoArea != null){
+                infoArea.textContent = "";
+            }
+            if(errArea != null){
+                errArea.textContent = "";
+            }
+            if(removescan != null){
+                removescan.remove();
+            }
             inputfile.value="";
-            infoArea.textContent = "";
-            errArea.textContent = "";
+            resultpg.remove();
         }
 
         inputfile.addEventListener("change", showFileName);
