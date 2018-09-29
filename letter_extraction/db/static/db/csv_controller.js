@@ -20,7 +20,7 @@ function export_table_to_csv(html, filename) {
         for (var j = 0; j < cols.length; j++)
             row.push(cols[j].innerText);
 
-        csv.push(row.join(","));
+        csv.push(row);
     }
     download_csv(csv.join("\n"), filename);
 }
