@@ -62,11 +62,8 @@
     <!-- <img style="width:2.4rem; float:left; margin-left: 0.7rem; margin-right: 0.3rem; margin-top: 0.45rem;" src="{% static 'db/excel-template.png' %}"/> -->
     <div class="instructions">
     <h4>Steps</h4>
-    <p>
-      When uploading spreadsheets to the website, ensure you always have a column for archive number, this should be a unique identification number for each historical document.
-      Some example data has been included to give a general understanding of what can be uploaded.
-      If you wish to store additional information you may create additional columns, each new column must have a header describing what information the column contains.
-    </p>
+    <p>When uploading spreadsheets to the website, ensure you always have a column for archive number, this should be a unique identification number for each historical document. Some example data has been included to give a general understanding of what can be uploaded. If you wish to store additional information you may create additional columns, each new column must have a header describing what information the column contains.</p>
+    <p><a href="{% static 'db/template-excel-sheet.xlsx'%}">Download template spreadsheet.</a></p>
   </div>
 </div>
 <div class="main" style="margin-bottom:5rem;min-height:500px;clear: both;background-color:rgb(250, 250, 250)">
@@ -83,6 +80,8 @@
     Some example data has been included to give a general understanding of what can be uploaded.
     If you wish to store additional information you may create additional columns, each new column must have a header describing what information the column contains.
   </p>
+  <p><a href="{% static 'db/template-excel-sheet.xlsx'%}">Download example word doc.</a></p>
+
 </div>
 </div>
   {% endif %}
