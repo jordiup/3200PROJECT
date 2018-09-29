@@ -52,6 +52,10 @@ h3 {
   margin-bottom:0.5rem;
 }
 
+h4 {
+  margin-bottom:0rem;
+}
+
 /* effects search/login (maybe upload in future) buttons */
 .submitform{
   text-align: center;
@@ -64,7 +68,7 @@ h3 {
   padding: 16px 32px;
   text-decoration: none;
   cursor: pointer;
-  box-shadow: 1px 3px 15px 5px rgba(0,0,0,0.21);
+  box-shadow: 1px 3px 15px 5px rgba(0,0,0,0.15);
   position : relative;
   height: 50px;
   border-radius: 4px;
@@ -237,7 +241,7 @@ h3 {
 button {
   background-color: #41474B;
   display: inline-block;
-  margin: 1.75rem 0 1.75rem 0;
+  margin: 0.75rem 0 0.75rem 0;
   padding: 0.75rem 1rem;
   border: 0;
   border-radius: 0.317rem;
@@ -342,4 +346,34 @@ button {
 
 ::-webkit-scrollbar-thumb:hover {
     background: #2D2F37;
+}
+
+/* Generic shadow class for excel image */
+.excel-img {
+    width:300px;
+    float:right;
+    margin-left: 0.7rem;
+    margin-right: 1rem;
+    margin-top: 0.45rem;
+    margin-bottom: 8rem;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.15);
+    opacity: 0.8;
+}
+
+.instructions p {
+  min-width: 200px;
+  margin-top:0rem;
+  text-align:left;
+  margin-left:1rem;
+}
+
+.instructions h4 {
+  text-align:left;
+  margin-left:1rem;
+}
+
+.hidden {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 2s, opacity 2s linear;
 }
