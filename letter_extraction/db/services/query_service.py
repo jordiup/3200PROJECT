@@ -20,7 +20,7 @@ def analyze_query_request(search_type, query_value):
     return results
 
 def process_archive_number(results, query_value):
-    documents = Document.objects.filter(archive_number__iexact=query_value)
+    documents = Document.objects.filter(archive_number__icontains=query_value).values('archive_number', 'date_written', 'document_type', 'language')
     results.extend([x for x in documents])
 
 def process_author(results, query_value):
@@ -31,7 +31,7 @@ def process_author(results, query_value):
         person_locations.extend(PersonLocation.objects.filter(person=author))
     documents = []
     for pl in person_locations:
-        documents.extend(Document.objects.filter(sender=pl).values())
+        documents.extend(Document.objects.filter(sender=pl).values('archive_number', 'date_written', 'document_type', 'language'))
     results.extend([x for x in documents])
 
 def process_location(results, query_value):
@@ -42,7 +42,7 @@ def process_location(results, query_value):
         person_locations.extend(PersonLocation.objects.filter(location=location))
     documents = []
     for pl in person_locations:
-        documents.extend(Document.objects.filter(Q(sender=pl) | Q(receiver=pl)))
+        documents.extend(Document.objects.filter(Q(sender=pl) | Q(receiver=pl)).values('archive_number', 'date_written', 'document_type', 'language'))
     results.extend([x for x in documents])
 
 
@@ -56,5 +56,14 @@ def process_date(results, query_value):
     for oj in objects:
         date_written = oj.date_written.split()
         if query_value in date_written:
-            documents.append(oj)
+            documents.append(oj).values('archive_number', 'date_written', 'document_type', 'language')
     results.extend([x for x in documents])
+
+def get_values(document_list, header):
+    values = []
+    for document in document_list:
+        v = []
+        for element in header:
+            v.append(document[element])
+        values.append(v)
+    return values

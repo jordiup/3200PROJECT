@@ -169,7 +169,6 @@ h4 {
   width :100%;
   border: 1px solid black;
   border-collapse: collapse;
-  background-color: rgb(118, 221, 244);
 }
 
 .results_table th
@@ -177,13 +176,15 @@ h4 {
   border: 1px solid black;
   border-collapse: collapse;
   font-size: 13px;
+  background-color: rgb(173, 186, 189);
 }
 
-.results_table tr
+.results_table td
 {
   border: 1px solid black;
   border-collapse: collapse;
   font-size: 13px;
+  background-color: rgb(114, 216, 239);
 }
 
 /* effects headed when viewed on a mobile device */

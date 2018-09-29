@@ -52,10 +52,13 @@ def search_result(request):
     search_type = str(request.GET['searchtype'])
     query_value = str(request.GET['query'])
     document_list = query_service.analyze_query_request(search_type, query_value)
-    categories = {}
-    metadata = {}
-    store_service.string_split(document_list, categories, metadata)
-    context = {'document_list': categories, 'data':metadata}
+    #categories = {}
+    #metadata = {}
+    #store_service.string_split(document_list, categories, metadata)
+    header = ['archive_number', 'date_written', 'document_type', 'language']
+    values = query_service.get_values(document_list, header)
+    #body = document_list
+    context = {'header': header, 'values': values}
     return render(request, 'db/result.html', context)
 
 

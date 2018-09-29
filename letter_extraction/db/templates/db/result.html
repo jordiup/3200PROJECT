@@ -21,20 +21,25 @@
 
     <button class="bt-download" onclick="to_csv()">Download as CSV</button>
 
-    {% if document_list %}
-       <table id = "results_table" class = "results_table2">
-         <tr>
-        {% for document in document_list %}
-            <th>{{document}}</th>
-        {% endfor %}
-
-      </tr>
+    <table id = "results_table" class = "results_table">
+        {% if header %}
         <tr>
-        <div class = "modify_button_holder", id = "holder">
-        {% for document1 in data %}
-          <td>  {{document1}}   </td>
-          {% endfor %}
-          </tr>
+            {% for h in header %}
+                <th>{{h}}</th>
+            {% endfor %}
+        </tr>
+        {% endif %}
+        {% if values %}
+            {% for value in values %}
+                <tr>
+                    {% for v in value %}
+                        <td>{{v}}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        {% else %}
+            <p>No results.</p>
+        {% endif %}
         </table>
           <form action = "{% url 'db:test' %}" method = "POST" id = "modify_field">
               {% csrf_token %}
@@ -42,10 +47,6 @@
               <input id="modify_button" type="submit" onclick = modify_function(), name = "modifier" value = "" form ="modify_field">
           </form>
           </div>
-
-    {% else %}
-        <p>No results.</p>
-    {% endif %}
 
     {% endblock %}
 
