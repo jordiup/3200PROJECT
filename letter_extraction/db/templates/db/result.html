@@ -29,18 +29,11 @@
 
       </tr>
         <tr>
-        <div class = "modify_button_holder", id = "holder">
-        {% for document1 in data %}
-          <td>  {{document1}}   </td>
+        {% for information in data %}
+          <td>  {{infomation}}   </td>
           {% endfor %}
           </tr>
         </table>
-          <form action = "{% url 'db:test' %}" method = "POST" id = "modify_field">
-              {% csrf_token %}
-              <input type="radio" name="searchtype" value="author" form="modify_field" id = "tester">
-              <input id="modify_button" type="submit" onclick = modify_function(), name = "modifier" value = "" form ="modify_field">
-          </form>
-          </div>
 
     {% else %}
         <p>No results.</p>

@@ -20,18 +20,20 @@ def analyze_query_request(search_type, query_value):
     return results
 
 def process_archive_number(results, query_value):
-    documents = Document.objects.filter(archive_number__iexact=query_value)
+    documents = Document.objects.filter(archive_number__iexact=query_value).values()
     results.extend([x for x in documents])
 
 def process_author(results, query_value):
     authors = Person.objects.filter(Q(first_name__iexact=query_value) | Q(last_name__iexact=query_value)
                                 | Q(full_name__iexact=query_value))
+    print(authors)
     person_locations = []
     for author in authors:
         person_locations.extend(PersonLocation.objects.filter(person=author))
     documents = []
     for pl in person_locations:
         documents.extend(Document.objects.filter(sender=pl).values())
+    print(documents)
     results.extend([x for x in documents])
 
 def process_location(results, query_value):

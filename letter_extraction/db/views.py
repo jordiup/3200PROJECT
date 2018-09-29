@@ -8,7 +8,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect, render_to_response
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import Q
-from db.services import query_service, account_service, upload_service, store_service
+from db.services import query_service, account_service, upload_service, store_service,  results_service
 from .models import *
 
 #Testing import python function
@@ -19,12 +19,15 @@ from django.template import RequestContext
 
 result = {}
 indicator = 0
+archive_number_list = []
 
 @login_required
 def index(request):
     if request.method == "POST":
         global result
         global indicator
+        global archive_number_list
+        store_service.deleteReplicates(archive_number_list)
         if indicator == 0:
             store_service.addToModel(result, request.user)
         elif indicator == 1:
@@ -32,6 +35,7 @@ def index(request):
             indicator = 0
     result = {}
     context = {}
+    archive_number_list = []
     return render(request, 'db/index.html', context)
 
 
@@ -54,7 +58,9 @@ def search_result(request):
     document_list = query_service.analyze_query_request(search_type, query_value)
     categories = {}
     metadata = {}
-    store_service.string_split(document_list, categories, metadata)
+    archive_number = {}
+    results_service.dicitonary_split(document_list, categories, metadata)
+    print(metadata)
     context = {'document_list': categories, 'data':metadata}
     return render(request, 'db/result.html', context)
 
@@ -66,7 +72,9 @@ def upload(request):
     if request.method == "POST" and  request.FILES.get('myfile',False):
         global indicator
         global result
+        global archive_number_list
         result = upload_service.main(request.FILES['myfile'])
+        results_service.archive_number_finder(result, archive_number_list) #checking for duplicates, duplicate archive numbers will be stored in archive_number_list
         indicator = 0 #docx files
         if (request.FILES['myfile'].name.endswith('.xlsx') or request.FILES['myfile'].name.endswith('.xls')):
             indicator = 1 #xlsx and xls files
