@@ -105,3 +105,7 @@ def login_user(request):
 def logout(request):
     account_service.logout_user(request)
     return redirect('db:login')
+
+def drag_n_drop_test(request):
+    context = {}
+    return render(request, 'db/drag_n_drop_test.html', context)
