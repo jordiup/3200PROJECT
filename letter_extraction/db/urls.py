@@ -11,5 +11,6 @@ urlpatterns = [
     path('login/', views.login_user, name='login'),
     path('upload/scanfile/', views.upload, name='scanfile'),
     path('logout/', views.logout, name='logout'),
-    path('test/', views.test, name = 'test')
+    path('drag_n_drop_test/', views.drag_n_drop_test, name='drag_n_drop_test'),
+    path('test/', views.test, name = 'test'),
 ]

@@ -56,12 +56,13 @@ def search_result(request):
     search_type = str(request.GET['searchtype'])
     query_value = str(request.GET['query'])
     document_list = query_service.analyze_query_request(search_type, query_value)
-    categories = {}
-    metadata = {}
-    archive_number = {}
-    results_service.dicitonary_split(document_list, categories, metadata)
-    print(metadata)
-    context = {'document_list': categories, 'data':metadata}
+    #categories = {}
+    #metadata = {}
+    #store_service.string_split(document_list, categories, metadata)
+    header = ['archive_number', 'date_written', 'document_type', 'language']
+    values = query_service.get_values(document_list, header)
+    #body = document_list
+    context = {'header': header, 'values': values}
     return render(request, 'db/result.html', context)
 
 
@@ -113,3 +114,7 @@ def login_user(request):
 def logout(request):
     account_service.logout_user(request)
     return redirect('db:login')
+
+def drag_n_drop_test(request):
+    context = {}
+    return render(request, 'db/drag_n_drop_test.html', context)

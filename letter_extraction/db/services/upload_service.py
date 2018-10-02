@@ -61,6 +61,9 @@ def xlscanner(filename):
                 letters.append(each)
             i = i+1
         wholedoc.append(letters)
+    #error handling
+    if (not headlist):
+        wholedoc=[]
     return wholedoc
 
 #Fills in non-given metadata as empty string
@@ -83,7 +86,7 @@ def docxscanner(filename):
     summary = ''
     npages = ''
     letterdata = []
-    headername = [(0,'Reference Number'),(1,'Archive Collection'),(2,'Date written'),(3,'Author'),(4,'Author Location'),
+    headername = [(0,'Reference Code'),(1,'Archive Collection'),(2,'Date written'),(3,'Author'),(4,'Author Location'),
     (5,'Recipient'),(6,'Recipient Location'),(7,'Types and Language'),(8,'Summary'),(9,'Physical Description')]
     letters.append(headername)
     #regex for splitting \n and \t

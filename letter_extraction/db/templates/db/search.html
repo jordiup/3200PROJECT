@@ -5,17 +5,19 @@
     <title>Letter Search - Search</title>
     {% endblock %}
 
+
     {% block hr %}
     <script src="{% static "db/logoutScript.js" %}"></script>
     <div class="header-right">
         <a href="{% url 'db:index' %}">Home</a>
         <a class="active" href="{% url 'db:search' %}">Search</a>
         <a href="{% url 'db:upload' %}">Upload</a>
-        <a href="{% url 'db:logout' %}" onclick="logout()">Logout</a>
+        <a onclick="return logout()" id="logout">Logout</a>
     </div>
     {% endblock %}
 
     {% block body %}
+    <div class="main">
     <h1>Search through our database! </h1>
 
     <p>You can search our database directly by typing in some query words.
@@ -37,3 +39,4 @@
         <input class="submitform" type="submit" value="Search" form="form1">
     </form>
     {% endblock %}
+</div>

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+    {% load static %}
     {% block head %}
     <title>Letter Search - Upload</title>
 
@@ -26,16 +27,18 @@
 
 
     {% block hr %}
+    <script src="{% static "db/logoutScript.js" %}"></script>
     <div class="header-right">
         <a href="{% url 'db:index' %}">Home</a>
         <a href="{% url 'db:search' %}">Search</a>
         <a class="active" href="{% url 'db:upload' %}">Upload</a>
-        <a href="{% url 'db:logout' %}">Logout</a>
+        <a onclick="return logout();" id="logout">Logout</a>
     </div>
     {% endblock %}
 
     {% block body %}
-    <div class="searchheader">
+    <div class="main">
+    <div class="searchheader" id="upddisp">
         <h1>Upload your file!</h1>
         <p>Only accept .docx or .xlsx or .xls files!</p>
         <form action="{% url 'db:upload' %}" method="POST" id="uploadfield" enctype="multipart/form-data">
@@ -46,66 +49,123 @@
             </div>
             <div id="file-upload-name"></div>
             <button class="bt-submit" type="submit" id="scanfile"> Scan file</button>
-            <button class="bt-discard" onclick="mydiscard()">Discard file</button>
+            <button class="bt-discard" type="button" onclick="mydiscard()">Discard file</button>
         </form>
+        {% if not list and request.method == 'POST' %}
+            <div id="errmsg">Selected file <b><i>{{fname}}</i></b> is either empty or is in the wrong format.</div>
+        {% endif %}
     </div>
+  </div>
+
+    {% if not list and request.method == 'GET' %}
+        <div class="main" style="min-height:300px;background-color:rgb(250, 250, 250)">
+            <h2>How to upload spreadsheets</h2>
+            {% load staticfiles %}
+            <!-- <img src="{% static "db/favicon-b.png" %}" alt="My image"/> -->
+            <img src="{% static 'db/excel_template.png'%}" class="excel-img" style="">
+            <!-- <p style="text-align:left;"><img src="{% static 'db/excel_template.png'%}" style="width:400px;"/></p> -->
+            <!-- <img style="width:2.4rem; float:left; margin-left: 0.7rem; margin-right: 0.3rem; margin-top: 0.45rem;" src="{% static 'db/excel-template.png' %}"/> -->
+            <div class="instructions">
+            <h4>Steps</h4>
+            <p>When uploading spreadsheets to the website, ensure you always have a column for archive number, this should be a unique identification number for each historical document. Some example data has been included to give a general understanding of what can be uploaded. If you wish to store additional information you may create additional columns, each new column must have a header describing what information the column contains.</p>
+            <p><a href="{% static 'db/template-excel-sheet.xlsx'%}">Download template spreadsheet.</a></p>
+        </div>
+        </div>
+        <div class="main" style="margin-bottom:5rem;min-height:500px;clear: both;background-color:rgb(250, 250, 250)">
+        <h2>How to upload word documents</h2>
+        {% load staticfiles %}
+        <!-- <img src="{% static "db/favicon-b.png" %}" alt="My image"/> -->
+        <img src="{% static 'db/word_template.png'%}" class="excel-img">
+        <!-- <p style="text-align:left;"><img src="{% static 'db/excel_template.png'%}" style="width:400px;"/></p> -->
+        <!-- <img style="width:2.4rem; float:left; margin-left: 0.7rem; margin-right: 0.3rem; margin-top: 0.45rem;" src="{% static 'db/excel-template.png' %}"/> -->
+        <div class="instructions">
+        <h4>Steps</h4>
+        <p>
+            When uploading spreadsheets to the website, ensure you always have a column for archive number, this should be a unique identification number for each historical document.
+            Some example data has been included to give a general understanding of what can be uploaded.
+            If you wish to store additional information you may create additional columns, each new column must have a header describing what information the column contains.
+        </p>
+        <p><a href="{% static 'db/template-excel-sheet.xlsx'%}">Download example word doc.</a></p>
+
+        </div>
+        </div>
+    {% endif %}
+
+
     {% if list %}
+        <div class="main" style="margin-bottom:5rem;" id="datapreview">
+
+
+        {% if list %}
+            {% if fname %}
+                <div id="scanfname"> <b>Scanned file:</b> <i>{{fname}}</i> </div>
+            {% endif %}
+            
+            <br>
+            <div class="preview-results" id="prevresults">
+                {# For xlsx files #}
+                {% if indic == 1 %}
+                    <h2 class="code">Data Preview</h2>
+                    {% for letter in list %}
+                    <table>
+                        {% for i in letter %}
+                        <tr>
+                        {% for j in i %}
+                            <th>{{j.1}}</th>
+                        {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    {% endfor %}
+                {% endif %}
+
+                {# For docx files #}
+                {% if indic == 0 %}
+                    <h2 class="code">Data Preview</h2>
+                    <table>
+                    {% for letter in list %}
+                        <tr>
+                            {% for i in letter %}
+                            {% if i.1 != ""%}
+                                <th>{{i.1}}</th>
+                            {% endif %}
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    </table>
+                {% endif %}
+            </div>
+        {% endif %}
+
         <form action = "{% url 'db:index' %}" method = "POST" id = "input_field" class = "input_form">
             {% csrf_token %}
-            <button class="bt-add" type="submit" name = "input_file">Add File to DB</button>
+            <button class="bt-add" type="submit" name = "input_file" style="margin-bottom:0px;">Add File to DB</button>
         </form>
-        <br>
-        
-        {% if fname %}
-            <div> <b>Scanned file:</b> <i>{{fname}}</i> </div>
-        {% endif %}
-
-        <br>
-        <div class="preview-results">
-
-        {# For xlsx files #}
-            {% if indic == 1 %}
-            <h2 class="code">Data Preview</h2>
-                {% for letter in list %}
-                <table>
-                    {% for i in letter %}
-                    <tr>
-                    {% for j in i %}
-                        <th>{{j.1}}</th>
-                    {% endfor %}
-                    </tr>
-                    {% endfor %}
-                </table>
-                {% endfor %}
-            {% endif %}
-
-        {# For docx files #}
-
-        {% if indic == 0 %}
-        <h2 class="code">Data Preview</h2>
-        <table>
-            {% for letter in list %}
-            <tr>
-                {% for i in letter %}
-                {% if i.1 != ""%}
-                    <th>{{i.1}}</th>
-                {% endif %}
-                {% endfor %}
-            </tr>
-            {% endfor %}
-        </table>
-        {% endif %}
-        </div>
     {% endif %}
 
     <script>
         var inputfile = document.getElementById("updfile");
+        var removescan = document.getElementById('scanfname');
         var scanfile = document.getElementById("scanfile");
         var infoArea = document.getElementById("file-upload-name");
+        var errArea = document.getElementById("errmsg");
 
         function mydiscard() {
+            var updview = document.getElementById('upddisp');
+            var resultpg = document.getElementById('prevresults');
+            var addtodb = document.getElementById('datapreview');
+            if (infoArea != null){
+                infoArea.textContent = "";
+            }
+            if(errArea != null){
+                errArea.textContent = "";
+            }
+            if(removescan != null){
+                removescan.remove();
+            }
             inputfile.value="";
-            infoArea.textContent = "";
+            addtodb.remove();
+            resultpg.remove();
         }
 
         inputfile.addEventListener("change", showFileName);
@@ -123,3 +183,4 @@
         }
     </script>
     {% endblock %}
+</div>

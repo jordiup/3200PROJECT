@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-    
+
     {% block head %}
     <title>Letter Search - Login</title>
     {% endblock %}
@@ -13,10 +13,11 @@
     {% endblock %}
 
     {% block body %}
+    <div class="main">
     <h1>Login</h1>
-    <form method="POST"  action="{% url 'db:login' %}" id="form1"> 
+    <form method="POST"  action="{% url 'db:login' %}" id="form1">
         {% csrf_token %}
-        
+
         <div class="select">
         {{ form }}
         </div>
@@ -28,9 +29,11 @@
             <i>Don't have an account? Request for an account to this e-mail: Francesco.detoni@research.uwa.edu.au</i>
         </div>
     </form>
-    <br> 
+    <br>
     {% if message %}
         {{message}}
     {% endif%}
 
     {% endblock %}
+
+  </div>
