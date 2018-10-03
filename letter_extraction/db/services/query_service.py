@@ -7,23 +7,29 @@ receiver_id ="receiver_id"
 sender_id = "sender_id"
 id = "id"
 
-def analyze_query_request(search_type, query_value):
+def analyze_query_request(search_type, query_value, archive_numbers):
     results = []
     if search_type == 'document':
-        process_archive_number(results, query_value)
+        process_archive_number(results, query_value, archive_numbers)
     if search_type == 'author':
-        process_author(results, query_value)
+        process_author(results, query_value, archive_numbers)
     if search_type == 'location':
         process_location(results, query_value)
     if search_type == 'date':
         process_date(results, query_value)
     return results
 
-def process_archive_number(results, query_value):
+def process_archive_number(results, query_value, archive_numbers):
+    count = 0
+    primary_key = Document.objects.filter(archive_number__icontains=query_value).values('pk')
     documents = Document.objects.filter(archive_number__icontains=query_value).values('archive_number', 'date_written', 'document_type', 'language')
+    for item in primary_key:
+        archive_numbers.insert(count, item["pk"])
+        count = count + 1
     results.extend([x for x in documents])
 
-def process_author(results, query_value):
+def process_author(results, query_value, archive_numbers):
+    count = 0
     authors = Person.objects.filter(Q(first_name__iexact=query_value) | Q(last_name__iexact=query_value)
                                 | Q(full_name__iexact=query_value))
     person_locations = []
@@ -31,7 +37,8 @@ def process_author(results, query_value):
         person_locations.extend(PersonLocation.objects.filter(person=author))
     documents = []
     for pl in person_locations:
-        documents.extend(Document.objects.filter(sender=pl).values('archive_number', 'date_written', 'document_type', 'language'))
+        documents.extend(Document.objects.filter(sender=pl).values('archive_number', 'date_written', 'document_type', 'language', 'pk'))
+        archive_numbers.extend(Document.objects.filter(sender=pl).values('pk'))
     results.extend([x for x in documents])
 
 def process_location(results, query_value):

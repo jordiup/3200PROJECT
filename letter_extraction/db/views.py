@@ -8,7 +8,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect, render_to_response
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import Q
-from db.services import query_service, account_service, upload_service, store_service
+from db.services import query_service, account_service, upload_service, store_service,  results_service
 from .models import *
 
 #Testing import python function
@@ -19,12 +19,20 @@ from django.template import RequestContext
 
 result = {}
 indicator = 0
+archive_number_list = []
+document_test_form = None
 
 @login_required
 def index(request):
+    if request.method == "GET":
+        global document_test_form
+        document_test_form.save_form()
+        document_test_form = None
     if request.method == "POST":
         global result
         global indicator
+        global archive_number_list
+        store_service.deleteReplicates(archive_number_list)
         if indicator == 0:
             store_service.addToModel(result, request.user)
         elif indicator == 1:
@@ -32,6 +40,7 @@ def index(request):
             indicator = 0
     result = {}
     context = {}
+    archive_number_list = []
     return render(request, 'db/index.html', context)
 
 
@@ -47,18 +56,19 @@ def search(request):
 
 @login_required
 def search_result(request):
+    primary_keys = []
     if not request.user.has_perm('db.can_search'):
         return render(request, 'db/index.html', {"message":"You do not have the permissions to perform this task!"})
     search_type = str(request.GET['searchtype'])
     query_value = str(request.GET['query'])
-    document_list = query_service.analyze_query_request(search_type, query_value)
+    document_list = query_service.analyze_query_request(search_type, query_value, primary_keys)
     #categories = {}
     #metadata = {}
     #store_service.string_split(document_list, categories, metadata)
-    header = ['archive_number', 'date_written', 'document_type', 'language']
+    header = ['archive_number', 'date_written', 'document_type', 'language', 'pk']
     values = query_service.get_values(document_list, header)
     #body = document_list
-    context = {'header': header, 'values': values}
+    context = {'header': header, 'values': values, 'archive' : primary_keys}
     return render(request, 'db/result.html', context)
 
 
@@ -69,7 +79,9 @@ def upload(request):
     if request.method == "POST" and  request.FILES.get('myfile',False):
         global indicator
         global result
+        global archive_number_list
         result = upload_service.main(request.FILES['myfile'])
+        results_service.archive_number_finder(result, archive_number_list) #checking for duplicates, duplicate archive numbers will be stored in archive_number_list
         indicator = 0 #docx files
         if (request.FILES['myfile'].name.endswith('.xlsx') or request.FILES['myfile'].name.endswith('.xls')):
             indicator = 1 #xlsx and xls files
@@ -81,14 +93,12 @@ def upload(request):
     return render(request,'db/upload.html',context)
 
 @login_required
-def test(request):
-
+def test(request, items):
     template = loader.get_template('db/test.html')
-    document_object = Document.objects.filter(archive_number = '2-2234A/14.004').first()
+    document_object = Document.objects.filter(pk = items).first()
+    global document_test_form
     document_test_form = documentForm(instance = document_object)
-    person_test_form = personForm()
-    location_test_form = locationForm()
-    return render(request, 'db/test.html', {'document_test_form' : document_test_form, 'person_test_form': person_test_form , 'location_test_form' : location_test_form})
+    return render(request, 'db/test.html', {'document_test_form' : document_test_form})
 
 
 def login_user(request):

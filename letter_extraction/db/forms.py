@@ -6,6 +6,11 @@ class documentForm(forms.ModelForm):
         model = Document
         fields = ['archive_number', 'date_written', 'document_type', 'language']
 
+    def save_form(self):
+        if self.is_valid():
+            document = self.save()
+            document.save()
+
 
 class personLocationForm(forms.ModelForm):
     class Meta:

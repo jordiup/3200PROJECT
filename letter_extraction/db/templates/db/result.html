@@ -35,6 +35,11 @@
                 <tr>
                     {% for v in value %}
                         <td>{{v}}</td>
+                    {% for items in archive %}
+                        {% if v == items.pk %}
+                        <a href = "/db/test/{{items.pk}}/"> Modify </a>
+                        {% endif %}
+                        {% endfor %}
                     {% endfor %}
                 </tr>
             {% endfor %}
@@ -42,11 +47,6 @@
             <p>No results.</p>
         {% endif %}
         </table>
-          <form action = "{% url 'db:test' %}" method = "POST" id = "modify_field">
-              {% csrf_token %}
-              <input type="radio" name="searchtype" value="author" form="modify_field" id = "tester">
-              <input id="modify_button" type="submit" onclick = modify_function(), name = "modifier" value = "" form ="modify_field">
-          </form>
           </div>
     <div class="download_button">
         <button class="bt-download" onclick="to_csv()">Download as CSV</button>
