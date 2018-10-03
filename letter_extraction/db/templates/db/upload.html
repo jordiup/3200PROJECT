@@ -44,11 +44,11 @@
         <form action="{% url 'db:upload' %}" method="POST" id="uploadfield" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="custom-file-upload">
-                <button class="bt-upload">Upload a file</button>
+                <button class="bt-upload">Select a file</button>
                 <input type="file" name="myfile" id="updfile"></input>
             </div>
             <div id="file-upload-name"></div>
-            <button class="bt-submit" type="submit" id="scanfile"> Scan file</button>
+            <button class="bt-submit" type="submit" id="scanfile"> Preview file</button>
             <button class="bt-discard" type="button" onclick="mydiscard()">Discard file</button>
         </form>
         {% if not list and request.method == 'POST' %}
@@ -141,7 +141,7 @@
 
         <form action = "{% url 'db:index' %}" method = "POST" id = "input_field" class = "input_form">
             {% csrf_token %}
-            <button class="bt-add" type="submit" name = "input_file" style="margin-bottom:0px;">Add File to DB</button>
+            <button class="bt-add" type="submit" name = "input_file" style="margin-bottom:0px;">Commit Archive to Database</button>
         </form>
     {% endif %}
 
