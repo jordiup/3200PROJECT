@@ -26,7 +26,7 @@ document_test_form = None
 def index(request):
     if request.method == "GET":
         global document_test_form
-        document_test_form.save_form()
+        #document_test_form.save_form()
         document_test_form = None
     if request.method == "POST":
         global result

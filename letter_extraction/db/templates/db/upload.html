@@ -28,6 +28,7 @@
 
     {% block hr %}
     <script src="{% static "db/logoutScript.js" %}"></script>
+    <script src="{% static "db/uploadScript.js" %}"></script>
     <div class="header-right">
         <a href="{% url 'db:index' %}">Home</a>
         <a href="{% url 'db:search' %}">Search</a>
@@ -97,8 +98,6 @@
 
     {% if list %}
         <div class="main" style="margin-bottom:5rem;" id="datapreview">
-
-
         {% if list %}
             {% if fname %}
                 <div id="scanfname"> <b>Scanned file:</b> <i>{{fname}}</i> </div>
@@ -148,27 +147,14 @@
 
     <script>
         var inputfile = document.getElementById("updfile");
-        var removescan = document.getElementById('scanfname');
         var scanfile = document.getElementById("scanfile");
         var infoArea = document.getElementById("file-upload-name");
-        var errArea = document.getElementById("errmsg");
 
         function mydiscard() {
-            var updview = document.getElementById('upddisp');
-            var resultpg = document.getElementById('prevresults');
-            var addtodb = document.getElementById('datapreview');
-            if (infoArea != null){
-                infoArea.textContent = "";
-            }
-            if(errArea != null){
-                errArea.textContent = "";
-            }
-            if(removescan != null){
-                removescan.remove();
-            }
-            inputfile.value="";
-            addtodb.remove();
-            resultpg.remove();
+            var url = location.href;
+            var base = url.split('db')[0];
+            url = base + "db/upload";
+            location.href = url;
         }
 
         inputfile.addEventListener("change", showFileName);
