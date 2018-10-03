@@ -28,6 +28,7 @@
 
     {% block hr %}
     <script src="{% static "db/logoutScript.js" %}"></script>
+    <script src="{% static "db/uploadScript.js" %}"></script>
     <div class="header-right">
         <a href="{% url 'db:index' %}">Home</a>
         <a href="{% url 'db:search' %}">Search</a>
@@ -40,7 +41,7 @@
     <div class="main">
     <div class="searchheader" id="upddisp">
         <h1>Upload your file!</h1>
-        <p>Only accept .docx or .xlsx or .xls files!</p>
+        <p>We only accepts Word document (.doc) and Excel document (.xlsx or .xls)</p>
         <form action="{% url 'db:upload' %}" method="POST" id="uploadfield" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="custom-file-upload">
@@ -52,7 +53,8 @@
             <button class="bt-discard" type="button" onclick="mydiscard()">Discard file</button>
         </form>
         {% if not list and request.method == 'POST' %}
-            <div id="errmsg">Selected file <b><i>{{fname}}</i></b> is either empty or is in the wrong format.</div>
+            <br>
+            <div id="errmsg">Selected file <b><i>{{fname}}</i></b> is either empty or in the wrong format.</div>
         {% endif %}
     </div>
   </div>
@@ -96,8 +98,6 @@
 
     {% if list %}
         <div class="main" style="margin-bottom:5rem;" id="datapreview">
-
-
         {% if list %}
             {% if fname %}
                 <div id="scanfname"> <b>Scanned file:</b> <i>{{fname}}</i> </div>
@@ -147,27 +147,14 @@
 
     <script>
         var inputfile = document.getElementById("updfile");
-        var removescan = document.getElementById('scanfname');
         var scanfile = document.getElementById("scanfile");
         var infoArea = document.getElementById("file-upload-name");
-        var errArea = document.getElementById("errmsg");
 
         function mydiscard() {
-            var updview = document.getElementById('upddisp');
-            var resultpg = document.getElementById('prevresults');
-            var addtodb = document.getElementById('datapreview');
-            if (infoArea != null){
-                infoArea.textContent = "";
-            }
-            if(errArea != null){
-                errArea.textContent = "";
-            }
-            if(removescan != null){
-                removescan.remove();
-            }
-            inputfile.value="";
-            addtodb.remove();
-            resultpg.remove();
+            var url = location.href;
+            var base = url.split('db')[0];
+            url = base + "db/upload";
+            location.href = url;
         }
 
         inputfile.addEventListener("change", showFileName);
