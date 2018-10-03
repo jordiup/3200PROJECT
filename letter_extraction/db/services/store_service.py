@@ -19,7 +19,11 @@ def addToModel(input, user):
         sender_first_name = holder_of_categories[5][1]
         sender_location = holder_of_categories[6][1]    #Probably not the best way to do this
         language_written = holder_of_categories[7][1]
-        spliced_language = language_written.split(',')[1].strip()
+        if language_written == 'None':
+            spliced_language = ''
+        else:
+            print(language_written)
+            spliced_language = language_written.split(',')[1].strip()
         receiver_last_name = ''
         sender_last_name = ''
         receiver_full_name = ''.join((receiver_first_name, receiver_last_name))
@@ -117,26 +121,9 @@ def addToModel_xlsx(input, user):
             documentInstance = Document(archive_number=archival_number, date_written= date_written, receiver=person_location_receiver, sender=person_location_sender, document_type='diary',
                 language= spliced_language , date_added=timezone.now(), date_modified=timezone.now(), uploaded_by=user)
             documentInstance.save()
-def string_split(input_dictionary, a, b):
-    count = 0
-    switch = 0
-    for item in range(0, len(input_dictionary)):
-        if (item%5 == 0 and item>=5):
-            switch = 0
-        holder = list(input_dictionary[item].keys())
-        holder_b = list(input_dictionary[item].values())
-        switch = switch + 0.5
-        for i in range(0, len(input_dictionary[item].keys())):
-            if switch == 2.5:
-                a[ holder[i]] = count
-                b[holder_b[i]] = count
-                count = count + 1
-                continue
-            if (switch == 0.5 or switch == 1):
-                a[''.join(("sender" , "_" , holder[i]))] = count
-                b[holder_b[i]] = count
-                count = count + 1
-            else:
-                a[''.join(("receiver" , "_" , holder[i]))] = count
-                b[holder_b[i]] = count
-                count = count + 1
+
+
+
+def deleteReplicates(input):
+    for item in input:
+        Document.objects.filter(archive_number__iexact=item).delete()
