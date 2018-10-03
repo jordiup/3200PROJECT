@@ -24,10 +24,6 @@ document_test_form = None
 
 @login_required
 def index(request):
-    if request.method == "GET":
-        global document_test_form
-        document_test_form.save_form()
-        document_test_form = None
     if request.method == "POST":
         global result
         global indicator
@@ -56,19 +52,18 @@ def search(request):
 
 @login_required
 def search_result(request):
-    primary_keys = []
     if not request.user.has_perm('db.can_search'):
         return render(request, 'db/index.html', {"message":"You do not have the permissions to perform this task!"})
     search_type = str(request.GET['searchtype'])
     query_value = str(request.GET['query'])
-    document_list = query_service.analyze_query_request(search_type, query_value, primary_keys)
+    document_list = query_service.analyze_query_request(search_type, query_value)
     #categories = {}
     #metadata = {}
     #store_service.string_split(document_list, categories, metadata)
-    header = ['archive_number', 'date_written', 'document_type', 'language', 'pk']
+    header = ['archive_number', 'date_written', 'document_type', 'language']
     values = query_service.get_values(document_list, header)
     #body = document_list
-    context = {'header': header, 'values': values, 'archive' : primary_keys}
+    context = {'header': header, 'values': values}
     return render(request, 'db/result.html', context)
 
 
