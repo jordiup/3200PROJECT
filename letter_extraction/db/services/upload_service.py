@@ -116,7 +116,9 @@ def docxscanner(filename):
                     if (not not npages):
                         letterdata.append((9,npages))
                     filler(letterdata)
-                    letters.append(sorted(letterdata))
+                    letterdata = sorted(letterdata)
+                    if(letterdata[0][1] != "None"):
+                        letters.append(letterdata)
                 summary=''
                 npages=''
                 nlines = 0
@@ -197,8 +199,14 @@ def docxscanner(filename):
             if (not not npages):
                 letterdata.append((9,npages))
             filler(letterdata)
-            letters.append(sorted(letterdata))
+            letterdata = sorted(letterdata)
+            if(letterdata[0][1] != "None"):
+                letters.append(letterdata)
         nlines = nlines+1
+    #Checks if document is a correct format or not
+    if(k==1):
+        letters = []
+        return letters
     return letters
 
 def main(filename):

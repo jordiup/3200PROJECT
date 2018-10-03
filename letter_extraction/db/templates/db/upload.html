@@ -40,7 +40,7 @@
     <div class="main">
     <div class="searchheader" id="upddisp">
         <h1>Upload your file!</h1>
-        <p>Only accept .docx or .xlsx or .xls files!</p>
+        <p>We only accepts Word document (.doc) and Excel document (.xlsx or .xls)</p>
         <form action="{% url 'db:upload' %}" method="POST" id="uploadfield" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="custom-file-upload">
@@ -52,7 +52,8 @@
             <button class="bt-discard" type="button" onclick="mydiscard()">Discard file</button>
         </form>
         {% if not list and request.method == 'POST' %}
-            <div id="errmsg">Selected file <b><i>{{fname}}</i></b> is either empty or is in the wrong format.</div>
+            <br>
+            <div id="errmsg">Selected file <b><i>{{fname}}</i></b> is either empty or in the wrong format.</div>
         {% endif %}
     </div>
   </div>
