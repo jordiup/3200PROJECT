@@ -107,7 +107,6 @@ def docxscanner(filename):
         tagged = nltk.pos_tag(tokens)
         #Finds the Word Index header
         #For each new header, it will initialise a list to store all its data
-        #print(sentence, wholedoc[count-1])
         if (len(tagged) == 1):
             if(tagged[0][0] == str(k)):
                 if(k!=1):
@@ -149,8 +148,15 @@ def docxscanner(filename):
                             sentence = sentence[0].split(';',1)
                             if ( len(sentence) == 1): 
                                 continue
-                        letterdata.append((3,sentence[0].strip(' [ ] ( ) ?')))
-                        letterdata.append((4,sentence[1].strip(' [ ] ( ) ?')))
+                        #data cleaning
+                        if(re.match(r'[\[ \]]',sentence[0].strip())):
+                            letterdata.append((3,sentence[0].strip(' [ ] ( ) ?')+' inferred'))
+                        else:
+                            letterdata.append((3,sentence[0].strip(' [ ] ( ) ?')))
+                        if(re.match(r'[\[ \]]',sentence[1].strip())):
+                            letterdata.append((4,sentence[1].strip(' [ ] ( ) ?')+' inferred'))
+                        else:
+                            letterdata.append((4,sentence[1].strip(' [ ] ( ) ?')))
                         j = j+1
                         continue
                     else:
@@ -159,8 +165,15 @@ def docxscanner(filename):
                             sentence = sentence[0].split(';',1)
                             if ( len(sentence) == 1): 
                                 continue
-                        letterdata.append((5,sentence[0].strip(' [ ] ( ) ?')))
-                        letterdata.append((6,sentence[1].strip(' [ ] ( ) ?')))
+                        #data cleaning
+                        if(re.match(r'[\[ \]]',sentence[0].strip())):
+                            letterdata.append((5,sentence[0].strip(' [ ] ( ) ?')+' inferred'))
+                        else:
+                            letterdata.append((5,sentence[0].strip(' [ ] ( ) ?')))
+                        if(re.match(r'[\[ \]]',sentence[1].strip())):
+                            letterdata.append((6,sentence[1].strip(' [ ] ( ) ?')+' inferred'))
+                        else:
+                            letterdata.append((6,sentence[1].strip(' [ ] ( ) ?')))
                         j = j-1
                         continue
             #Finds Types of letters (7)
