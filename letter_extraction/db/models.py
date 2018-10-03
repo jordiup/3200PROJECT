@@ -52,8 +52,8 @@ class Privileges(models.Model):
 
         permissions = (
             ('can_upload', 'User has the ability to upload a document.'),
-            ('can_search', 'Permissions of can_upload, plus the ability to search the archive database'),
-            ('can_edit', 'Permissions of can_search, plus the ability to edit data'),
+            ('can_search', 'User has the ability to search for documents.'),
+            ('can_edit', 'User has the ability to edit document data.'),
         )
 
 # feel free to add more fields. To add these to the database, use python(3) manage.py makemigrations; and then python(3) manage.py migrate
