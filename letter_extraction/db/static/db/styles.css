@@ -278,6 +278,12 @@ button {
   position: relative;
 }
 
+.download_button {
+  text-align: center;
+  position: relative;
+  margin-bottom: 5%;
+}
+
 /* effects footer of the pages */
 .footer {
   position: fixed;

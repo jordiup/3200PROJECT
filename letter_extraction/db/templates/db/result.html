@@ -19,9 +19,9 @@
     {% block body %}
 
     <div class="main">
-      {% if values %}
+      <!--{% if values %}
       <button class="bt-download" onclick="to_csv()">Download as CSV</button>
-      {% endif %}
+      {% endif %}-->
     <table id = "results_table" class = "results_table">
         {% if header %}
         <tr>
@@ -48,7 +48,7 @@
               <input id="modify_button" type="submit" onclick = modify_function(), name = "modifier" value = "" form ="modify_field">
           </form>
           </div>
-    <div class="download_button" style="text-align: center">
+    <div class="download_button">
         <button class="bt-download" onclick="to_csv()">Download as CSV</button>
     </div>
 
