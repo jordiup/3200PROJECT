@@ -4,12 +4,13 @@ from .models import *
 class documentForm(forms.ModelForm):
     class Meta:
         model = Document
-        fields = ['archive_number', 'date_written', 'document_type', 'language']
+        fields = ('archive_number', 'date_written', 'document_type', 'language')
 
     def save_form(self):
         if self.is_valid():
             document = self.save()
             document.save()
+            return True
 
 
 class personLocationForm(forms.ModelForm):

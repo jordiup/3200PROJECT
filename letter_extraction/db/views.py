@@ -20,14 +20,9 @@ from django.template import RequestContext
 result = {}
 indicator = 0
 archive_number_list = []
-document_test_form = None
 
 @login_required
 def index(request):
-    if request.method == "GET":
-        global document_test_form
-        document_test_form.save_form()
-        document_test_form = None
     if request.method == "POST":
         global result
         global indicator
@@ -96,7 +91,15 @@ def upload(request):
 def test(request, items):
     template = loader.get_template('db/test.html')
     document_object = Document.objects.filter(pk = items).first()
-    global document_test_form
+    if request.method == "POST":
+        document_test_form = documentForm(request.POST, instance=document_object)
+        if document_test_form.is_valid():
+            instance = document_test_form.save(commit=False)
+            instance.save()
+            return redirect("db:index")
+        else:
+            document_test_form.errors()
+            return HttpResponse("<p>Your Modification is invalid </p")
     document_test_form = documentForm(instance = document_object)
     return render(request, 'db/test.html', {'document_test_form' : document_test_form})
 
