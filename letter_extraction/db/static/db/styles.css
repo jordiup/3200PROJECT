@@ -384,3 +384,21 @@ button {
   opacity: 0;
   transition: visibility 0s 2s, opacity 2s linear;
 }
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 50%;
+  margin: 10px;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+  font-size:10px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
