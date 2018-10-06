@@ -104,16 +104,23 @@
                 {# For docx files #}
                 {% if indic == 0 %}
                     <h2 class="code">Data Preview</h2>
-                    <table>
+                    <table id="previewtable">
                     {% for letter in list %}
-                        <tr>
-                            {% for i in letter %}
-                            {% if i.1 != ""%}
-                                <th>{{i.1}}</th>
-                            {% endif %}
-                            {% endfor %}
-                        </tr>
-                    {% endfor %}
+                    <tr>
+                    {% if forloop.counter0 == 0 %}
+                        {% for i in letter %}
+                            <th>{{i.1}}</th>
+                        {% endfor %}
+                    </tr>
+                    {% else %}
+                    <tr>
+                        {% for i in letter %}
+                            <th>{{i.1}}</th>
+                        {% endfor %}
+                        <th> <button type="submit" onclick="show_index('{{forloop.counter0}}')" value = "{{forloop.counter0}}">Edit</button> </th>
+                        {% endif %}
+                        {% endfor %}
+                    </tr>
                     </table>
                 {% endif %}
             </div>
@@ -148,6 +155,24 @@
         function checkFile( event ) {
             if (inputfile.files.length == 0){
                 alert("No file is selected for scanning!");
+            }
+        }
+
+        function show_index(row_number)
+        {
+            var table = document.getElementById("previewtable");
+            var each_row = table.rows[row_number].getElementsByTagName("th");
+            alert(each_row);
+            for(var ic = 0 ; ic < each_row.length ; ic++)
+            {
+                var text = each_row[ic].innerHTML;
+                alert(text);
+                var d = document.createElement('td');
+                var a = document.createElement('input');
+                a.setAttribute("type", "input");
+                a.innerHTML = text;
+                d.appendChild(a);
+                text.parentNode.replaceChild(each_row[ic], d);
             }
         }
     </script>
