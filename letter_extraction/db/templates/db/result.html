@@ -1,59 +1,55 @@
 {% extends 'base.html' %}
 
-    {% load static %}
-    {% block head %}
-    <title>Letter Search - Results</title>
-    {% endblock %}
+{% load static %}
+{% block head %}
+<title>Letter Search - Results</title>
+{% endblock %}
 
-    {% block hr %}
-    <script src="{% static "db/script.js" %}"></script>
-    <script src="{% static "db/csv_controller.js" %}"></script>
-    <div class="header-right">
-        <a href="{% url 'db:index' %}">Home</a>
-        <a class="active" href="{% url 'db:search' %}">Search</a>
-        <a href="{% url 'db:upload' %}">Upload</a>
-        <a onclick="return logout()" id="logout">Logout</a>
-    </div>
-    {% endblock %}
+{% block hr %}
+<script src="{% static "db/script.js" %}"></script>
+<script src="{% static "db/csv_controller.js" %}"></script>
+<div class="header-right">
+    <a href="{% url 'db:index' %}">Home</a>
+    <a class="active" href="{% url 'db:search' %}">Search</a>
+    <a href="{% url 'db:upload' %}">Upload</a>
+    <a onclick="return logout()" id="logout">Logout</a>
+</div>
+{% endblock %}
 
-    {% block body %}
+{% block body %}
 
-    <div class="main">
-      <!--{% if values %}
+<div class="main">
+    <!--{% if values %}
       <button class="bt-download" onclick="to_csv()">Download as CSV</button>
       {% endif %}-->
-      <h1>Results</h1>
+    <h1>Results</h1>
     {% if values %}
-    <table id = "results_table" class = "results_table">
+    <table id="results_table" class="results_table">
         {% if header %}
         <tr>
             {% for h in header %}
-                <th>{{h}}</th>
+            <th>{{h}}</th>
             {% endfor %}
         </tr>
         {% endif %}
         {% if values %}
-            {% for value in values %}
-                <tr>
-                    {% for v in value %}
-                        <td>{{v}}</td>
-                    {% for items in archive %}
-                        {% if v == items.pk %}
-                        <a href = "/db/test/{{items.pk}}/"> Modify </a>
-                        {% endif %}
-                        {% endfor %}
-                    {% endfor %}
-                </tr>
+        {% for value in values %}
+        <tr>
+            {% for v in value %}
+            <td>{{v}}</td>
             {% endfor %}
+        </tr>
+        {% endfor %}
         {% endif %}
-        </table>
+    </table>
     {% else %}
-        <p>No results.</p>
+    <p>No results.</p>
     {% endif %}
+    <br>
     <div class="download_button">
+        <button class="bt-upload" onclick="sortTable()">Sort By Archive Number</button>
         <button class="bt-discard" onclick="backToSearch()">Back To Search</button>
         <button class="bt-download" onclick="toCsv()">Download as CSV</button>
     </div>
-
     {% endblock %}
 </div>
