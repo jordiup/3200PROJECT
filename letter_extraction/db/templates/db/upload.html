@@ -3,7 +3,7 @@
     {% load static %}
     {% block head %}
     <title>Letter Search - Upload</title>
-    
+
     {% endblock %}
 
 
@@ -82,7 +82,7 @@
             {% if fname %}
                 <div id="scanfname"> <b>Scanned file:</b> <i>{{fname}}</i> </div>
             {% endif %}
-            
+
             <br>
             <div class="preview-results" id="prevresults">
                 {# For xlsx files #}
@@ -126,9 +126,10 @@
             </div>
         {% endif %}
 
+        <p style="padding:0 15% 0"><i>If you wish to add <b>{{fname}}</b> to the search engine for future results please press:<br> 'Add document to database'<br>otherwise press 'Discard file' above.</i></p>
         <form action = "{% url 'db:index' %}" method = "POST" id = "input_field" class = "input_form">
             {% csrf_token %}
-            <button class="bt-add" id="commit-button" type="submit" name = "input_file" style="margin-bottom:0px;" onclick="addToDb()">Commit Archive to Database</button>
+            <button class="bt-add" id="commit-button" type="submit" name = "input_file" style="margin-bottom:0px;" onclick="addToDb()">Add document to database</button>
         </form>
     {% endif %}
 
