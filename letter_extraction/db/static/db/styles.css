@@ -1,11 +1,12 @@
 /* effects whole document, mainly for background image */
 body {
+  /* Backup if other doesn't load */
   background-image: url("pattern.png");
   background-repeat: repeat;
 
   /* UNCOMMENT THIS CODE TO SEE PHOTO BKG IMAGES WITH WHITE OVERLAY */
-  background-image: linear-gradient(rgba(255, 255, 255, 0.8),
-    rgba(255, 255, 255, 0.5)), url("1.jpg");
+  background-image: linear-gradient(rgba(255, 255, 255, 0.5),
+    rgba(255, 255, 255, 0.5)), url("3.jpg");
   background-position: center;
 
   background-color: #ffffff;
