@@ -54,7 +54,7 @@
         </form>
         {% if not list and request.method == 'POST' %}
             <br>
-            <div id="errmsg">Selected file <b><i>{{fname}}</i></b> is either empty, in the wrong format, or the commit was cancelled.</div>
+            <div id="errmsg">Selected file <b><i>{{fname}}</i></b> is either empty or in the wrong format.</div>
         {% endif %}
     </div>
   </div>

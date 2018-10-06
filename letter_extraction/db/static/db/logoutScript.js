@@ -17,6 +17,8 @@ function mydiscard() {
     var base = url.split('db')[0];
     url = base + "db/upload";
     location.href = url;
+    var form = document.getElementById("uploadfield");
+    form.method = "GET";
 }
 
 function addToDb() {
@@ -25,5 +27,6 @@ function addToDb() {
     if(!add) {
         var form = document.getElementById("input_field");
         form.action = "/db/upload/";
+        form.method = "GET";
     }
 }
