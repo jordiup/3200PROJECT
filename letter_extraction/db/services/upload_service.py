@@ -14,13 +14,14 @@ def xlscanner(filename):
     #headers = ['archive code','addressee','language']
     headlist = []
     totalsheet = len(wb.sheet_names)
-    archcol = 0
+    #archcol = 0
     wholedoc=[]
 
     #Goes thru each worksheet
     for ws in range(totalsheet):
         p = 0
         headstart = -1
+        archcol = 0
         letters = []
         sheet = pd.read_excel(wb,wb.sheet_names[ws],header=None,index_col=None)
         #Stores header names
@@ -44,18 +45,17 @@ def xlscanner(filename):
                 m = 0
                 for k in each:
                     if(type(k[1]) == str):
-                        if (k[1].lower()=='archive code'):
+                        if (k[1].lower()=='archive code' or k[1].lower()=='archive number'):
                             archcol = m
                             headstart = i
                             headlist.append(each)
                             break
                     m=m+1
-
             #Only adds non-empty list to letters
             #Does not add data with no archive number
             if(not each):
                 continue
-            if (pd.isnull(each[archcol][1])):
+            if (pd.isnull(each[archcol][1]) or each[archcol][1] == 'None'):
                 continue
             if(not all(s[1] == 'None' for s in each)):
                 letters.append(each)
