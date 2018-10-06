@@ -21,8 +21,9 @@ def addToModel(input, user):
         language_written = holder_of_categories[7][1]
         if language_written == 'None':
             spliced_language = ''
+        elif len(language_written) == 1:
+            spliced_language = langauge_written
         else:
-            print(language_written)
             spliced_language = language_written.split(',')[1].strip()
         receiver_last_name = ''
         sender_last_name = ''
