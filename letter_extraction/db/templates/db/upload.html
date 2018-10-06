@@ -41,7 +41,7 @@
     <div class="main">
     <div class="searchheader" id="upddisp">
         <h1>Upload your file!</h1>
-        <p>We only accepts Word document (.doc) and Excel document (.xlsx or .xls)</p>
+        <p>We only accept Word documents (.doc) and Excel documents (.xlsx or .xls)</p>
         <form action="{% url 'db:upload' %}" method="POST" id="uploadfield" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="custom-file-upload">
@@ -54,7 +54,7 @@
         </form>
         {% if not list and request.method == 'POST' %}
             <br>
-            <div id="errmsg">Selected file <b><i>{{fname}}</i></b> is either empty or in the wrong format.</div>
+            <div id="errmsg">Selected file <b><i>{{fname}}</i></b> is either empty, in the wrong format, or the commit was cancelled.</div>
         {% endif %}
     </div>
   </div>
@@ -141,7 +141,7 @@
 
         <form action = "{% url 'db:index' %}" method = "POST" id = "input_field" class = "input_form">
             {% csrf_token %}
-            <button class="bt-add" type="submit" name = "input_file" style="margin-bottom:0px;">Commit Archive to Database</button>
+            <button class="bt-add" id="commit-button" type="submit" name = "input_file" style="margin-bottom:0px;" onclick="addToDb()">Commit Archive to Database</button>
         </form>
     {% endif %}
 
