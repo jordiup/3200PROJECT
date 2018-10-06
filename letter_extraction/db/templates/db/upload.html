@@ -111,9 +111,7 @@
                         {% for i in letter %}
                             <th>{{i.1}}</th>
                         {% endfor %}
-                    </tr>
                     {% else %}
-                    <tr>
                         {% for i in letter %}
                             <th>{{i.1}}</th>
                         {% endfor %}
@@ -163,19 +161,50 @@
         {
             var table = document.getElementById("previewtable");
             var each_row = table.rows[row_number].getElementsByTagName("th");
-            alert(each_row);
             for(var ic = 0 ; ic < each_row.length ; ic++)
             {
+                var currentcell = table.rows[row_number].cells[ic];
+                // Doesnt convert the edit button into textbox
+                if( currentcell.childNodes.length > 1){
+                    if(currentcell.childNodes[1].nodeName == "BUTTON"){
+                        currentcell.childNodes[1].innerHTML = "Save";
+                        currentcell.childNodes[1].setAttribute('onclick','show_change('+row_number+')');
+                        continue;
+                    }
+                }
+                // Changes everything else into textbox
                 var text = each_row[ic].innerHTML;
-                alert(text);
-                var d = document.createElement('td');
                 var a = document.createElement('input');
-                a.setAttribute("type", "input");
+                a.setAttribute("value",text);
+                currentcell.innerHTML = '';
+                currentcell.append(a);
+            }
+        }
+
+        function show_change(row_number){
+            var table = document.getElementById("previewtable");
+            var each_row = table.rows[row_number].getElementsByTagName("th");
+            for(var ic = 0 ; ic < each_row.length ; ic++)
+            {
+                var currentcell = table.rows[row_number].cells[ic];
+                // Convert save button back to edit button
+                if( currentcell.childNodes.length > 1){
+                    if(currentcell.childNodes[1].nodeName == "BUTTON"){
+                        currentcell.childNodes[1].innerHTML = "Edit";
+                        currentcell.childNodes[1].setAttribute('onclick','show_index('+row_number+')');
+                        continue;
+                    }
+                }
+                // Changes everything back to text
+                var text = currentcell.childNodes[0].value;
+                var a = document.createElement('th');
                 a.innerHTML = text;
-                d.appendChild(a);
-                text.parentNode.replaceChild(each_row[ic], d);
+                currentcell.removeChild(currentcell.childNodes[0]);
+                currentcell.append(a);
             }
         }
     </script>
     {% endblock %}
 </div>
+
+
