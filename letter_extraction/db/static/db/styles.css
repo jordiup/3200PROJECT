@@ -177,7 +177,8 @@ h4 {
   border: 1px solid black;
   border-collapse: collapse;
   font-size: 13px;
-  background-color: rgb(173, 186, 189);
+  background-color:rgba(180, 34, 0, 0.13);
+  /* background-color: rgb(173, 186, 189); */
 }
 
 .results_table td
@@ -185,7 +186,8 @@ h4 {
   border: 1px solid black;
   border-collapse: collapse;
   font-size: 13px;
-  background-color: rgb(114, 216, 239);
+  background-color:linen;
+  /* background-color: rgb(114, 216, 239); */
 }
 
 /* effects headed when viewed on a mobile device */
@@ -282,7 +284,7 @@ button {
 .download_button {
   text-align: center;
   position: relative;
-  margin-bottom: 5%;
+  margin-bottom: 0%;
 }
 
 /* effects footer of the pages */

@@ -22,6 +22,7 @@
       <!--{% if values %}
       <button class="bt-download" onclick="to_csv()">Download as CSV</button>
       {% endif %}-->
+      <h1>Results</h1>
     {% if values %}
     <table id = "results_table" class = "results_table">
         {% if header %}
@@ -49,11 +50,10 @@
     {% else %}
         <p>No results.</p>
     {% endif %}
-          </div>
     <div class="download_button">
         <button class="bt-discard" onclick="backToSearch()">Back To Search</button>
         <button class="bt-download" onclick="toCsv()">Download as CSV</button>
     </div>
 
     {% endblock %}
-</tr></table></div>
+</div>
