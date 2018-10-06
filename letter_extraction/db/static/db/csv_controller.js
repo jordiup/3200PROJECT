@@ -1,4 +1,4 @@
-function download_csv(csv, filename) {
+function downloadCsv(csv, filename) {
     var csvFile;
     var downloadLink;
     csvFile = new Blob([csv], { type: "text/csv" });
@@ -10,7 +10,7 @@ function download_csv(csv, filename) {
     downloadLink.click();
 }
 
-function export_table_to_csv(html, filename) {
+function exportTableToCsv(html, filename) {
     var csv = [];
     var rows = document.querySelectorAll("table tr");
 
@@ -25,10 +25,34 @@ function export_table_to_csv(html, filename) {
 
         csv.push(row);
     }
-    download_csv(csv.join("\n"), filename);
+    downloadCsv(csv.join("\n"), filename);
 }
 
-function to_csv() {
-    var html = document.querySelector(".results_table").outerHTML;
-    export_table_to_csv(html, "result_table.csv")
+function toCsv() {
+    var table = document.querySelector(".results_table");
+    if (table == null) alert("Cannot download an empty result set!");
+    var html = table.outerHTML;
+    exportTableToCsv(html, "result_table.csv")
 }
+
+function backToSearch() {
+    var exitting = confirm("Are you sure you want to go back?");
+    if (exitting) {
+        var url = location.href;
+        var base = url.split('db')[0];
+        url = base + "db/search/";
+        location.href = url;
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+function modify_function() {
+    var enumeration = document.getElementById("holder").getElementsByTagName("TD")
+    var archive_number = enumeration[4]
+    document.getElementById("tester").value = archive_number
+}
+
+

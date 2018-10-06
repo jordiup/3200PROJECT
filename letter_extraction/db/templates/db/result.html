@@ -6,7 +6,7 @@
     {% endblock %}
 
     {% block hr %}
-    <script src="{% static "db/logoutScript.js" %}"></script>
+    <script src="{% static "db/script.js" %}"></script>
     <script src="{% static "db/csv_controller.js" %}"></script>
     <div class="header-right">
         <a href="{% url 'db:index' %}">Home</a>
@@ -22,6 +22,7 @@
       <!--{% if values %}
       <button class="bt-download" onclick="to_csv()">Download as CSV</button>
       {% endif %}-->
+    {% if values %}
     <table id = "results_table" class = "results_table">
         {% if header %}
         <tr>
@@ -43,28 +44,16 @@
                     {% endfor %}
                 </tr>
             {% endfor %}
-        {% else %}
-            <p>No results.</p>
         {% endif %}
         </table>
+    {% else %}
+        <p>No results.</p>
+    {% endif %}
           </div>
     <div class="download_button">
-        <button class="bt-download" onclick="to_csv()">Download as CSV</button>
+        <button class="bt-discard" onclick="backToSearch()">Back To Search</button>
+        <button class="bt-download" onclick="toCsv()">Download as CSV</button>
     </div>
 
     {% endblock %}
-
-
-
-  <script>
-  modify_function()
-  {
-      var enumeration = document.getElementById("holder").getElementsByTagName("TD")
-      var archive_number = enumeration[4]
-      document.getElementById("tester").value = archive_number
-  }
-
-
-
-  </script>
 </tr></table></div>

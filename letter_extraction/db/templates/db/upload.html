@@ -8,8 +8,7 @@
 
 
     {% block hr %}
-    <script src="{% static "db/logoutScript.js" %}"></script>
-    <script src="{% static "db/uploadScript.js" %}"></script>
+    <script src="{% static "db/script.js" %}"></script>
     <div class="header-right">
         <a href="{% url 'db:index' %}">Home</a>
         <a href="{% url 'db:search' %}">Search</a>
@@ -22,7 +21,7 @@
     <div class="main">
     <div class="searchheader" id="upddisp">
         <h1>Upload your file!</h1>
-        <p>We only accepts Word document (.doc) and Excel document (.xlsx or .xls)</p>
+        <p>We only accept Word documents (.doc) and Excel documents (.xlsx or .xls)</p>
         <form action="{% url 'db:upload' %}" method="POST" id="uploadfield" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="custom-file-upload">
@@ -122,7 +121,7 @@
 
         <form action = "{% url 'db:index' %}" method = "POST" id = "input_field" class = "input_form">
             {% csrf_token %}
-            <button class="bt-add" type="submit" name = "input_file" style="margin-bottom:0px;">Commit Archive to Database</button>
+            <button class="bt-add" id="commit-button" type="submit" name = "input_file" style="margin-bottom:0px;" onclick="addToDb()">Commit Archive to Database</button>
         </form>
     {% endif %}
 
