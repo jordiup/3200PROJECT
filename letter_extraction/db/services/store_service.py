@@ -22,7 +22,7 @@ def addToModel(input, user):
         if language_written == 'None':
             spliced_language = ''
         elif len(language_written) == 1:
-            spliced_language = langauge_written
+            spliced_language = language_written
         else:
             spliced_language = language_written.split(',')[1].strip()
         receiver_last_name = ''
