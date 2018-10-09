@@ -77,6 +77,16 @@ def filler(myletter):
     for m in indicator:
         myletter.append( (m, "None") )
 
+def shorten_summary(summary):
+    result = ''
+    for i in range(0,200):
+        try:
+            result += summary[i]
+        except IndexError:
+            break
+    result += ' ...'
+    return result
+
 #Docx scanner function
 def docxscanner(filename):
     doc = docx.Document(filename)
@@ -113,6 +123,8 @@ def docxscanner(filename):
                     #Check if summary and npages is not empty
                     if( not not summary ):
                         letterdata.append((8,summary))
+                        #shortened_summary = shorten_summary(summary)
+                        #letterdata.append((8,shortened_summary))
                     if (not not npages):
                         letterdata.append((9,npages))
                     filler(letterdata)
@@ -196,6 +208,13 @@ def docxscanner(filename):
             #letterdata.append((8,summary))
             if( not not summary ):
                 letterdata.append((8,summary))
+
+                # UNCOMMENTING THE BELOW TWO LINES AND COMMENTING THE ABOVE LINE WILL SHORTEN THE SUMMARIES
+                # IN ORDER TO MAKE THE PREVIEW MORE READABLE. HOWEVER, THIS WILL MESS WITH THE EDIT FEATURE.
+                # R.M
+
+                #shortened_summary = shorten_summary(summary)
+                #letterdata.append((8,shortened_summary))
             if (not not npages):
                 letterdata.append((9,npages))
             filler(letterdata)
