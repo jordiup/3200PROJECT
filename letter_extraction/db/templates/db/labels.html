@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block head %}
+<title>Letter Search - Home</title>
+{% endblock %}
+
+{% block hr %}
+<script src="{% static " db/script.js" %}"></script>
+<div class="header-right">
+    <a href="{% url 'db:index' %}">Home</a>
+    <a href="{% url 'db:search' %}">Search</a>
+    <a href="{% url 'db:upload' %}">Upload</a>
+    <a class="active" href="{% url 'db:labels' %}">Metadata</a>
+    <a onclick="return logout();" id="logout">Logout</a>
+</div>
+{% endblock %}
+
+{% block body %}
+<div class="main">
+    
+    <h2>Currently the following metadata labels exist for historical documents:</h2>
+    {% if labels %}
+        <select style="font-family: inherit" name="Click HERE">
+            <option selected>Click to see metadata labels</option>
+            {% for l in labels %}
+                <option>{{l}}</option>>
+            {% endfor %}
+        </select>
+    {% endif %}
+    <h3>If you wish to add a metadata category, type the name of this category below:</h3>
+    <br>
+    <form method="GET" action="{% url 'db:labels' %}">
+        <input type="text" name="new_label" required><br><br>
+        <input type="submit" class="submitform" value="Add">
+    </form>
+</div>
+{% endblock %}

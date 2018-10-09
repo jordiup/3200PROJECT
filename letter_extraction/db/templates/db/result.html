@@ -12,6 +12,7 @@
     <a href="{% url 'db:index' %}">Home</a>
     <a class="active" href="{% url 'db:search' %}">Search</a>
     <a href="{% url 'db:upload' %}">Upload</a>
+    <a href="{% url 'db:labels' %}">Metadata</a>
     <a onclick="return logout()" id="logout">Logout</a>
 </div>
 {% endblock %}
@@ -46,10 +47,13 @@
     <p>No results.</p>
     {% endif %}
     <br>
-    <div class="download_button">
-        <button class="bt-upload" onclick="sortTable()">Sort By Archive Number</button>
-        <button class="bt-discard" onclick="backToSearch()">Back To Search</button>
-        <button class="bt-download" onclick="toCsv()">Download as CSV</button>
+    <div class="footer">
+        <div class="download-button">
+            <button class="bt-discard" onclick="backToSearch()">Back To Search</button>
+            <button class="bt-upload" onclick="sortTable()">Sort By Archive Number</button>
+            <button class="bt-download" onclick="toCsv()">Download as CSV</button>
+        </div>
+        <br>
     </div>
     {% endblock %}
 </div>

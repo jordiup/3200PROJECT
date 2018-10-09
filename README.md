@@ -164,6 +164,27 @@ The CSS file can be found in the db/static/db directory. Right now there isn’t
 
 Any specific questions, refer to the Django tutorial series, they most likely have an answer. Else consult me, but no guarantees.
 
+## Features
+
+### Search feature
+
+### Adding of metadata labels
+I (Robin) have created the functionality to add metadata labels to documents in our system.
+You will see a new "metadata" selectable on the web page. Click on that, or alternatively:
+```
+127.0.0.1:8000/db/labels
+```
+There is a scrollable which lists all the labels so far.
+There is also the functionality to add a new metadata category. If you wish to do this, then the name of the label is typed into the text box, and you press Add. Upon doing this, the back-end code will pass the text into *model_service*, which will store the new request to add a metadata label in a file called labels.py. 
+
+This is done so that a user can't maliciously (or otherwise) edit the database directly. For example, if the input is "test", then the file will look like:
+```
+test = models.CharField(max_length=64)
+```
+This file is edited for each metadata label that is added.
+
+These functionalities are meant to be placeholders. Theoretically, a system admin/future developer would be able to copy-paste this generated code into models.py under the Document class. It would be a bad idea to directly add the label via code.
+
 ## GitHub
 
 Make sure to create a new branch when working on stuff, and then merge back into master. We want to avoid complicated merges at all costs.

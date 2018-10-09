@@ -283,8 +283,8 @@ button {
 
 .download_button {
   text-align: center;
-  position: relative;
-  margin-bottom: 0%;
+  position: absolute;
+  display: inline;
 }
 
 /* effects footer of the pages */

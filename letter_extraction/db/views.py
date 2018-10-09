@@ -8,7 +8,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect, render_to_response
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import Q
-from db.services import query_service, account_service, upload_service, store_service,  results_service
+from db.services import query_service, account_service, upload_service, store_service,  results_service, model_service
 from .models import *
 
 #Testing import python function
@@ -113,3 +113,12 @@ def logout(request):
 def drag_n_drop_test(request):
     context = {}
     return render(request, 'db/drag_n_drop_test.html', context)
+
+def labels(request):
+    if not request.user.has_perm('db.can_edit'):
+        return render(request, 'db/index.html', {"message":"You do not have the permissions to perform this task!"})
+    if 'new_label' in request.GET:
+        model_service.add_metadata_label(request.GET['new_label'])    
+    labels = model_service.get_metadata_labels()
+    context = {'labels':labels}
+    return render(request, 'db/labels.html', context)
