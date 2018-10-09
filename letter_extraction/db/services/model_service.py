@@ -31,5 +31,5 @@ def format_label_as_storeable(label):
     return new_label
 
 def add_metadata_label(label):
-    f = open("labels.py", 'w+')
+    f = open("labels.py", 'a+')
     f.write(format_label_as_storeable(label) + ' = models.CharField(max_length=64)\n')
