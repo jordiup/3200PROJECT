@@ -46,10 +46,13 @@
     <p>No results.</p>
     {% endif %}
     <br>
-    <div class="download_button">
-        <button class="bt-upload" onclick="sortTable()">Sort By Archive Number</button>
-        <button class="bt-discard" onclick="backToSearch()">Back To Search</button>
-        <button class="bt-download" onclick="toCsv()">Download as CSV</button>
+    <div class="footer">
+        <div class="download-button">
+            <button class="bt-discard" onclick="backToSearch()">Back To Search</button>
+            <button class="bt-upload" onclick="sortTable()">Sort By Archive Number</button>
+            <button class="bt-download" onclick="toCsv()">Download as CSV</button>
+        </div>
+        <br>
     </div>
     {% endblock %}
 </div>
