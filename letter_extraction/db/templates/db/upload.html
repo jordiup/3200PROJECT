@@ -35,7 +35,12 @@
         </form>
         {% if not list and request.method == 'POST' %}
             <br>
-            <div id="errmsg">Selected file <b><i>{{fname}}</i></b> is either empty or in the wrong format.</div>
+            {% if err %}
+                <div> {{err}} of the given file: <b><i>{{fname}}</i></b></div>
+                <div> Refer to the guide below for ideal format of a letter.</div>
+            {% else %}
+                <div id="errmsg">Selected file <b><i>{{fname}}</i></b> is either empty or in the wrong format.</div>
+            {% endif %}
         {% endif %}
     </div>
   </div>
@@ -86,7 +91,7 @@
 
             <br>
             <div class="preview-results" id="prevresults">
-                {# For xlsx files #}
+                <!-- excel files -->
                 {% if indic == 1 %}
                     <h2 class="code">Data Preview</h2>
                     {% for letter in list %}
@@ -102,7 +107,7 @@
                     {% endfor %}
                 {% endif %}
 
-                {# For docx files #}
+                <!-- Docx files -->
                 {% if indic == 0 %}
                     <h2 class="code">Data Preview</h2>
                     <table id="previewtable">
@@ -116,7 +121,7 @@
                         {% for i in letter %}
                             <th>{{i.1}}</th>
                         {% endfor %}
-                        <th> <button type="submit" onclick="show_index('{{forloop.counter0}}')"> Edit</button></th>
+                        <!-- <th> <button type="submit" onclick="show_index('{{forloop.counter0}}')"> Edit</button></th> -->
                         {% endif %}
                         {% endfor %}
                     </tr>
@@ -157,68 +162,64 @@
                 alert("No file is selected for scanning!");
             }
         }
+        
+        // Function below are for edit functionality when data is previewed
+        // This is for future work/implementation
+        // function show_index(row_number)
+        // {
+        //     var table = document.getElementById("previewtable");
+        //     var each_row = table.rows[row_number].getElementsByTagName("th");
+        //     for(var ic = 0 ; ic < each_row.length ; ic++)
+        //     {
+        //         var currentcell = table.rows[row_number].cells[ic];
+        //         // Doesnt convert the edit button into textbox
+        //         if( currentcell.childNodes.length > 1){
+        //             if(currentcell.childNodes[1].nodeName == "BUTTON"){
+        //                 currentcell.childNodes[1].innerHTML = "Save";
+        //                 currentcell.childNodes[1].setAttribute('onclick','show_change('+row_number+')');
+        //                 continue;
+        //             }
+        //         }
+        //         // Changes everything else into textbox
+        //         var text = each_row[ic].innerHTML;
+        //         var a = document.createElement('input');
+        //         a.setAttribute("value",text);
+        //         currentcell.innerHTML = '';
+        //         currentcell.append(a);
+        //     }
+        // }
 
-        function show_index(row_number)
-        {
-            var table = document.getElementById("previewtable");
-            var each_row = table.rows[row_number].getElementsByTagName("th");
-            for(var ic = 0 ; ic < each_row.length ; ic++)
-            {
-                var currentcell = table.rows[row_number].cells[ic];
-                // Doesnt convert the edit button into textbox
-                if( currentcell.childNodes.length > 1){
-                    if(currentcell.childNodes[1].nodeName == "BUTTON"){
-                        currentcell.childNodes[1].innerHTML = "Save";
-                        currentcell.childNodes[1].setAttribute('onclick','show_change('+row_number+')');
-                        continue;
-                    }
-                }
-                // Changes everything else into textbox
-                var text = each_row[ic].innerHTML;
-                var a = document.createElement('input');
-                a.setAttribute("value",text);
-                currentcell.innerHTML = '';
-                currentcell.append(a);
-            }
-        }
-
-        function show_change(row_number){
-            var reslong = "{{list|length}}";
-            alert('{{list.0}}');
-            var letters = 0;
-            var table = document.getElementById("previewtable");
-            var each_row = table.rows[row_number].getElementsByTagName("th");
-            for (letters=0; letters < reslong ; letters++){
-                var letterlen =  "{{list.|add:"+letters+"|length}}";
-                alert("{{list.1.0|safe}}");
-                // for (var kk in "{{list.|add:"+letters+"|safe}}"){
-                //     alert("{{list.|add:"+letters+"|safe}}");
-                // } 
-
-            }   
-            for(var ic = 0 ; ic < each_row.length ; ic++)
-            {
-                var currentcell = table.rows[row_number].cells[ic];
-                // Convert save button back to edit button
-                if( currentcell.hasChildNodes()){
-                    if (currentcell.childNodes.length > 1){
-                        if(currentcell.childNodes[1].nodeName == "BUTTON"){
-                            currentcell.childNodes[1].innerHTML = "Edit";
-                            currentcell.childNodes[1].setAttribute('onclick','show_index('+row_number+')');
-                            break;
-                        }
-                    }
-                }
-                // Changes everything back to text
-                var text = currentcell.childNodes[0].value;
-                // for (var k = 0 ; k < resultarr.length ; k++){
-                //     // resultarr[row_number][k][1] = text;
-                //     alert(resultarr[k]);
-                // }
-                currentcell.removeChild(currentcell.childNodes[0]);
-                currentcell.append(text);
-            }
-        }
+        // function show_change(row_number){
+        //     var reslong = "{{list|length}}";
+        //     var letters = 0;
+        //     var table = document.getElementById("previewtable");
+        //     var each_row = table.rows[row_number].getElementsByTagName("th");
+        //     for (letters=0; letters < reslong ; letters++){
+        //         var letterlen =  "{{list.|add:"+letters+"|length}}";
+        //     }   
+        //     for(var ic = 0 ; ic < each_row.length ; ic++)
+        //     {
+        //         var currentcell = table.rows[row_number].cells[ic];
+        //         // Convert save button back to edit button
+        //         if( currentcell.hasChildNodes()){
+        //             if (currentcell.childNodes.length > 1){
+        //                 if(currentcell.childNodes[1].nodeName == "BUTTON"){
+        //                     currentcell.childNodes[1].innerHTML = "Edit";
+        //                     currentcell.childNodes[1].setAttribute('onclick','show_index('+row_number+')');
+        //                     break;
+        //                 }
+        //             }
+        //         }
+        //         // Changes everything back to text
+        //         var text = currentcell.childNodes[0].value;
+        //         // for (var k = 0 ; k < resultarr.length ; k++){
+        //         //     // resultarr[row_number][k][1] = text;
+        //         //     alert(resultarr[k]);
+        //         // }
+        //         currentcell.removeChild(currentcell.childNodes[0]);
+        //         currentcell.append(text);
+        //     }
+        // }
     </script>
     {% endblock %}
 </div>

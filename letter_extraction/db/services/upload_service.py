@@ -2,14 +2,18 @@
 # need to download docx, pandas, re, nltk module first
 # i.e. $pip install --pre python-docx
 
-import os
+import os, sys, traceback
 import docx
 import nltk
 import re
 import pandas as pd
 
+#storing reference number of an error letter
+errindex = ''
+
 #Xlsx and xls scanner function
 def xlscanner(filename):
+    global errindex
     wb = pd.ExcelFile(filename)
     #headers = ['archive code','addressee','language']
     headlist = []
@@ -60,6 +64,8 @@ def xlscanner(filename):
             if(not all(s[1] == 'None' for s in each)):
                 letters.append(each)
             i = i+1
+            #stores archive number of a letter for error handling message
+            errindex = each[m]
         wholedoc.append(letters)
     #error handling
     if (not headlist):
@@ -89,6 +95,7 @@ def shorten_summary(summary):
 
 #Docx scanner function
 def docxscanner(filename):
+    global errindex
     doc = docx.Document(filename)
     wholedoc = []
     #lists of every letter data
@@ -139,12 +146,24 @@ def docxscanner(filename):
                 letterdata = []
 
             #Finds letter reference number (0)
-            elif (tagged[0][1] == "JJ"):
-                letterdata.append((0,sentence))
+            # i.e. reference number with format similar to 2-2244A/14.001
+            elif (tagged[0][1] == "JJ" or (tagged[0][1] == "NN" and any((c in "[]-/()") for c in tagged[0][0]))):
+                if (any((c in "[]-/") for c in sentence)):
+                    letterdata.append((0,sentence))
+                    errindex = sentence
 
             #Finds Archive Collection (1)
             elif (tagged[0][1] == "NN"):
                 letterdata.append((1,sentence))
+
+        #Finds letter reference number (0) 
+        # Assume that reference number is either length of 1 upto 4
+        # i.e. reference number with format similar to NN 2234A-13-363 
+        if( len(tagged) >=2 and len(tagged) < 5):
+            if (tagged[0][1] == "JJ" or tagged[0][1] == "NNP" or tagged[1][1] == "JJ"):
+                if (any((c in "[]-/()") for c in sentence)):
+                    letterdata.append((0,sentence))
+                    errindex = sentence
 
         #Finds Letter Sender
         if (len(tagged) > 2 and len(tagged) < 10 and nlines < 8):
@@ -230,12 +249,28 @@ def docxscanner(filename):
 
 def main(filename):
     #currently only for .docx and .xlsx and .xls files
+    global errindex
+    errmsg = ''
     if (filename.name.endswith('.docx')):
         try:
-            return docxscanner(filename)
+            errindex = ''
+            return docxscanner(filename), errmsg
         except:
-            print("error")
+            # Returns error message on error
+            # Sends letter reference number to the user to let them know
+            errmsg = 'There is a formatting issue in letter with reference number: '+ errindex
+            errindex = ''
+            return [],errmsg
     elif ((filename.name.endswith('.xlsx')) or (filename.name.endswith('.xls'))):
-        return xlscanner(filename)
+        try:
+            errindex = ''
+            return xlscanner(filename), errmsg
+        except:
+            if(errindex == ''):
+                errmsg = 'There is a formatting issue '
+            else:
+                errmsg = 'There is a formatting issue in letter with reference number: '+ errindex
+            errindex = ''
+            return [], errmsg
     else:
         print('Only accept .docx and .xls files')

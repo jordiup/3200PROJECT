@@ -72,12 +72,12 @@ def upload(request):
         global indicator
         global result
         global archive_number_list
-        result = upload_service.main(request.FILES['myfile'])
+        result, errmsg = upload_service.main(request.FILES['myfile'])
         results_service.archive_number_finder(result, archive_number_list) #checking for duplicates, duplicate archive numbers will be stored in archive_number_list
         indicator = 0 #docx files
         if (request.FILES['myfile'].name.endswith('.xlsx') or request.FILES['myfile'].name.endswith('.xls')):
             indicator = 1 #xlsx and xls files
-        return render(request,'db/upload.html',{"list":result, "indic": indicator, "fname": request.FILES['myfile'].name})
+        return render(request,'db/upload.html',{"list":result, "indic": indicator, "fname": request.FILES['myfile'].name, 'err': errmsg})
     else:
         template = loader.get_template('db/upload.html')
         context = {}
