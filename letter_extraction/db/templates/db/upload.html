@@ -65,8 +65,9 @@
         <div class="instructions">
         <h4>Steps</h4>
         <p>
-            When uploading word documents to the website, ensure you always have the first line of the entry as the archive number, this should be a unique identification number for each historical document.
+            When uploading spreadsheets to the website, ensure you always have a column for archive number, this should be a unique identification number for each historical document.
             Some example data has been included to give a general understanding of what can be uploaded.
+            If you wish to store additional information you may create additional columns, each new column must have a header describing what information the column contains.
         </p>
         <p><a href="{% static 'db/Word_example.docx'%}">Download example word doc.</a></p>
 
@@ -115,7 +116,7 @@
                         {% for i in letter %}
                             <th>{{i.1}}</th>
                         {% endfor %}
-                        <th> <button type="submit" onclick="show_index('{{forloop.counter0}}')" value = "{{forloop.counter0}}">Edit</button> </th>
+                        <th> <button type="submit" onclick="show_index('{{forloop.counter0}}')"> Edit</button></th>
                         {% endif %}
                         {% endfor %}
                     </tr>
@@ -182,27 +183,44 @@
         }
 
         function show_change(row_number){
+            var reslong = "{{list|length}}";
+            alert('{{list.0}}');
+            var letters = 0;
             var table = document.getElementById("previewtable");
             var each_row = table.rows[row_number].getElementsByTagName("th");
+            for (letters=0; letters < reslong ; letters++){
+                var letterlen =  "{{list.|add:"+letters+"|length}}";
+                alert("{{list.1.0|safe}}");
+                // for (var kk in "{{list.|add:"+letters+"|safe}}"){
+                //     alert("{{list.|add:"+letters+"|safe}}");
+                // } 
+
+            }   
             for(var ic = 0 ; ic < each_row.length ; ic++)
             {
                 var currentcell = table.rows[row_number].cells[ic];
                 // Convert save button back to edit button
-                if( currentcell.childNodes.length > 1){
-                    if(currentcell.childNodes[1].nodeName == "BUTTON"){
-                        currentcell.childNodes[1].innerHTML = "Edit";
-                        currentcell.childNodes[1].setAttribute('onclick','show_index('+row_number+')');
-                        continue;
+                if( currentcell.hasChildNodes()){
+                    if (currentcell.childNodes.length > 1){
+                        if(currentcell.childNodes[1].nodeName == "BUTTON"){
+                            currentcell.childNodes[1].innerHTML = "Edit";
+                            currentcell.childNodes[1].setAttribute('onclick','show_index('+row_number+')');
+                            break;
+                        }
                     }
                 }
                 // Changes everything back to text
                 var text = currentcell.childNodes[0].value;
-                var a = document.createElement('th');
-                a.innerHTML = text;
+                // for (var k = 0 ; k < resultarr.length ; k++){
+                //     // resultarr[row_number][k][1] = text;
+                //     alert(resultarr[k]);
+                // }
                 currentcell.removeChild(currentcell.childNodes[0]);
-                currentcell.append(a);
+                currentcell.append(text);
             }
         }
     </script>
     {% endblock %}
 </div>
+
+

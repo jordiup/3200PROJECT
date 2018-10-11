@@ -231,7 +231,10 @@ def docxscanner(filename):
 def main(filename):
     #currently only for .docx and .xlsx and .xls files
     if (filename.name.endswith('.docx')):
-        return docxscanner(filename)
+        try:
+            return docxscanner(filename)
+        except:
+            print("error")
     elif ((filename.name.endswith('.xlsx')) or (filename.name.endswith('.xls'))):
         return xlscanner(filename)
     else:
