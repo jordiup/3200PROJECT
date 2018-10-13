@@ -1,8 +1,6 @@
-# reading metadata from docx and storing in array
+# extracting metadata from excel and word 
 # need to download docx, pandas, re, nltk module first
-# i.e. $pip install --pre python-docx
 
-import os, sys, traceback
 import docx
 import nltk
 import re
@@ -41,9 +39,14 @@ def xlscanner(filename):
             if(headstart != -1):
                 for xx in range(headlist[ws][0][0],len(headlist[ws])+headlist[ws][0][0]):
                     content = sheet.iloc[i,xx]
+                    print(content, type(content))
                     if (pd.isnull(content)):
                         content = 'None'
-                    each.append((headlist[ws][xx-headlist[ws][0][0]][1],content))
+                        each.append((headlist[ws][xx-headlist[ws][0][0]][1],content))
+                    elif(type(content)!= int and re.match(r'[\[ \]]',content)):
+                        each.append((headlist[ws][xx-headlist[ws][0][0]][1],content.strip(' [ ] ( ) ?')+' inferred'))
+                    else:
+                        each.append((headlist[ws][xx-headlist[ws][0][0]][1],content))
             
             if (headstart == -1): #Finding header
                 m = 0
@@ -53,19 +56,19 @@ def xlscanner(filename):
                             archcol = m
                             headstart = i
                             headlist.append(each)
+                            #stores archive number of a letter for error handling message
+                            errindex = each[archcol][1]
                             break
                     m=m+1
             #Only adds non-empty list to letters
             #Does not add data with no archive number
-            if(not each):
+            if( (not each) or (headstart == -1)):
                 continue
             if (pd.isnull(each[archcol][1]) or each[archcol][1] == 'None'):
                 continue
             if(not all(s[1] == 'None' for s in each)):
                 letters.append(each)
             i = i+1
-            #stores archive number of a letter for error handling message
-            errindex = each[m]
         wholedoc.append(letters)
     #error handling
     if (not headlist):
@@ -147,7 +150,7 @@ def docxscanner(filename):
 
             #Finds letter reference number (0)
             # i.e. reference number with format similar to 2-2244A/14.001
-            elif (tagged[0][1] == "JJ" or (tagged[0][1] == "NN" and any((c in "[]-/()") for c in tagged[0][0]))):
+            elif (tagged[0][1] == "JJ" or tagged[0][1] == "CD" or (tagged[0][1] == "NN" and any((c in "[]-/()") for c in tagged[0][0]))):
                 if (any((c in "[]-/") for c in sentence)):
                     letterdata.append((0,sentence))
                     errindex = sentence
@@ -159,7 +162,7 @@ def docxscanner(filename):
         #Finds letter reference number (0) 
         # Assume that reference number is either length of 1 upto 4
         # i.e. reference number with format similar to NN 2234A-13-363 
-        if( len(tagged) >=2 and len(tagged) < 5):
+        elif( len(tagged) >=2 and len(tagged) < 5):
             if (tagged[0][1] == "JJ" or tagged[0][1] == "NNP" or tagged[1][1] == "JJ"):
                 if (any((c in "[]-/()") for c in sentence)):
                     letterdata.append((0,sentence))
@@ -244,7 +247,6 @@ def docxscanner(filename):
     #Checks if document is a correct format or not
     if(k==1):
         letters = []
-        return letters
     return letters
 
 def main(filename):
