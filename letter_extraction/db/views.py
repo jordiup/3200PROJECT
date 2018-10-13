@@ -47,8 +47,7 @@ def search(request):
     template = loader.get_template('db/search.html')
     header = ['Archive Number', 'Date Written', 'Document Type', 'Language', 'Place Written', 'Sender Name', 'Receiver Name']
     values = query_service.analyze_query_request("", "", True)
-    context = {
-    }
+    context = {'header': header, 'values':values}
     return HttpResponse(template.render(context, request))
 
     # search by archive numbers, use that to get some document

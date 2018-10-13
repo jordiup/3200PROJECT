@@ -10,7 +10,7 @@ id = "id"
 
 def analyze_query_request(search_type, query_value, isBrowse):
     results = []
-    if isBrowse == False:
+    if isBrowse is False:
         if search_type == 'document':
             documents = process_archive_number(query_value)
         if search_type == 'author':
@@ -21,10 +21,8 @@ def analyze_query_request(search_type, query_value, isBrowse):
             documents = process_date(query_value)
         return_document_model(results, documents)
     else:
-        documents = {}
-        documents.update(Document.objects.order_by('?').first())
-        documents.update(Document.objects.order_by('?').first())
-        documents.update(Document.objects.order_by('?').first())
+        documents = []
+        documents.extend(Document.objects.order_by('?')[:5])
         return_document_model(results, documents)
     return results
 
