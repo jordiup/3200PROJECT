@@ -8,17 +8,24 @@ receiver_id ="receiver_id"
 sender_id = "sender_id"
 id = "id"
 
-def analyze_query_request(search_type, query_value):
+def analyze_query_request(search_type, query_value, isBrowse):
     results = []
-    if search_type == 'document':
-        documents = process_archive_number(query_value)
-    if search_type == 'author':
-        documents = process_author(query_value)
-    if search_type == 'location':
-        documents = process_location(query_value)
-    if search_type == 'date':
-        documents = process_date(query_value)
-    return_document_model(results, documents)
+    if isBrowse == False:
+        if search_type == 'document':
+            documents = process_archive_number(query_value)
+        if search_type == 'author':
+            documents = process_author(query_value)
+        if search_type == 'location':
+            documents = process_location(query_value)
+        if search_type == 'date':
+            documents = process_date(query_value)
+        return_document_model(results, documents)
+    else:
+        documents = {}
+        documents.update(Document.objects.order_by('?').first())
+        documents.update(Document.objects.order_by('?').first())
+        documents.update(Document.objects.order_by('?').first())
+        return_document_model(results, documents)
     return results
 
 def process_archive_number(query_value):

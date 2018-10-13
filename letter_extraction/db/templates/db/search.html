@@ -90,6 +90,32 @@
                     </tr>
             </tbody>
           </table>
+
+          <h1>Results</h1>
+          {% if values %}
+          <div class="preview-results">
+          <table id="results_table" class="results_table">
+              {% if header %}
+              <tr>
+                  {% for h in header %}
+                  <th>{{h}}</th>
+                  {% endfor %}
+              </tr>
+              {% endif %}
+              {% if values %}
+              {% for value in values %}
+              <tr>
+                  {% for v in value %}
+                  <td>{{v}}</td>
+                  {% endfor %}
+              </tr>
+              {% endfor %}
+              {% endif %}
+          </table>
+        </div>
+          {% else %}
+          <p>No results.</p>
+          {% endif %}
 </div>
 </div>
 

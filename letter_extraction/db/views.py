@@ -45,9 +45,16 @@ def search(request):
     if not request.user.has_perm('db.can_search'):
         return render(request, 'db/index.html', {"message":"You do not have the permissions to perform this task!"})
     template = loader.get_template('db/search.html')
+    header = ['Archive Number', 'Date Written', 'Document Type', 'Language', 'Place Written', 'Sender Name', 'Receiver Name']
+    values = query_service.analyze_query_request("", "", True)
     context = {
     }
     return HttpResponse(template.render(context, request))
+
+    # search by archive numbers, use that to get some document
+    # docs.obj.filter - you can find on djjango doc
+    # should be a list of documents
+    # feed it into return_doc ([], the doc shit)
 
 
 @login_required
@@ -56,7 +63,7 @@ def search_result(request):
         return render(request, 'db/index.html', {"message":"You do not have the permissions to perform this task!"})
     search_type = str(request.GET['searchtype'])
     query_value = str(request.GET['query'])
-    values = query_service.analyze_query_request(search_type, query_value)
+    values = query_service.analyze_query_request(search_type, query_value, False)
     header = ['Archive Number', 'Date Written', 'Document Type', 'Language', 'Place Written', 'Sender Name', 'Receiver Name']
     context = {'header': header, 'values': values}
     return render(request, 'db/result.html', context)
@@ -118,7 +125,7 @@ def labels(request):
     if not request.user.has_perm('db.can_edit'):
         return render(request, 'db/index.html', {"message":"You do not have the permissions to perform this task!"})
     if 'new_label' in request.GET:
-        model_service.add_metadata_label(request.GET['new_label'])    
+        model_service.add_metadata_label(request.GET['new_label'])
     labels = model_service.get_metadata_labels()
     context = {'labels':labels}
     return render(request, 'db/labels.html', context)
