@@ -6,6 +6,7 @@
 <div class="main">
 
     {% block hr %}
+    <script src="{% static "db/script.js" %}"></script>
     <div class="header-right">
         <a href="{% url 'db:index' %}">Home</a>
         <a href="{% url 'db:search' %}">Search</a>
@@ -18,20 +19,35 @@
 
 
 
-      {% block body %}
-      <div class="main">
-        {% if document_test_form %}
-          <form method = "POST" action = "">
-            {{document_test_form}}<br><br>
-            {{person_test_form}}<br><br>
-            {{location_test_form}}<br><br>
-              {% csrf_token %}
-              <input type = "submit" value = "Save">
-          </form>
-          {% else %}
-              <p>No results.</p>
-          {% endif %}
+    {% block body %}
+    <div class="main">
+        {% if update_message %}
+            <h3>{{update_message}}</h3>
+        {% endif %}
+        {% if document_form %}
+            <h2>Edit result with archive number: {{document_form.archive_number.value}}</h2>
+            <p><strong>Warning: </strong> For safety reasons, you may not change a document's 
+                archive number!</p>
+                <h3>Author Information</h3>
+                Name of author: {{sender_form.full_name.value}} <br>
+                Location of author: {{sender_location_form.place_name.value}} <br>
+                <h3>Receiver Information</h3>
+                Name of receiver: {{receiver_form.full_name.value}} <br>
+                Location of receiver: {{receiver_location_form.place_name.value}} <br>
 
-
-      </div>
-        {% endblock %}
+            <p style="color:darkblue;">Note that the editing of persons and locations
+                is not yet functional.
+            </p>
+            <form method = "POST" action = "">
+                <h3>Document</h3>
+                {% for f in document_form %}
+                    <p>{{f.label}}:{{f}}</p>
+                {% endfor %}
+                {% csrf_token %}
+                <input class="submitform" type="submit" value = "Save">
+            </form>
+        {% else %}
+            <p>No results.</p>
+        {% endif %}
+    </div>
+    {% endblock %}

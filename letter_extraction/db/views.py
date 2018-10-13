@@ -65,7 +65,7 @@ def search_result(request):
     search_type = str(request.GET['searchtype'])
     query_value = str(request.GET['query'])
     values = query_service.analyze_query_request(search_type, query_value, False)
-    header = ['Archive Number', 'Date Written', 'Document Type', 'Language', 'Place Written', 'Sender Name', 'Receiver Name', 'Chnage']
+    header = ['Archive Number', 'Date Written', 'Document Type', 'Language', 'Place Written', 'Sender Name', 'Receiver Name', 'Edit']
     #primary_keys = query_service.get_pks(values)
     context = {'header': header, 'values': values}
     return render(request, 'db/result.html', context)
@@ -96,26 +96,24 @@ def upload(request):
 def edit(request, items):
     if not request.user.has_perm('db.can_edit'):
         return render(request, 'db/index.html', {"message":"You do not have the permissions to perform this task!"})
-    global previous_url
-    if request.method != "POST":
-        previous_url = request.META.get('HTTP_REFERER')
-    document_object = Document.objects.filter(pk=items).first()
-    print(document_object.sender)
-    personLocation_object = PersonLocation.objects.filter(pk=document_object.sender.pk).first()
-    person_Object = Person.objects.filter(pk=personLocation_object.person.pk).first()
-    location_Object = Location.objects.filter(pk=personLocation_object.location.pk).first()
+    forms = get_forms_by_document(request, items)
     if request.method == "POST":
-        document_test_form = documentForm(request.POST, instance=document_object)
-        if document_test_form.is_valid():
-            instance = document_test_form.save(commit=False)
+        if forms[0].is_valid():
+            instance = forms[0].save(commit=False)
             instance.save()
-            return redirect(previous_url)
+            context["update_message"] = 'Successfully updated!'
+            return render(request, 'db/edit.html', context)
         else:
-            return HttpResponse("<p>Your Modification is invalid </p")
-    document_test_form = documentForm(instance=document_object)
-    person_test_form = personForm(instance=person_Object)
-    location_test_form = locationForm(instance=location_Object)
-    return render(request, 'db/edit.html', {'document_test_form' : document_test_form, 'person_test_form' : person_test_form, 'location_test_form' : location_test_form} )
+            context["update_message"] = 'Update failed!'
+            return render(request, 'db/edit.html', context)   
+    context = {
+        'document_form' : forms[1],
+        'sender_form' : forms[2],
+        'receiver_form' : forms[3],
+        'sender_location_form' : forms[4],
+        'receiver_location_form' : forms[5],
+        }
+    return render(request, 'db/edit.html', context)
 
 
 def login_user(request):
