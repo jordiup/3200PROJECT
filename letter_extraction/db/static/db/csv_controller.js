@@ -17,7 +17,7 @@ function exportTableToCsv(html, filename) {
     for (var i = 0; i < rows.length; i++) {
         var row = [], cols = rows[i].querySelectorAll("td, th");
 
-        for (var j = 0; j < cols.length; j++) {
+        for (var j = 0; j < cols.length - 1; j++) {
             var text = cols[j].innerText;
             var edited = text.replace(/,/g, ";");
             row.push(edited);

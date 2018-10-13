@@ -97,6 +97,7 @@ def edit(request, items):
     if not request.user.has_perm('db.can_edit'):
         return render(request, 'db/index.html', {"message":"You do not have the permissions to perform this task!"})
     forms = get_forms_by_document(request, items)
+    context = {}
     if request.method == "POST":
         if forms[0].is_valid():
             instance = forms[0].save(commit=False)

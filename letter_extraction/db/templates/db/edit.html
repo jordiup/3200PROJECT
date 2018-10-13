@@ -13,7 +13,7 @@
         <a class="active">Edit</a>
         <a href="{% url 'db:upload' %}">Upload</a>
         <a href="{% url 'db:labels' %}">Metadata</a>
-        <a href="{% url 'db:logout' %}">Logout</a>
+        <a onclick="return logout();" id="logout">Logout</a>
     </div>
     {% endblock %}
 
@@ -44,10 +44,13 @@
                     <p>{{f.label}}:{{f}}</p>
                 {% endfor %}
                 {% csrf_token %}
-                <input class="submitform" type="submit" value = "Save">
+                <div class="download-button">
+                    <button class="bt-submit" type="submit">Save</button>
+                </div>
             </form>
-        {% else %}
-            <p>No results.</p>
         {% endif %}
+        <div class="download-button">
+            <button class="bt-discard" id="back-to-results" onclick="window.history.back()">Back</button>
+        </div>
     </div>
     {% endblock %}
