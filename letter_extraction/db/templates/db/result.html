@@ -35,18 +35,24 @@
         </tr>
         {% endif %}
         {% if values %}
-        {% for value in values %}
-        <tr>
-            {% for v in value %}
-            <td>{{v}}</td>
+            {% for value in values %}
+            <tr>
+                {% for v in value %}
+                    {% if forloop.counter0 == 7 %}
+                        <td>
+                            <a href="/db/edit/{{v}}/">Modify</a>
+                        </td>
+                    {% else %}
+                        <td>{{v}}</td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
             {% endfor %}
-        </tr>
-        {% endfor %}
         {% endif %}
     </table>
   </div>
     {% else %}
-    <p>No results.</p>
+        <p>No results.</p>
     {% endif %}
     <br>
     <!-- <div class="footer"> -->

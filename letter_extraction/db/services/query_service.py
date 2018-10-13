@@ -71,5 +71,13 @@ def return_document_model(results, documents):
         place_written = d.sender.location.place_name
         sender_name = d.sender.person.full_name
         receiver_name = d.receiver.person.full_name
-        result = [d.archive_number, d.date_written, d.document_type, d.language, place_written, sender_name, receiver_name]
+        result = [d.archive_number, d.date_written, d.document_type, d.language, place_written, sender_name, receiver_name, d.pk]
         results.append(result)
+
+# def get_pks(values):
+#     keys = []
+#     for v in values:
+#         key = v[0]
+#         keys.append(key)
+#         v.remove(key)
+#     return keys

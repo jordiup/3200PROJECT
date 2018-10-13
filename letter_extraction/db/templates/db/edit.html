@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 <title>Letter Search - Upload</title>
 
@@ -8,7 +9,9 @@
     <div class="header-right">
         <a href="{% url 'db:index' %}">Home</a>
         <a href="{% url 'db:search' %}">Search</a>
-        <a class="active" href="{% url 'db:upload' %}">Upload</a>
+        <a class="active">Edit</a>
+        <a href="{% url 'db:upload' %}">Upload</a>
+        <a href="{% url 'db:labels' %}">Metadata</a>
         <a href="{% url 'db:logout' %}">Logout</a>
     </div>
     {% endblock %}
@@ -16,11 +19,12 @@
 
 
       {% block body %}
+      <div class="main">
         {% if document_test_form %}
           <form method = "POST" action = "">
-            {{document_test_form}}
-            {{person_test_form}}
-            {{location_test_form}}
+            {{document_test_form}}<br><br>
+            {{person_test_form}}<br><br>
+            {{location_test_form}}<br><br>
               {% csrf_token %}
               <input type = "submit" value = "Save">
           </form>
@@ -28,5 +32,6 @@
               <p>No results.</p>
           {% endif %}
 
-        {% endblock %}
+
       </div>
+        {% endblock %}
