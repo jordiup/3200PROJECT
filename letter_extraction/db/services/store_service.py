@@ -10,6 +10,7 @@ from db.models import *
 def addToModel(input, user):
     if input == {}:
         return
+
     for item in range(1, len(input)):
         holder_of_categories = input[item]
         archival_number = holder_of_categories[0][1]
@@ -19,26 +20,41 @@ def addToModel(input, user):
         sender_first_name = holder_of_categories[5][1]
         sender_location = holder_of_categories[6][1]    #Probably not the best way to do this
         language_written = holder_of_categories[7][1]
+        spliced_language = ""
         if language_written == 'None':
-            spliced_language = ''
-        if len(language_written) == 1:
-            spliced_langauge = language_written
+            spliced_language = ""
         else:
-            print(language_written)
-            spliced_language = language_written.split(',')[1].strip()
+            if len(language_written) == 1:
+                spliced_langauge = language_written
+            else:
+                print(language_written)
+                spliced_language = language_written.split(',')[1].strip()
         receiver_last_name = ''
         sender_last_name = ''
         receiver_full_name = ''.join((receiver_first_name, receiver_last_name))
         sender_full_name= ''.join((sender_first_name, sender_last_name))
-        receiver = Person(first_name= receiver_first_name, last_name= receiver_last_name, full_name=receiver_full_name, date_added=timezone.now(), date_modified=timezone.now())
-        sender = Person(first_name=sender_first_name , last_name=sender_last_name, full_name=sender_full_name, date_added=timezone.now(), date_modified=timezone.now())
-        location_receiver = Location(place_name= receiver_location, date_added=timezone.now(), date_modified=timezone.now())
-        location_sender = Location(place_name=sender_location, date_modified=timezone.now(), date_added=timezone.now())
+        if Person.objects.filter(full_name = receiver_full_name).exists():
+            receiver = Person.objects.filter(full_name=receiver_full_name).first()
+        else:
+            receiver = Person(first_name= receiver_first_name, last_name= receiver_last_name, full_name=receiver_full_name, date_added=timezone.now(), date_modified=timezone.now())
+            print(receiver)
+            receiver.save()
+        if Person.objects.filter(full_name = sender_full_name).exists():
+            sender = Person.objects.filter(full_name =sender_full_name).first()
+        else:
+            sender = Person(first_name=sender_first_name , last_name=sender_last_name, full_name=sender_full_name, date_added=timezone.now(), date_modified=timezone.now())
+            sender.save()
+        if Location.objects.filter(place_name=receiver_location).exists():
+            location_receiver = Location.objects.filter(place_name=receiver_location).first()
+        else:
+            location_receiver = Location(place_name= receiver_location, date_added=timezone.now(), date_modified=timezone.now())
+            location_receiver.save()
+        if Location.objects.filter(place_name=sender_location).exists():
+            location_sender = Location.objects.filter(place_name=sender_location).first()
+        else:
+            location_sender = Location(place_name=sender_location, date_modified=timezone.now(), date_added=timezone.now())
+            location_sender.save()
 
-        receiver.save()
-        sender.save()
-        location_receiver.save()
-        location_sender.save()
 
         person_location_receiver = PersonLocation(location=location_receiver, person=receiver)
         person_location_sender = PersonLocation(location=location_sender, person=sender)
