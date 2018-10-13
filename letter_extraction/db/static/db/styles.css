@@ -8,7 +8,6 @@ body {
   background-image: linear-gradient(rgba(255, 255, 255, 0.5),
     rgba(255, 255, 255, 0.5)), url("3.jpg");
   background-position: center;
-
   background-color: #ffffff;
   font-family: 'Open Sans', 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif';
 }
@@ -170,6 +169,8 @@ h4 {
   width :100%;
   border: 1px solid black;
   border-collapse: collapse;
+  overflow: scroll;
+  max-height:500px;
 }
 
 .results_table th
@@ -365,7 +366,7 @@ button {
     margin-left: 0.7rem;
     margin-right: 1rem;
     margin-top: 0.45rem;
-    margin-bottom: 8rem;
+    margin-bottom: 6rem;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.15);
     opacity: 0.8;
 }

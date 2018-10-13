@@ -25,6 +25,7 @@
       {% endif %}-->
     <h1>Results</h1>
     {% if values %}
+    <div class="preview-results">
     <table id="results_table" class="results_table">
         {% if header %}
         <tr>
@@ -43,17 +44,18 @@
         {% endfor %}
         {% endif %}
     </table>
+  </div>
     {% else %}
     <p>No results.</p>
     {% endif %}
     <br>
-    <div class="footer">
+    <!-- <div class="footer"> -->
         <div class="download-button">
             <button class="bt-discard" onclick="backToSearch()">Back To Search</button>
             <button class="bt-upload" onclick="sortTable()">Sort By Archive Number</button>
             <button class="bt-download" onclick="toCsv()">Download as CSV</button>
         </div>
         <br>
-    </div>
+    <!-- </div> -->
     {% endblock %}
 </div>
