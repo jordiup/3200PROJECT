@@ -17,8 +17,10 @@
 
       {% block body %}
         {% if document_test_form %}
-          <form method = "GET" action = "{% url 'db:index' %}">
+          <form method = "POST" action = "">
             {{document_test_form}}
+            {{person_test_form}}
+            {{location_test_form}}
               {% csrf_token %}
               <input type = "submit" value = "Save">
           </form>
