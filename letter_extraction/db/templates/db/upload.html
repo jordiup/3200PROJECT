@@ -83,7 +83,7 @@
 
 
     {% if list %}
-        <div class="main" style="margin-bottom:5rem;" id="datapreview">
+        <div class="main" style="margin-bottom:5rem;margin-top:0rem;" id="datapreview">
         {% if list %}
             {% if fname %}
                 <div id="scanfname"> <b>Scanned file:</b> <i>{{fname}}</i> </div>
@@ -162,7 +162,7 @@
                 alert("No file is selected for scanning!");
             }
         }
-        
+
         // Function below are for edit functionality when data is previewed
         // This is for future work/implementation
         // function show_index(row_number)
@@ -196,7 +196,7 @@
         //     var each_row = table.rows[row_number].getElementsByTagName("th");
         //     for (letters=0; letters < reslong ; letters++){
         //         var letterlen =  "{{list.|add:"+letters+"|length}}";
-        //     }   
+        //     }
         //     for(var ic = 0 ; ic < each_row.length ; ic++)
         //     {
         //         var currentcell = table.rows[row_number].cells[ic];
@@ -223,5 +223,3 @@
     </script>
     {% endblock %}
 </div>
-
-
