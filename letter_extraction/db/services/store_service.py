@@ -27,8 +27,11 @@ def addToModel(input, user):
             if len(language_written) == 1:
                 spliced_langauge = language_written
             else:
-                print(language_written)
-                spliced_language = language_written.split(',')[1].strip()
+                # print(language_written)
+                if(',' in language_written):
+                    spliced_language = language_written.split(',')[1].strip()
+                elif ('.' in language_written):
+                    spliced_language = language_written.split('.')[1].strip()
         receiver_last_name = ''
         sender_last_name = ''
         receiver_full_name = ''.join((receiver_first_name, receiver_last_name))
@@ -37,7 +40,7 @@ def addToModel(input, user):
             receiver = Person.objects.filter(full_name=receiver_full_name).first()
         else:
             receiver = Person(first_name= receiver_first_name, last_name= receiver_last_name, full_name=receiver_full_name, date_added=timezone.now(), date_modified=timezone.now())
-            print(receiver)
+            # print(receiver)
             receiver.save()
         if Person.objects.filter(full_name = sender_full_name).exists():
             sender = Person.objects.filter(full_name =sender_full_name).first()
@@ -94,7 +97,7 @@ def addToModel_xlsx(input, user):
     for a in range(0, len(input)):
         item_holder = input[a]
         for item in range(1, len(item_holder)):
-
+            
             if list_of_things["archive code"] == 1 and (isinstance(item_holder[item][count][1], float) == False):
                 archival_number = item_holder[item][count][1].split(',')
             else:
@@ -105,6 +108,7 @@ def addToModel_xlsx(input, user):
             else:
                 receiver_full_name = ''
             if list_of_things["language"] == 1 and (isinstance(item_holder[item][count+2][1], float) == False):
+                print(item_holder[item][count+2][1])
                 if item_holder[item][count+2][1]:
                     spliced_language = item_holder[item][count+2][1].split(',')
             else:

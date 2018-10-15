@@ -44,4 +44,15 @@
 
       <h2>Data Policy</h2>
       <p style="margin-top:0">This website has been designed to never store the actual document transcripts on a server for any longer than a brief moment of time. When the file is uploaded, its information is passed on to a program which extracts the meta-data. Despite the file being uploaded to our server, it is never actually stored; its information is only extracted.</p>
+      
+
+      <script>
+        // Confirmation message that data from latest upload has been successfully stored
+        var success = '{{myflag}}';
+        if (success == 'True'){
+          alert('Data from the latest preview are successfully stored!');
+        }
+      </script>
+
+
     {% endblock %}

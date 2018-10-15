@@ -35,7 +35,10 @@
         </form>
         {% if not list and request.method == 'POST' %}
             <br>
-            {% if err %}
+            <!-- Error message for storing, previewing, or wrong file selection -->
+            {% if errtype == 'store' %} 
+                <div> {{err}} </div>
+            {% elif errtype == 'preview' %}
                 <div> {{err}} of the given file: <b><i>{{fname}}</i></b></div>
                 <div> Refer to the guide below for ideal format of a letter.</div>
             {% else %}

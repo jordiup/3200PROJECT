@@ -6,9 +6,9 @@ from django.db.models import CharField
 
 
 class Person(models.Model):
-    first_name = models.CharField(max_length=24)
-    last_name = models.CharField(max_length=24)
-    full_name = models.CharField(max_length=49)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    full_name = models.CharField(max_length=100)
     date_added = models.DateTimeField('date added')
     date_modified = models.DateTimeField('date modified')
 
