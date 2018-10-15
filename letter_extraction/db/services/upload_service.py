@@ -1,32 +1,31 @@
-# extracting metadata from excel and word 
-# need to download docx, pandas, re, nltk module first
+# Metadata extraction function
+# Need to download docx, pandas, re, nltk module beforehand
 
 import docx
 import nltk
 import re
 import pandas as pd
 
-#storing reference number of an error letter
+#storing archive number/code of the letter
+#returns this as an error message to indicate which letter has an error
 errindex = ''
 
 #Xlsx and xls scanner function
 def xlscanner(filename):
     global errindex
     wb = pd.ExcelFile(filename)
-    #headers = ['archive code','addressee','language']
-    headlist = []
     totalsheet = len(wb.sheet_names)
-    #archcol = 0
-    wholedoc=[]
+    headlist = []
+    wholedoc = []
 
-    #Goes thru each worksheet
+    #Iterate through each worksheet
     for ws in range(totalsheet):
         p = 0
-        headstart = -1
+        headstart = -1 #Indicate that header row is not found yet
         archcol = 0
         letters = []
         sheet = pd.read_excel(wb,wb.sheet_names[ws],header=None,index_col=None)
-        #Stores header names
+        #Append each non-empty row content
         for i in range (sheet.shape[0]):
             each = []
             for j in range (sheet.shape[1]):
@@ -35,33 +34,36 @@ def xlscanner(filename):
                     if(not pd.isnull(content)):
                         each.append((j,content))
                 j=j+1
-            #content storage
+            #Assumes it is the content once the header row is found (i.e. headstart != -1)
             if(headstart != -1):
                 for xx in range(headlist[ws][0][0],len(headlist[ws])+headlist[ws][0][0]):
                     content = sheet.iloc[i,xx]
-                    print(content, type(content))
+                    #Set an empty cell to "None"
                     if (pd.isnull(content)):
                         content = 'None'
                         each.append((headlist[ws][xx-headlist[ws][0][0]][1],content))
+                    #Data cleaning and storing
                     elif(type(content)!= int and re.match(r'[\[ \]]',content)):
                         each.append((headlist[ws][xx-headlist[ws][0][0]][1],content.strip(' [ ] ( ) ?')+' inferred'))
                     else:
                         each.append((headlist[ws][xx-headlist[ws][0][0]][1],content))
             
-            if (headstart == -1): #Finding header
+            #Finding header row
+            if (headstart == -1):
                 m = 0
                 for k in each:
                     if(type(k[1]) == str):
+                        #Assumes it is a header row if it has 'Archive Code' or 'Archive number' as one of the cell content
                         if (k[1].lower()=='archive code' or k[1].lower()=='archive number'):
                             archcol = m
-                            headstart = i
+                            headstart = i #Indicates that the header row is found
                             headlist.append(each)
                             #stores archive number of a letter for error handling message
                             errindex = each[archcol][1]
                             break
                     m=m+1
             #Only adds non-empty list to letters
-            #Does not add data with no archive number
+            #Does not add row with no archive number
             if( (not each) or (headstart == -1)):
                 continue
             if (pd.isnull(each[archcol][1]) or each[archcol][1] == 'None'):
@@ -73,10 +75,12 @@ def xlscanner(filename):
     #error handling
     if (not headlist):
         wholedoc=[]
+    #returns the letters as an array
     return wholedoc
 
-#Fills in non-given metadata as empty string
+#Fills in non-given metadata as an empty string (for word document only)
 def filler(myletter):
+    #indicator is the amount of header categories in the word document
     indicator = [0,1,2,3,4,5,6,7,8,9]
     for i in myletter:
         for j in indicator:
@@ -86,6 +90,7 @@ def filler(myletter):
     for m in indicator:
         myletter.append( (m, "None") )
 
+#Miscellenaous function
 def shorten_summary(summary):
     result = ''
     for i in range(0,200):
@@ -96,39 +101,42 @@ def shorten_summary(summary):
     result += ' ...'
     return result
 
-#Docx scanner function
+#Docx and doc (word document) function
 def docxscanner(filename):
     global errindex
     doc = docx.Document(filename)
-    wholedoc = []
-    #lists of every letter data
-    letters = []
+    wholedoc = [] #Contains every letter
+    letters = [] #Contains a letter
     summary = ''
     npages = ''
-    letterdata = []
+    letterdata = [] 
     headername = [(0,'Reference Code'),(1,'Archive Collection'),(2,'Date written'),(3,'Author'),(4,'Author Location'),
     (5,'Recipient'),(6,'Recipient Location'),(7,'Types and Language'),(8,'Summary'),(9,'Physical Description')]
     letters.append(headername)
     #regex for splitting \n and \t
     regex = re.compile(r'[\n\r\t]')
 
-    #Stores each paragraph in a list
+    #Stores each sentence in an array
     for para in doc.paragraphs:
         wholedoc.append(para.text)
     k = 1 #initialise index letter
     j = 0 #initialise receiver and sender indicator
     count = 0
     nlines = 0
-    #Give each words a named entity
+
+    #Goes through the array of sentences and give each word a named entity via NLTK
+    #The purpose is to determine what information that a sentence holds
+    #Such that appropriate storing can be done
     for sentence in wholedoc:
         count = count+1
         sentence = regex.sub("",sentence)
         tokens = nltk.word_tokenize(sentence)
         tagged = nltk.pos_tag(tokens)
-        #Finds the Word Index header
-        #For each new header, it will initialise a list to store all its data
+        
+        #Assume it is the delimiter if it has a length of 1
         if (len(tagged) == 1):
             if(tagged[0][0] == str(k)):
+                #Storing n-1 letters, where n is the delimiter
                 if(k!=1):
                     #Check if summary and npages is not empty
                     if( not not summary ):
@@ -137,10 +145,11 @@ def docxscanner(filename):
                         #letterdata.append((8,shortened_summary))
                     if (not not npages):
                         letterdata.append((9,npages))
-                    filler(letterdata)
+                    filler(letterdata) #Fills empty metadata as None
                     letterdata = sorted(letterdata)
                     if(letterdata[0][1] != "None"):
-                        letters.append(letterdata)
+                        letters.append(letterdata) #Stores the letter into an array of letters
+                #Reset variables
                 summary=''
                 npages=''
                 nlines = 0
@@ -148,27 +157,30 @@ def docxscanner(filename):
                 k = k+1
                 letterdata = []
 
-            #Finds letter reference number (0)
+            #Finds letter archive number/code (0)
             # i.e. reference number with format similar to 2-2244A/14.001
+            # Assume a archive number/code contains a digit
             elif (tagged[0][1] == "JJ" or tagged[0][1] == "CD" or (tagged[0][1] == "NN" and any((c in "[]-/()") for c in tagged[0][0]))):
-                if (any((c in "[]-/") for c in sentence)):
+                if (any((c in "[]-/") for c in sentence) and any(d.isdigit() for d in sentence)):
                     letterdata.append((0,sentence))
                     errindex = sentence
 
-            #Finds Archive Collection (1)
-            elif (tagged[0][1] == "NN"):
+            #Finds Archive Collection Name (1)
+            #Assume Archive name is length of 1
+            elif ( (tagged[0][1] == "NN" or tagged[0][1] == "NNS" or tagged[0][1] == "VBG")and (not any((c in ",") for c in sentence))):
                 letterdata.append((1,sentence))
 
         #Finds letter reference number (0) 
-        # Assume that reference number is either length of 1 upto 4
+        # Assume a archive number/code contains a digit
+        # This line of code ensures that archive number/code that has a length of more than 1 and less than 5
         # i.e. reference number with format similar to NN 2234A-13-363 
         elif( len(tagged) >=2 and len(tagged) < 5):
             if (tagged[0][1] == "JJ" or tagged[0][1] == "NNP" or tagged[1][1] == "JJ"):
-                if (any((c in "[]-/()") for c in sentence)):
+                if (any((c in "[]-/()") for c in sentence) and any(d.isdigit() for d in sentence)):
                     letterdata.append((0,sentence))
                     errindex = sentence
 
-        #Finds Letter Sender
+        #Finds Letter Sender and Receiver; Assumes the first instance of [Name, Place] is the sender
         if (len(tagged) > 2 and len(tagged) < 10 and nlines < 8):
             #Dates (2) in (Day, Date Month Year) or (Day, Month Date Year)
             if ( (tagged[2][1] == "CD" or tagged[len(tagged)-1][1] == "CD") and ( tagged[1][1] == 'NNP' or tagged[2][1] == 'NNP' or tagged[3][1] == "NNP") and ((tagged[1][1] == ",") or (tagged[1][1] == "NNP") or (tagged[1][1] == ":") or (tagged[1][1] == ".") or (tagged[3][1] == ","))):
@@ -215,9 +227,10 @@ def docxscanner(filename):
             #Finds Types of letters (7)
             if ((tagged[0][1] == "NN" or tagged[0][1] == "NNP") and (tagged[len(tagged)-1][1] == "JJ" or tagged[len(tagged)-1][0] == "English") and ((tagged[1][1] == ",") or (tagged[1][1] == ".") or (tagged[2][1] == ",") or (tagged[2][1] == "."))):
                 letterdata.append((7,sentence))
-        #ASSUME it is the letter summary if it is longer than 15 words
-        #Summary of letters in (8)
-        if(len(tagged) > 15):
+
+        #ASSUME it is the letter summary if it is longer than 10 words
+        #Summary of letters indicated by (8)
+        if(len(tagged) > 10):
             summary = summary+sentence
 
         #amount pages (9)
@@ -225,9 +238,8 @@ def docxscanner(filename):
             if(((tagged[0][1] == "(") or (tagged[0][1] == ".")) and ((tagged[2][1] == "NNS") or (tagged[2][1] == "NN") or (tagged[1][1] == "$"))):
                 npages = sentence
 
-        #Last letter of the document
+        #Stores last letter of the document
         if(len(wholedoc) == count):
-            #letterdata.append((8,summary))
             if( not not summary ):
                 letterdata.append((8,summary))
 
@@ -244,25 +256,29 @@ def docxscanner(filename):
             if(letterdata[0][1] != "None"):
                 letters.append(letterdata)
         nlines = nlines+1
-    #Checks if document is a correct format or not
+    #Error handling; Checks if the word document is in the right format
+    #This is done by checking the archive number/code
+    #Does not store anything if it does not contain any
     if(k==1):
         letters = []
     return letters
 
 def main(filename):
-    #currently only for .docx and .xlsx and .xls files
     global errindex
     errmsg = ''
+    #Process word document
     if (filename.name.endswith('.docx')):
         try:
             errindex = ''
             return docxscanner(filename), errmsg
         except:
             # Returns error message on error
-            # Sends letter reference number to the user to let them know
+            # Sends letter reference number to the user to let user know
             errmsg = 'There is a formatting issue in letter with reference number: '+ errindex
             errindex = ''
             return [],errmsg
+
+    #Process excel document
     elif ((filename.name.endswith('.xlsx')) or (filename.name.endswith('.xls'))):
         try:
             errindex = ''
@@ -275,4 +291,5 @@ def main(filename):
             errindex = ''
             return [], errmsg
     else:
+        #Sends an error message
         print('Only accept .docx and .xls files')
