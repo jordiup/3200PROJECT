@@ -27,8 +27,11 @@ def addToModel(input, user):
             if len(language_written) == 1:
                 spliced_langauge = language_written
             else:
-                print(language_written)
-                spliced_language = language_written.split(',')[1].strip()
+                # print(language_written)
+                if(',' in language_written):
+                    spliced_language = language_written.split(',')[1].strip()
+                elif ('.' in language_written):
+                    spliced_language = language_written.split('.')[1].strip()
         receiver_last_name = ''
         sender_last_name = ''
         receiver_full_name = ''.join((receiver_first_name, receiver_last_name))
@@ -37,7 +40,7 @@ def addToModel(input, user):
             receiver = Person.objects.filter(full_name=receiver_full_name).first()
         else:
             receiver = Person(first_name= receiver_first_name, last_name= receiver_last_name, full_name=receiver_full_name, date_added=timezone.now(), date_modified=timezone.now())
-            print(receiver)
+            # print(receiver)
             receiver.save()
         if Person.objects.filter(full_name = sender_full_name).exists():
             sender = Person.objects.filter(full_name =sender_full_name).first()
@@ -71,7 +74,7 @@ def addToModel_xlsx(input, user):
     if input == {}:
         return
     holder_of_categories = input[0][0]
-    list_of_things = {"archive code": 0 , "addressee" : 0 , "language": 0,  "date": 0, "place":0}
+    list_of_things = {"archive code": 0 , "addressee" : 0 , "language": 0,  "date": 0, "place":0, "responded by" : 0}
     count = 0
     i = 0
 
@@ -94,41 +97,63 @@ def addToModel_xlsx(input, user):
     for a in range(0, len(input)):
         item_holder = input[a]
         for item in range(1, len(item_holder)):
-
-            if list_of_things["archive code"] == 1 and (isinstance(item_holder[item][count][1], float) == False):
+            if (isinstance(item_holder[item][count][1], float) == False) and ',' in item_holder[item][count][1]:
                 archival_number = item_holder[item][count][1].split(',')
+            elif len(item_holder[item][count][1]) > 0:
+                archival_number = item_holder[item][count][1]
+                if '[' in archival_number or  "\\'" in archival_number or ']' in archival_number:
+                    newstr = archival_number.replace("[", "").replace("]","").replace("//'", "")
+                    archival_number = newstr
             else:
                 archival_number = ''
             if list_of_things["addressee"] == 1 and (isinstance(item_holder[item][count+1][1], float) == False):
                 if item_holder[item][count+1][1]:
-                    receiver_full_name = item_holder[item][count+1][1].split(',')
+                    receiver_full_name = item_holder[item][count+1][1]
             else:
                 receiver_full_name = ''
             if list_of_things["language"] == 1 and (isinstance(item_holder[item][count+2][1], float) == False):
                 if item_holder[item][count+2][1]:
-                    spliced_language = item_holder[item][count+2][1].split(',')
+                    spliced_language = item_holder[item][count+2][1]
             else:
                 spliced_language = ''
             if list_of_things["date"] == 1:
                 if item_holder[item][count+3][1] and (isinstance(item_holder[item][count+3][1], float) == False):
-                    date_written = item_holder[item][count+3][1].split(',')
+                    date_written = item_holder[item][count+3][1]
                 else:
                     date_written = ''
             if list_of_things["place"] == 1:
                 if item_holder[item][count+4][1] and  (isinstance(item_holder[item][count+4][1], float) == False):
-                    receiver_location = item_holder[item][count+4][1].split(',')
+                    receiver_location = item_holder[item][count+4][1]
                 else:
                     receiver_location = ''
+            if list_of_things["responded by"] == 1:
+                if item_holder[item][count+6][1] and  (isinstance(item_holder[item][count+6][1], float) == False):
+                    sender_full_name = item_holder[item][count+6][1]
+                else:
+                    sender_full_name = ''
 
-            receiver = Person(first_name= '', last_name= '', full_name= receiver_full_name, date_added=timezone.now(), date_modified=timezone.now())
-            sender = Person(first_name= ''  , last_name= '', full_name= 'N/A', date_added=timezone.now(), date_modified=timezone.now())
-            location_receiver = Location(place_name=receiver_location, date_added=timezone.now(), date_modified=timezone.now())
-            location_sender = Location(place_name= 'N/A', date_modified=timezone.now(), date_added=timezone.now())
+            if Person.objects.filter(full_name = receiver_full_name).exists():
+                receiver = Person.objects.filter(full_name=receiver_full_name).first()
+            else:
+                receiver = Person(first_name= '', last_name= '', full_name=receiver_full_name, date_added=timezone.now(), date_modified=timezone.now())
+                receiver.save()
+            if Person.objects.filter(full_name = sender_full_name).exists():
+                sender = Person.objects.filter(full_name=sender_full_name).first()
+            else:
+                sender = Person(first_name= ''  , last_name= '', full_name= sender_full_name , date_added=timezone.now(), date_modified=timezone.now())
+                sender.save()
+            if Location.objects.filter(place_name=receiver_location).exists():
+                location_receiver = Location.objects.filter(place_name=receiver_location).first()
+            else:
+                location_receiver = Location(place_name= receiver_location, date_added=timezone.now(), date_modified=timezone.now())
+                location_receiver.save()
 
-            receiver.save()
-            sender.save()
-            location_receiver.save()
-            location_sender.save()
+            if Location.objects.filter(place_name='N/A').exists():
+                location_sender = Location.objects.filter(place_name='N/A').first()
+            else:
+                location_sender = Location(place_name= 'N/A', date_modified=timezone.now(), date_added=timezone.now())
+                location_sender.save()
+
 
             person_location_receiver = PersonLocation(location=location_receiver, person=receiver)
             person_location_sender = PersonLocation(location=location_sender, person=sender)

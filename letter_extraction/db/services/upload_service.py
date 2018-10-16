@@ -38,10 +38,12 @@ def xlscanner(filename):
             if(headstart != -1):
                 for xx in range(headlist[ws][0][0],len(headlist[ws])+headlist[ws][0][0]):
                     content = sheet.iloc[i,xx]
+                    print(ws,i,j,content, type(content))
                     #Set an empty cell to "None"
                     if (pd.isnull(content)):
                         content = 'None'
                         each.append((headlist[ws][xx-headlist[ws][0][0]][1],content))
+                        continue
                     #Data cleaning and storing
                     elif(type(content)!= int and re.match(r'[\[ \]]',content)):
                         each.append((headlist[ws][xx-headlist[ws][0][0]][1],content.strip(' [ ] ( ) ?')+' inferred'))
@@ -71,10 +73,16 @@ def xlscanner(filename):
             if(not all(s[1] == 'None' for s in each)):
                 letters.append(each)
             i = i+1
-        wholedoc.append(letters)
-    #error handling
-    if (not headlist):
-        wholedoc=[]
+        if( headstart != -1):
+            wholedoc.append(letters)
+        else:
+            continue
+    # #error handling
+    # if (not headlist):
+    #     if( (len(wholedoc) > 0) or (ws != len(wholedoc))) ):
+    #         continue
+    #     elif(ws == len(wholedoc)):
+    #         wholedoc=[]
     #returns the letters as an array
     return wholedoc
 
@@ -167,7 +175,7 @@ def docxscanner(filename):
 
             #Finds Archive Collection Name (1)
             #Assume Archive name is length of 1
-            elif ( (tagged[0][1] == "NN" or tagged[0][1] == "NNS" or tagged[0][1] == "VBG")and (not any((c in ",") for c in sentence))):
+            elif ( (tagged[0][1] == "NN" or tagged[0][1] == "NNS" or tagged[0][1] == "VBG")and (not any((c in ",") for c in sentence) and nlines < 7)):
                 letterdata.append((1,sentence))
 
         #Finds letter reference number (0) 
@@ -225,7 +233,8 @@ def docxscanner(filename):
                         j = j-1
                         continue
             #Finds Types of letters (7)
-            if ((tagged[0][1] == "NN" or tagged[0][1] == "NNP") and (tagged[len(tagged)-1][1] == "JJ" or tagged[len(tagged)-1][0] == "English") and ((tagged[1][1] == ",") or (tagged[1][1] == ".") or (tagged[2][1] == ",") or (tagged[2][1] == "."))):
+            #English and Latin needed to be hard coded since it is considered as NN by nltk
+            if ((tagged[0][1] == "NN" or tagged[0][1] == "NNP" or tagged[0][1] == "JJ") and (tagged[len(tagged)-1][1] == "JJ" or tagged[len(tagged)-1][0] == "English" or tagged[len(tagged)-1][0] == "Latin") and ((tagged[1][1] == ",") or (tagged[1][1] == ".") or (tagged[2][1] == ",") or (tagged[2][1] == "."))):
                 letterdata.append((7,sentence))
 
         #ASSUME it is the letter summary if it is longer than 10 words
@@ -256,6 +265,7 @@ def docxscanner(filename):
             if(letterdata[0][1] != "None"):
                 letters.append(letterdata)
         nlines = nlines+1
+        
     #Error handling; Checks if the word document is in the right format
     #This is done by checking the archive number/code
     #Does not store anything if it does not contain any
