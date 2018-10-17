@@ -150,6 +150,7 @@ def drag_n_drop_test(request):
     context = {}
     return render(request, 'db/drag_n_drop_test.html', context)
 
+@login_required
 def labels(request):
     if not request.user.has_perm('db.can_edit'):
         return render(request, 'db/index.html', {"message":"You do not have the permissions to perform this task!"})
