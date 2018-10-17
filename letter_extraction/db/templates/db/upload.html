@@ -36,7 +36,7 @@
         {% if not list and request.method == 'POST' %}
             <br>
             <!-- Error message for storing, previewing, or wrong file selection -->
-            {% if errtype == 'store' %} 
+            {% if errtype == 'store' %}
                 <div> {{err}} </div>
             {% elif errtype == 'preview' %}
                 <div> {{err}} of the given file: <b><i>{{fname}}</i></b></div>
@@ -73,9 +73,8 @@
         <div class="instructions">
         <h4>Steps</h4>
         <p>
-            When uploading spreadsheets to the website, ensure you always have a column for archive number, this should be a unique identification number for each historical document.
+            When uploading a word document to the website, ensure you always have the correct formatting according to the following example template. A unique identification number is needed for each historical document. Each document must be separated by a unique number.
             Some example data has been included to give a general understanding of what can be uploaded.
-            If you wish to store additional information you may create additional columns, each new column must have a header describing what information the column contains.
         </p>
         <p><a href="{% static 'db/Word_example.docx'%}">Download example word doc.</a></p>
 
