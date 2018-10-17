@@ -97,7 +97,12 @@ def addToModel_xlsx(input, user):
     for a in range(0, len(input)):
         item_holder = input[a]
         for item in range(1, len(item_holder)):
+<<<<<<< HEAD
             if (isinstance(item_holder[item][count][1], float) == False) and ',' in item_holder[item][count][1]:
+=======
+            
+            if list_of_things["archive code"] == 1 and (isinstance(item_holder[item][count][1], float) == False):
+>>>>>>> 79ea4aa056a9f6789feff1a0aa1f4ccc7189a1cd
                 archival_number = item_holder[item][count][1].split(',')
             elif len(item_holder[item][count][1]) > 0:
                 archival_number = item_holder[item][count][1]
@@ -112,6 +117,7 @@ def addToModel_xlsx(input, user):
             else:
                 receiver_full_name = ''
             if list_of_things["language"] == 1 and (isinstance(item_holder[item][count+2][1], float) == False):
+                print(item_holder[item][count+2][1])
                 if item_holder[item][count+2][1]:
                     spliced_language = item_holder[item][count+2][1]
             else:

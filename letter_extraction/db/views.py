@@ -24,18 +24,29 @@ previous_url = ""
 
 @login_required
 def index(request):
+    context = {'myflag':'False'}
     if request.method == "POST":
         global result
         global indicator
         global archive_number_list
         store_service.deleteReplicates(archive_number_list)
         if indicator == 0:
-            store_service.addToModel(result, request.user)
+            try:
+                store_service.addToModel(result, request.user)
+                context = {'myflag':'True'}
+            except:
+                errmsg = 'Storing of letters were not successful! Contact administrator for further details!'
+                return render(request,'db/upload.html',{'err': errmsg, 'errtype': 'store'})
         elif indicator == 1:
-            store_service.addToModel_xlsx(result, request.user)
+            try:
+                store_service.addToModel_xlsx(result, request.user)
+                context = {'myflag':'True'}
+            except:
+                errmsg = 'Storing of letters were not successful! Contact administrator for further details!'
+                indicator = 0
+                return render(request,'db/upload.html',{'err': errmsg, 'errtype': 'store'})
             indicator = 0
     result = {}
-    context = {}
     archive_number_list = []
     return render(request, 'db/index.html', context)
 
@@ -77,7 +88,7 @@ def upload(request):
         return render(request, 'db/index.html', {"message":"You do not have the permissions to perform this task!"})
     if request.method == "POST" and  request.FILES.get('myfile',False):
         if ((not request.FILES['myfile'].name.endswith('.xlsx')) and (not request.FILES['myfile'].name.endswith('.xls')) and (not request.FILES['myfile'].name.endswith('.docx'))):
-            return render(request,'db/upload.html',{"fname":request.FILES['myfile'].name})
+            return render(request,'db/upload.html',{"fname":request.FILES['myfile'].name , 'errtype': 'preview'})
         global indicator
         global result
         global archive_number_list
@@ -86,7 +97,7 @@ def upload(request):
         indicator = 0 #docx files
         if (request.FILES['myfile'].name.endswith('.xlsx') or request.FILES['myfile'].name.endswith('.xls')):
             indicator = 1 #xlsx and xls files
-        return render(request,'db/upload.html',{"list":result, "indic": indicator, "fname": request.FILES['myfile'].name, 'err': errmsg})
+        return render(request,'db/upload.html',{"list":result, "indic": indicator, "fname": request.FILES['myfile'].name, 'err': errmsg, 'errtype': 'preview'})
     else:
         template = loader.get_template('db/upload.html')
         context = {}
