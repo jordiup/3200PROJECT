@@ -8,7 +8,7 @@ receiver_id ="receiver_id"
 sender_id = "sender_id"
 id = "id"
 
-def analyze_query_request(search_type, query_value, isBrowse):
+def analyze_query_request(search_type, query_value, isBrowse, user):
     results = []
     if isBrowse is False:
         if search_type == 'document':
@@ -33,11 +33,11 @@ def analyze_query_request(search_type, query_value, isBrowse):
             documents = process_document_type(query_value)
         if search_type == 'language':
             documents = process_language(query_value)
-        return_document_model(results, documents)
+        return_document_model(results, documents, user)
     else:
         documents = []
         documents.extend(Document.objects.order_by('?')[:5])
-        return_document_model(results, documents)
+        return_document_model(results, documents, user)
     return results
 
 def process_archive_number(query_value):
@@ -139,12 +139,14 @@ def process_language(query_value):
     return documents
 
 
-def return_document_model(results, documents):
+def return_document_model(results, documents, user):
     for d in documents:
         place_written = d.sender.location.place_name
         sender_name = d.sender.person.full_name
         receiver_name = d.receiver.person.full_name
         place_received = d.receiver.location.place_name
+        # if d.uploaded_by != user.id:
+        #     continue
         result = [d.archive_number, d.date_written, d.document_type, d.language, place_written, sender_name, place_received, receiver_name, d.pk]
         results.append(result)
 
