@@ -44,11 +44,8 @@ def xlscanner(filename):
                         content = 'None'
                         each.append((headlist[ws][xx-headlist[ws][0][0]][1],content))
                         continue
-<<<<<<< HEAD
-=======
                     elif (isinstance(content,pd.Timestamp)):
                         each.append((headlist[ws][xx-headlist[ws][0][0]][1],content))
->>>>>>> 79ea4aa056a9f6789feff1a0aa1f4ccc7189a1cd
                     #Data cleaning and storing
                     elif(type(content)!= int and re.match(r'[\[ \]]',content)):
                         each.append((headlist[ws][xx-headlist[ws][0][0]][1],content.strip(' [ ] ( ) ?')+' inferred'))
@@ -78,7 +75,6 @@ def xlscanner(filename):
             if(not all(s[1] == 'None' for s in each)):
                 letters.append(each)
             i = i+1
-<<<<<<< HEAD
         if( headstart != -1):
             wholedoc.append(letters)
         else:
@@ -90,12 +86,6 @@ def xlscanner(filename):
     #     elif(ws == len(wholedoc)):
     #         wholedoc=[]
     #returns the letters as an array
-=======
-        #Error handling
-        #Only stores letters that have header row (i.e. archive number/code column)
-        if( headstart != -1):
-            wholedoc.append(letters)
->>>>>>> 79ea4aa056a9f6789feff1a0aa1f4ccc7189a1cd
     return wholedoc
 
 #Fills in non-given metadata as an empty string (for word document only)
