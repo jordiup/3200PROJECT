@@ -44,17 +44,14 @@ def xlscanner(filename):
                         content = 'None'
                         each.append((headlist[ws][xx-headlist[ws][0][0]][1],content))
                         continue
-<<<<<<< HEAD
-=======
                     elif (isinstance(content,pd.Timestamp)):
                         each.append((headlist[ws][xx-headlist[ws][0][0]][1],content))
->>>>>>> 79ea4aa056a9f6789feff1a0aa1f4ccc7189a1cd
                     #Data cleaning and storing
                     elif(type(content)!= int and re.match(r'[\[ \]]',content)):
                         each.append((headlist[ws][xx-headlist[ws][0][0]][1],content.strip(' [ ] ( ) ?')+' inferred'))
                     else:
                         each.append((headlist[ws][xx-headlist[ws][0][0]][1],content))
-            
+
             #Finding header row
             if (headstart == -1):
                 m = 0
@@ -78,7 +75,6 @@ def xlscanner(filename):
             if(not all(s[1] == 'None' for s in each)):
                 letters.append(each)
             i = i+1
-<<<<<<< HEAD
         if( headstart != -1):
             wholedoc.append(letters)
         else:
@@ -90,12 +86,11 @@ def xlscanner(filename):
     #     elif(ws == len(wholedoc)):
     #         wholedoc=[]
     #returns the letters as an array
-=======
+
         #Error handling
         #Only stores letters that have header row (i.e. archive number/code column)
         if( headstart != -1):
             wholedoc.append(letters)
->>>>>>> 79ea4aa056a9f6789feff1a0aa1f4ccc7189a1cd
     return wholedoc
 
 #Fills in non-given metadata as an empty string (for word document only)
@@ -129,7 +124,7 @@ def docxscanner(filename):
     letters = [] #Contains a letter
     summary = ''
     npages = ''
-    letterdata = [] 
+    letterdata = []
     headername = [(0,'Reference Code'),(1,'Archive Collection'),(2,'Date written'),(3,'Author'),(4,'Author Location'),
     (5,'Recipient'),(6,'Recipient Location'),(7,'Types and Language'),(8,'Summary'),(9,'Physical Description')]
     letters.append(headername)
@@ -152,7 +147,7 @@ def docxscanner(filename):
         sentence = regex.sub("",sentence)
         tokens = nltk.word_tokenize(sentence)
         tagged = nltk.pos_tag(tokens)
-        
+
         #Assume it is the delimiter if it has a length of 1
         if (len(tagged) == 1):
             if(tagged[0][0] == str(k)):
@@ -190,10 +185,10 @@ def docxscanner(filename):
             elif ( (tagged[0][1] == "NN" or tagged[0][1] == "NNS" or tagged[0][1] == "VBG")and (not any((c in ",") for c in sentence) and nlines < 7)):
                 letterdata.append((1,sentence))
 
-        #Finds letter reference number (0) 
+        #Finds letter reference number (0)
         # Assume a archive number/code contains a digit
         # This line of code ensures that archive number/code that has a length of more than 1 and less than 5
-        # i.e. reference number with format similar to NN 2234A-13-363 
+        # i.e. reference number with format similar to NN 2234A-13-363
         elif( len(tagged) >=2 and len(tagged) < 5):
             if (tagged[0][1] == "JJ" or tagged[0][1] == "NNP" or tagged[1][1] == "JJ"):
                 if (any((c in "[]-/()") for c in sentence) and any(d.isdigit() for d in sentence)):
@@ -208,13 +203,13 @@ def docxscanner(filename):
 
             #Sender (3) and its' location (4)
             #Addresse (5) and its' location (6)
-            elif( len(letterdata) < 7):        
+            elif( len(letterdata) < 7):
                 if ( (tagged[len(tagged)-1][0] == "]" or tagged[len(tagged)-1][0] == ")" or tagged[len(tagged)-1][1] == "." or tagged[len(tagged)-1][1] == "NNP")and ((tagged[0][1] == "NNP") or tagged[0][1] == "JJ") ):
                     if (j == 0):
                         sentence = sentence.split(',',1)
                         if ( len(sentence) == 1):
                             sentence = sentence[0].split(';',1)
-                            if ( len(sentence) == 1): 
+                            if ( len(sentence) == 1):
                                 continue
                         #data cleaning
                         if(re.match(r'[\[ \]]',sentence[0].strip())):
@@ -231,7 +226,7 @@ def docxscanner(filename):
                         sentence = sentence.split(',',1)
                         if ( len(sentence) == 1):
                             sentence = sentence[0].split(';',1)
-                            if ( len(sentence) == 1): 
+                            if ( len(sentence) == 1):
                                 continue
                         #data cleaning
                         if(re.match(r'[\[ \]]',sentence[0].strip())):
@@ -277,7 +272,7 @@ def docxscanner(filename):
             if(letterdata[0][1] != "None"):
                 letters.append(letterdata)
         nlines = nlines+1
-        
+
     #Error handling; Checks if the word document is in the right format
     #This is done by checking the archive number/code
     #Does not store anything if it does not contain any
