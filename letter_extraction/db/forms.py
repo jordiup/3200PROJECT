@@ -5,7 +5,8 @@ from django.db.models import Q
 class documentForm(forms.ModelForm):
     class Meta:
         model = Document
-        fields = ('archive_number', 'date_written', 'document_type', 'language')
+        fields = (#'archive_number', 
+        'date_written', 'document_type', 'language')
 
     def save_form(self):
         if self.is_valid():
