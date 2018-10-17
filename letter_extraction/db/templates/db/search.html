@@ -22,19 +22,31 @@
     <h1>Search through our database! </h1>
 
     <p>You can search our database directly by typing in some query words.
-    You can search for document names, authors, locations and years.
+    <br>
+    <p><strong>Archive Numbers: </strong> A standard search will return all archive numbers that <i>contain</i> your search query. If you
+    wish to only return the <i>exact</i> result, enclose the search query in double quotes. <b>Note</b> that this is only for archive numbers.
+    <p><strong>Persons and places:</strong> If your search string is <span style="font-family: Inconsolata">query, query::author</span> 
+    and <span style="font-family: Inconsolata"> query::receiver</span>
+    filter your query string depending on if it refers to the author or the receiver. 
+    Leaving off the modifier will result in unfiltered results.</p> 
+    <p>
+    <strong>Dates:</strong>
+    If you wish to search for a year range, type <span style="font-family: Inconsolata">year1-year2</span>
+    into the search bar.
     </p>
     <p> Search by: </p>
 
     <form method="GET"  action="{% url 'db:result' %}" id="form1">
         <div class="select">
-            <input type="radio" name="searchtype" value="document" form="form1" required>Archive Name/Number
-            <input type="radio" name="searchtype" value="author" form="form1">Author
-            <input type="radio" name="searchtype" value="location" form="form1">Location
+            <input type="radio" name="searchtype" value="document" form="form1" required>Archive Number
+            <input type="radio" name="searchtype" value="person" form="form1">Person
+            <input type="radio" name="searchtype" value="location" form="form1">Place
             <input type="radio" name="searchtype" value="date" form="form1">Year
+            <input type="radio" name="searchtype" value="document_type" form="form1">Document Type
+            <input type="radio" name="searchtype" value="language" form="form1">Language
         </div>
         <br>
-        <input type="text" name="query" class="searchbar" form="form1" required>
+        <input type="text" name="query" placeholder="Search..." class="searchbar" form="form1" required>
         <br>
         <br>
         <input class="submitform" type="submit" value="Search" form="form1">
@@ -58,7 +70,7 @@
               {% for value in values %}
               <tr>
                   {% for v in value %}
-                    {% if forloop.counter0 != 7 %}
+                    {% if forloop.counter0 != 8 %}
                         <td>{{v}}</td>
                     {% endif %}
                   {% endfor %}
