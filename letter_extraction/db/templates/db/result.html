@@ -23,8 +23,8 @@
     <!--{% if values %}
       <button class="bt-download" onclick="to_csv()">Download as CSV</button>
       {% endif %}-->
-    <h1>Results</h1>
     {% if values %}
+    <h2>{{values|length}} results found.</h2>
     <div class="preview-results">
     <table id="results_table" class="results_table">
         {% if header %}
@@ -52,9 +52,8 @@
     </table>
   </div>
     {% else %}
-        <p>No results.</p>
+        <h2>0 results found.</h2>
     {% endif %}
-    <br>
     <!-- <div class="footer"> -->
         <div class="download-button">
             <button class="bt-discard" onclick="backToSearch()">Back To Search</button>
