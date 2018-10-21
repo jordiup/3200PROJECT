@@ -56,8 +56,8 @@ def search(request):
     if not request.user.has_perm('db.can_search'):
         return render(request, 'db/index.html', {"message":"You do not have the permissions to perform this task!"})
     template = loader.get_template('db/search.html')
-    header = ['Archive Number', 'Date Written', 'Document Type', 'Language', 'Place Written', 'Sender Name', 'Receiver Name']
-    values = query_service.analyze_query_request("", "", True)
+    header = ['Archive Number', 'Date Written', 'Document Type', 'Language', 'Place Written', 'Sender Name', 'Place Received', 'Receiver Name']
+    values = query_service.analyze_query_request("", "", True, request.user)
     context = {'header': header, 'values':values}
     return HttpResponse(template.render(context, request))
 
@@ -75,8 +75,8 @@ def search_result(request):
         return render(request, 'db/index.html', {"message":"You do not have the permissions to perform this task!"})
     search_type = str(request.GET['searchtype'])
     query_value = str(request.GET['query'])
-    values = query_service.analyze_query_request(search_type, query_value, False)
-    header = ['Archive Number', 'Date Written', 'Document Type', 'Language', 'Place Written', 'Sender Name', 'Receiver Name', 'Edit']
+    values = query_service.analyze_query_request(search_type, query_value, False, request.user)
+    header = ['Archive Number', 'Date Written', 'Document Type', 'Language', 'Place Written', 'Sender Name', 'Place Received', 'Receiver Name', 'Edit']
     #primary_keys = query_service.get_pks(values)
     context = {'header': header, 'values': values}
     return render(request, 'db/result.html', context)

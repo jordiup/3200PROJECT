@@ -40,12 +40,13 @@ class Document(models.Model):
     date_added = models.DateTimeField('date added', null=True, default=None)
     date_modified = models.DateTimeField('date modified')
     uploaded_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    notes = models.CharField(max_length = 1500)
 
     def __str__(self):
         return str(self.archive_number)
 
 class Privileges(models.Model):
-    
+
     class Meta:
 
         managed = False
