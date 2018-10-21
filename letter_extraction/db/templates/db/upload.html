@@ -22,7 +22,7 @@
     <div class="main">
     <div class="searchheader" id="upddisp">
         <h1>Upload your file!</h1>
-        <p>We only accept Word documents (.doc) and Excel documents (.xlsx or .xls)</p>
+        <p>We only accept Word documents (.docx) and Excel documents (.xlsx or .xls)</p>
         <form action="{% url 'db:upload' %}" method="POST" id="uploadfield" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="custom-file-upload">
@@ -39,10 +39,16 @@
             {% if errtype == 'store' %}
                 <div> {{err}} </div>
             {% elif errtype == 'preview' %}
-                <div> {{err}} of the given file: <b><i>{{fname}}</i></b></div>
-                <div> Refer to the guide below for ideal format of a letter.</div>
+                {% if err != '' %}
+                    <div> {{err}} of the given file: <b><i>{{fname}}</i></b></div>
+                    <div> Refer to the guide below for ideal format of a letter.</div>
+                {% else %}
+                    <div id="errmsg">Selected file <b><i>{{fname}}</i></b> is either empty or has a wrong format.</div>
+                    <div> Refer to the guide below for ideal format of a letter.</div>
+                {% endif %}
             {% else %}
-                <div id="errmsg">Selected file <b><i>{{fname}}</i></b> is either empty or in the wrong format.</div>
+                <div id="errmsg">Selected file <b><i>{{fname}}</i></b> is either empty or has a wrong format.</div>
+                <div> Refer to the guide below for ideal format of a letter.</div>
             {% endif %}
         {% endif %}
     </div>

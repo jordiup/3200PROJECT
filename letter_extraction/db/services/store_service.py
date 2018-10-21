@@ -118,7 +118,12 @@ def addToModel_xlsx(input, user):
                 receiver_full_name = ''
 
             if list_of_things["language"] == 1 and (isinstance(item_holder[item][count+2][1], float) == False):
+<<<<<<< HEAD
                 if item_holder[item][count+2][1] != "None":
+=======
+                # print(item_holder[item][count+2][1])
+                if item_holder[item][count+2][1]:
+>>>>>>> 0d93157379bd5b4247219aec4daa62f9b55ff740
                     spliced_language = item_holder[item][count+2][1]
                     if '[' in spliced_language or  "\\'" in spliced_language or ']' in spliced_language:
                         newstr = spliced_language.replace("[", "").replace("]","").replace("//'", "")

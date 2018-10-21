@@ -88,7 +88,7 @@ def upload(request):
         return render(request, 'db/index.html', {"message":"You do not have the permissions to perform this task!"})
     if request.method == "POST" and  request.FILES.get('myfile',False):
         if ((not request.FILES['myfile'].name.endswith('.xlsx')) and (not request.FILES['myfile'].name.endswith('.xls')) and (not request.FILES['myfile'].name.endswith('.docx'))):
-            return render(request,'db/upload.html',{"fname":request.FILES['myfile'].name , 'errtype': 'preview'})
+            return render(request,'db/upload.html',{"fname":request.FILES['myfile'].name})
         global indicator
         global result
         global archive_number_list
