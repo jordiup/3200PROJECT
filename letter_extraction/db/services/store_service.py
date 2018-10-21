@@ -112,7 +112,7 @@ def addToModel_xlsx(input, user):
             else:
                 receiver_full_name = ''
             if list_of_things["language"] == 1 and (isinstance(item_holder[item][count+2][1], float) == False):
-                print(item_holder[item][count+2][1])
+                # print(item_holder[item][count+2][1])
                 if item_holder[item][count+2][1]:
                     spliced_language = item_holder[item][count+2][1]
             else:
