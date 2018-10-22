@@ -1,26 +1,46 @@
-# CITS3200
+# Digital Missionary Archive
 
-## Team O
+![home image](git_readme_files/home.png)
 
-First Name	Surname	Email
+### User story
+Currently historians lack a search engine that can be used for finding documents such as letters and historical manuscripts. In many cases this could prevent important information from being discovered. The Digital Missionary Archive seeks to solve this issue in the form of a Web Application, where historians can upload metadata about historical documents for future searches by historians around Australia or even around the world.
+
+
+### Introduction
+This is repository contains a client project for Professional Computing - CITS3200, a unit our team undertook at UWA. This readme seeks to outlined a few aspects of the project, introduce our team, and provide some documentation with regards to setup and installation. For further information about our project  outcomes, faq, or more in depth user installation info please take a look at our sprint three submission documents where we go into greater depth.  
+
+
+### Client
+For the project we are working closely, alongside Johh Kinder and Francesco De Toni, distinguished researches within the Arts Faculty at the University of Western Australia. They had contacted organisers within the Professional Computing unit seeking a potential solution to this problem they are currently facing.
+
+
+---
+
+<!-- # Our Team (Team O) -->
+
+![dev team](git_readme_files/dev-team.png)
+
+Adi	Santoso	21760921@student.uwa.edu.au
+
+Jordi	Hermoso Clarke	21959041@student.uwa.edu.au
 
 Max Michael	Evans	21970246@student.uwa.edu.au
 
 Mitchell Adrian Ellis	Gill	21953849@student.uwa.edu.au
 
-Jordi	Hermoso Clarke	21959041@student.uwa.edu.au
-
 Robin Luca	Markwitz	21968594@student.uwa.edu.au
 
-Adi	Santoso	21760921@student.uwa.edu.au
-
 Zhong Han	Yong	21970086@student.uwa.edu.au
+<!-- [/in/nicholas-yong-723740172](linkedin.com/in/nicholas-yong-723740172) -->
 
-https://drive.google.com/open?id=1O0h4gvzOGBzJKG4CB2H1QT9IeZqqf6hx
 
-# letter_extraction directory
+---
+# Installation information
 
-This contains the Django project I’ve been fiddling around with. It has the updated models, skeleton views, some half-finished HTML pages and CSS stylesheet, a small skeleton script to upload test data with, and a few other default Django files.
+
+## letter_extraction directory
+
+This contains the Django project. It has the updated models, skeleton views, finished HTML pages, a CSS stylesheet, a small skeleton script to upload test data with, and a few other default Django files.
 
 ## Getting started
 
@@ -175,7 +195,7 @@ You will see a new "metadata" selectable on the web page. Click on that, or alte
 127.0.0.1:8000/db/labels
 ```
 There is a scrollable which lists all the labels so far.
-There is also the functionality to add a new metadata category. If you wish to do this, then the name of the label is typed into the text box, and you press Add. Upon doing this, the back-end code will pass the text into *model_service*, which will store the new request to add a metadata label in a file called labels.py. 
+There is also the functionality to add a new metadata category. If you wish to do this, then the name of the label is typed into the text box, and you press Add. Upon doing this, the back-end code will pass the text into *model_service*, which will store the new request to add a metadata label in a file called labels.py.
 
 This is done so that a user can't maliciously (or otherwise) edit the database directly. For example, if the input is "test", then the file will look like:
 ```
@@ -185,10 +205,9 @@ This file is edited for each metadata label that is added.
 
 These functionalities are meant to be placeholders. Theoretically, a system admin/future developer would be able to copy-paste this generated code into models.py under the Document class. It would be a bad idea to directly add the label via code.
 
-## GitHub
+## GitHub Practices
 
 Make sure to create a new branch when working on stuff, and then merge back into master. We want to avoid complicated merges at all costs.
-
 
 ## Resources
 
@@ -197,3 +216,9 @@ The following is a list of resources found useful for respective aspects of the 
 https://simpleisbetterthancomplex.com/tutorial/2016/08/01/how-to-upload-files-with-django.html
 https://simpleisbetterthancomplex.com/tutorial/2016/11/22/django-multiple-file-upload-using-ajax.html
 https://www.dropzonejs.com/
+
+
+---
+
+## Appendix
+_For further information about our project outcomes and experience of the unit please feel free to take a look at our sprint three submission documents where we go into greater depth._
