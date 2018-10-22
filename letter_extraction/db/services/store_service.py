@@ -118,12 +118,7 @@ def addToModel_xlsx(input, user):
                 receiver_full_name = ''
 
             if list_of_things["language"] == 1 and (isinstance(item_holder[item][count+2][1], float) == False):
-<<<<<<< HEAD
                 if item_holder[item][count+2][1] != "None":
-=======
-                # print(item_holder[item][count+2][1])
-                if item_holder[item][count+2][1]:
->>>>>>> 0d93157379bd5b4247219aec4daa62f9b55ff740
                     spliced_language = item_holder[item][count+2][1]
                     if '[' in spliced_language or  "\\'" in spliced_language or ']' in spliced_language:
                         newstr = spliced_language.replace("[", "").replace("]","").replace("//'", "")
@@ -190,15 +185,15 @@ def addToModel_xlsx(input, user):
                 location_sender = Location(place_name= 'N/A', date_modified=timezone.now(), date_added=timezone.now())
                 location_sender.save()
 
-            print("WHAT")
+
 
             person_location_receiver = PersonLocation(location=location_receiver, person=receiver)
             person_location_sender = PersonLocation(location=location_sender, person=sender)
 
             person_location_receiver.save()
             person_location_sender.save()
-            print("WHAT")
-            
+
+
             documentInstance = Document(archive_number=archival_number, date_written= date_written, receiver=person_location_receiver, sender=person_location_sender, document_type='diary',
                 language= spliced_language , date_added=timezone.now(), date_modified=timezone.now(), uploaded_by=user, notes = notes_one)
             documentInstance.save()
